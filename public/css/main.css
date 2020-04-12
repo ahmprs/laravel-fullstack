@@ -1,0 +1,138 @@
+:root {
+    /* side bar width */
+    --sbw: 150px;
+}
+
+a {
+    color: #79aee4;
+}
+a:hover {
+    color: #83cf65;
+}
+
+body {
+    background-image: linear-gradient(to right, rgb(255, 255, 255), rgb(211, 228, 250));
+}
+
+#div_side_bar {
+    background-color: #123;
+    position: fixed;
+    width: var(--sbw);
+    height: 100%;
+    /* padding: 5px; */
+    box-sizing: border-box;
+    color: #def;
+}
+
+#div_body {
+    padding: 5px;
+}
+
+#div_side_bar a {
+    display: block;
+    width: 100%;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    background-color: #123;
+    border-width: 0px;
+    text-align: left;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    text-decoration: none;
+}
+
+#div_side_bar a:hover {
+    background-color: rgb(243, 233, 233);
+    border-radius: 5px 0px 0px 5px;
+    color: rgb(75, 8, 8);
+}
+
+#div_body {
+    margin-left: var(--sbw);
+    width: auto;
+}
+
+#div_search_results {
+    padding: 10px;
+}
+
+#div_contents,
+#div_header,
+#div_footer {
+    padding: 5px 10px;
+    border-radius: 10px;
+
+    /* border: solid;
+    border-width: 1px 0px 1px 0px; */
+    /* border-color: gray; */
+}
+
+#div_header {
+    text-align: left;
+    background-color: #333;
+    color: #eee;
+    box-shadow: 10px 10px 5px #aaaaaa;
+}
+#div_footer {
+    text-align: center;
+    background-color: #333;
+    color: #eee;
+    box-shadow: 10px 10px 5px #aaaaaa;
+}
+
+#div_contents {
+    background-color: whitesmoke;
+}
+
+.light-1 {
+    color: rgb(186, 240, 186);
+}
+
+.light-2 {
+    color: rgb(240, 203, 186);
+}
+
+.inline {
+    display: inline;
+}
+
+#txtSearch {
+    padding: 5px 10px;
+    border: solid;
+    border-width: 3px;
+    border-radius: 5px;
+    border-color: gray;
+    width: 50%;
+    color: #234;
+    background-color: rgb(248, 248, 212);
+}
+#txtSearch:focus {
+    border-color: rgb(0, 140, 255);
+}
+
+.active_tab {
+    width: 100%;
+    background-color: whitesmoke !important;
+    color: rgb(139, 64, 64);
+    border-radius: 5px 0px 0px 5px;
+}
+
+@media screen and (max-width: 600px) {
+    #div_side_bar {
+        position: relative;
+        width: 100%;
+    }
+    #div_contents,
+    #div_header,
+    #div_footer,
+    #div_body {
+        margin-left: 0px;
+    }
+
+    #div_header input,
+    #div_header button {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+}
