@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\AhmUtil;
-use App\Http\Controllers\AhmController;
+use App\Util;
+use App\Http\Controllers\AppController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,18 +15,26 @@ use App\Http\Controllers\AhmController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/say-hello', 'AppController@sayHello')->middleware('requires-logged-in');
+Route::post('/say-hello', 'AppController@sayHello');
 
-// Route::get('/say-hello', 'AhmController@sayHello')->middleware('ahmdlvr');
-// Route::post('/say-hello', 'AhmController@sayHello')->middleware('ahmdlvr');
+Route::get('/add-numbers', 'AppController@addNumbers');
+Route::post('/add-numbers', 'AppController@addNumbers');
 
-Route::get('/say-hello', 'AhmController@sayHello');
-Route::post('/say-hello', 'AhmController@sayHello');
+Route::get('/upload', 'AppController@handleUpload');
+Route::post('/upload', 'AppController@handleUpload');
 
-Route::get('/add-numbers', 'AhmController@addNumbers');
-Route::post('/add-numbers', 'AhmController@addNumbers');
 
-Route::get('/upload', 'AhmController@handleUpload');
-Route::post('/upload', 'AhmController@handleUpload');
+Route::post('/get-login-token', 'AppController@getLoginToken');
+Route::get('/get-login-token', 'AppController@getLoginToken');
+
+Route::post('/sign-up', 'AppController@signup');
+Route::get('/sign-up', 'AppController@signup');
+
+Route::post('/current-user', 'AppController@getCurrentUser');
+Route::get('/current-user', 'AppController@getCurrentUser');
+
+Route::post('/log-out', 'AppController@logOut');
+Route::get('/log-out', 'AppController@logOut');
+
+

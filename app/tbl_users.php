@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AhmModel extends Model
+class tbl_users extends Model
 {
     //
 }

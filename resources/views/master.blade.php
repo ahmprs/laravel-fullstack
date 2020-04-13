@@ -11,6 +11,7 @@
 
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
+    <script src="{{ asset('js/md5.js') }}"></script>
     <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
 
     <title>@yield('page_title')</title>
@@ -34,7 +35,10 @@
     <div id="div_header">
       <input type="text" name="" id="txtSearch" placeholder="SEARCH POSTS, COMMENTS, ARTICLES, etc.">
       <button class="btn btn-primary" id='btnSearch' onclick="search();">FIND</button>
-      <button class="btn btn-primary" id='btnLogin' >LOGIN</button>
+      @if(Session::get('cnt')>3)
+        <button class="btn btn-primary" id='btnLogin' >LOGIN</button>
+      @endif
+
       <button class="btn btn-primary" id='btnLogin' >SIGNUP</button>
       <button class="btn btn-primary" id='btnLogin' >LOG-OUT</button>
 

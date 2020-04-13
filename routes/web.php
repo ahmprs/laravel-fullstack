@@ -12,7 +12,14 @@
  */
 
 Route::get('/home', function () {
-    return view('home', []);
+    $cnt = Session::get('cnt',0);
+    $cnt++;
+    if($cnt>5)$cnt=0;
+    Session::put('cnt', $cnt);
+
+    return view('home', [
+        'cnt'=>$cnt
+    ]);
 });
 Route::get('/login', function () {
     return view('login', []);
