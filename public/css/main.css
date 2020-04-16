@@ -10,17 +10,22 @@ a:hover {
     color: #83cf65;
 }
 
+.btn_toggle_sidebar {
+    height: 2em;
+    padding: 0px;
+    border: solid;
+    border-width: 0px;
+    background-color: transparent;
+    color: rgb(255, 123, 0);
+}
+
 body,
 #div_contents {
-    background-image: linear-gradient(
-        to right,
-        rgb(255, 255, 255),
-        rgb(211, 228, 250)
-    );
+    background-image: linear-gradient(to right, rgb(255, 255, 255), rgb(211, 228, 250));
 }
 
 #div_side_bar {
-    background-color: #123;
+    background-image: linear-gradient(to right, rgb(33, 44, 56), #123);
     position: fixed;
     width: var(--sbw);
     height: 100%;
@@ -117,6 +122,17 @@ body,
     background-color: whitesmoke !important;
     color: rgb(139, 64, 64);
     border-radius: 5px 0px 0px 5px;
+}
+
+.about-us {
+    color: rgb(154, 199, 154);
+}
+
+.captcha {
+    width: 150px;
+    border: solid;
+    border-color: gray;
+    border-radius: 5px;
 }
 
 @media screen and (max-width: 600px) {

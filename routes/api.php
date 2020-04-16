@@ -38,3 +38,13 @@ Route::post('/log-out', 'AppController@logOut');
 Route::get('/log-out', 'AppController@logOut');
 
 
+Route::post('/show-side-bar', 'AppController@showSideBar');
+Route::get('/show-side-bar', 'AppController@showSideBar');
+
+Route::post('/hide-side-bar', 'AppController@hideSideBar');
+Route::get('/hide-side-bar', 'AppController@hideSideBar');
+
+Route::post('/get-side-bar-state', 'AppController@getSideBarState');
+Route::get('/get-side-bar-state', 'AppController@getSideBarState');
+
+

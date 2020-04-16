@@ -1,12 +1,7 @@
 function init() {
-    console.log("INIT NOW");
     // get a list of all links in #div_side_bar
-
     var div_side_bar = $("#div_side_bar");
     var arr = div_side_bar.children();
-    // console.log(arr);
-
-    // console.log(window.location.pathname);
     var pnn = window.location.pathname.toLowerCase();
     for (var i = 0; i < arr.length; i++) {
         var pn = arr[i]["pathname"];
@@ -15,28 +10,50 @@ function init() {
         if (pn == pnn) {
             $(arr[i]).addClass("active_tab");
         }
-        // console.log(pn);
     }
 
-    // arr.foreach((v, i, a) => {
-    //     // console.log(v["pathname"]);
-    //     console.log(v);
-    // });
+    $.post("/api/get-side-bar-state", {}, function (d, s) {
+        console.log("side-bar", d);
 
-    // get the current path
-
-    // if the current path and the href of a given link are the same
-    // add class .active_tab to that link
+        var sbs = d["result"]["side-bar"];
+        if (sbs) sidebar_show = 1;
+        else sidebar_show = 0;
+        presentSidebar();
+    });
 }
 
-function btnAddClick() {
-    var x = parseFloat($("#txtA").val());
-    var y = parseFloat($("#txtB").val());
+function presentSidebar() {
+    var div_side_bar = $("#div_side_bar");
+    var div_body = document.getElementById("div_body");
+    var stl = getComputedStyle(document.body);
+    var sidebar_width = stl.getPropertyValue("--sbw");
 
-    $.post("./api/add-numbers", { x, y }, (d, s) => {
-        console.log(d);
-        $("#spnC").text(d["result"]);
-    });
+    if (sidebar_show == 0) {
+        div_side_bar.fadeOut(function () {
+            div_body.style["marginLeft"] = 0;
+            $("#btn_toggle_sidebar_1").fadeOut();
+            $("#btn_toggle_sidebar_2").fadeIn();
+        });
+    } else {
+        div_side_bar.fadeIn();
+        div_body.style["marginLeft"] = sidebar_width;
+        $("#btn_toggle_sidebar_1").fadeIn();
+        $("#btn_toggle_sidebar_2").fadeOut();
+    }
+}
+
+function toggleSidebar() {
+    sidebar_show = 1 - sidebar_show;
+    presentSidebar();
+    if (sidebar_show == 1) {
+        $.post("/api/show-side-bar", {}, function (d, s) {
+            console.log({ d, s });
+        });
+    } else {
+        $.post("/api/hide-side-bar", {}, function (d, s) {
+            console.log({ d, s });
+        });
+    }
 }
 
 function search() {

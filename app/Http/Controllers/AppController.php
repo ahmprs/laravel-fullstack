@@ -130,4 +130,21 @@ class AppController extends Controller
         // 5- make server-side md5 hash by concatenating login-token and p as j
         // 6- return j==g
     }
+
+    function showSideBar(){
+        Session::put('side-bar',true);
+        return u::resp(1, 'side bar shown');        
+    }
+
+    function hideSideBar(){
+        Session::put('side-bar',false);
+        return u::resp(1, 'side bar hide');        
+    }
+
+    function getSideBarState(){
+        return u::resp(1, [
+            'side-bar'=>Session::get('side-bar', false)
+        ]);        
+    }
+    
 }

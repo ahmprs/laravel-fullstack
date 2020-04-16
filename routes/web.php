@@ -51,3 +51,8 @@ Route::get('/offers', function () {
 Route::get('/about-us', function () {
     return view('about-us', []);
 });
+
+Route::get('/captcha', function () {
+    return view('captcha', []);
+});
+
