@@ -2,9 +2,9 @@
 @section('page_title', 'products')
 
 @section('content')
-    @component('cmp-signup')
+    @component('cmp-sign-in')
         @slot('id')
-            cmp_signup
+            cmp_sign_in
         @endslot
     @endcomponent
 @stop

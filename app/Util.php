@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Storage;
 
 class Util 
 {
-    static function getSession($key){
+    static function getSession($key, $default=''){
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
         if (isset($_SESSION[$key])) return $_SESSION[$key];
-        else return '';
+        else return $default;
     }
 
     static function setSession($key, $val){

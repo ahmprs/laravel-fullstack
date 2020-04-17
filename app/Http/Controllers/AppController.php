@@ -62,6 +62,22 @@ class AppController extends Controller
             ]);
         }
 
+        $txt_captcha= $req->get('txt_captcha', '');
+        if($txt_captcha == ''){
+            return u::resp(0,[
+                'err'=>'missing captcha',
+            ]);
+        }
+
+        $cps = u::getSession('captcha','');
+        if($txt_captcha != $cps){
+            return u::resp(0,[
+                'err'=>'captcha mismatch',
+                "cps"=>$cps,
+                'txt_captcha'=>$txt_captcha
+            ]);
+        }
+
         $u = DB::table('tbl_users')->where('user_name', $user_name)->first();
         if($u != null){
             return u::resp(0,[
@@ -123,12 +139,95 @@ class AppController extends Controller
     }
 
     function signIn(Request $req){
-        // 1- get the user name
-        // 2- get user digest as g
-        // 3- search tbl_users and find the user
-        // 4- get database hash of password as p
-        // 5- make server-side md5 hash by concatenating login-token and p as j
-        // 6- return j==g
+
+        $txt_captcha= $req->get('txt_captcha', '');
+        if($txt_captcha == ''){
+            return u::resp(0,[
+                'err'=>'missing captcha',
+            ]);
+        }
+
+        $cps = u::getSession('captcha','');
+        if($txt_captcha != $cps){
+            return u::resp(0,[
+                'err'=>'captcha mismatch',
+                "cps"=>$cps,
+                'txt_captcha'=>$txt_captcha
+            ]);
+        }
+        
+        if(Session::get('user_id','')!=''){
+            return u::resp(0, [
+                'err'=>'already logged in',
+                'hint'=>'sign out first'
+            ]);
+        }
+
+        $user_name= $req->get('user_name', '');
+        if($user_name == ''){
+            return u::resp(0,[
+                'err'=>'missing user name',
+            ]);
+        }
+
+        $digest_client= $req->get('digest', '');
+        if($digest_client == ''){
+            return u::resp(0,[
+                'err'=>'missing user password digest',
+            ]);
+        }
+
+
+        $u = DB::table('tbl_users')->where('user_name', $user_name)->first();
+        if($u == null){
+            return u::resp(0,[
+                'err'=>'invalid user',
+                'hint'=>'try another user name'
+            ]);
+        }
+
+        
+        $user_id = $u->user_id;
+        $user_name = $u->user_name;
+        $user_email = $u->user_email;
+        $user_access_level = $u->user_access_level;
+        $user_active = $u->user_active;
+        
+        $user_pass_hash = $u->user_pass_hash;
+        
+        $login_token = Session('login-token', '');
+        $digest_server =  hash('md5', $user_pass_hash.$login_token);
+        
+        if($digest_client == $digest_server){
+            Session::put('user_id', $user_id);
+            Session::put('user_name', $user_name);
+            Session::put('user_email', $user_email);
+            Session::put('user_access_level', $u->user_access_level);
+            Session::put('user_active', $u->user_active);
+            
+            return u::resp(1,[
+                'msg'=>'logged in',
+                'user_id'=>$user_id,
+                'user_name'=>$user_name,
+                'user_email'=>$user_email,
+                'user_active'=>$user_active,
+                'user_access_level'=>$user_access_level,
+            ]);
+        }
+        
+        return u::resp(0,[
+            'err'=>'invalid password',
+        ]);
+
+        // TEST:        
+        // return u::resp(1,[
+        //     'user_name'=>$user_name,
+        //     'captcha'=>$txt_captcha,
+        //     'digest_client'=>$digest_client,
+        //     'digest_server'=>$digest_server,
+        //     'user'=>$u,
+        // ]);
+
     }
 
     function showSideBar(){
@@ -146,5 +245,5 @@ class AppController extends Controller
             'side-bar'=>Session::get('side-bar', false)
         ]);        
     }
-    
+
 }

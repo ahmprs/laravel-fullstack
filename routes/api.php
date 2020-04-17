@@ -31,6 +31,9 @@ Route::get('/get-login-token', 'AppController@getLoginToken');
 Route::post('/sign-up', 'AppController@signup');
 Route::get('/sign-up', 'AppController@signup');
 
+Route::post('/sign-in', 'AppController@signIn');
+Route::get('/sign-in', 'AppController@signIn');
+
 Route::post('/current-user', 'AppController@getCurrentUser');
 Route::get('/current-user', 'AppController@getCurrentUser');
 

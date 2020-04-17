@@ -10,6 +10,10 @@ a:hover {
     color: #83cf65;
 }
 
+.center{
+    text-align:center;
+}
+
 .btn_toggle_sidebar {
     height: 2em;
     padding: 0px;

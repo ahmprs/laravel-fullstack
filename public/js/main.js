@@ -55,11 +55,3 @@ function toggleSidebar() {
         });
     }
 }
-
-function search() {
-    var txt = $("#txtSearch").val();
-    // alert("LOOKING FOR: " + txt);
-    $("#div_search_results")
-        .html("")
-        .append($("<a href='/about-us'></a>").text("ABOUT US"));
-}

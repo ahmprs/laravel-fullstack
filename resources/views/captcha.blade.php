@@ -1,5 +1,6 @@
 <?php
 namespace App;
+use App\Util as u;
 use Session;
 class Captcha{
     static function Run(){
@@ -36,11 +37,10 @@ class Captcha{
             $text_color = imagecolorallocate($IMG, rand(10, 100), rand(20, 100), rand(30, 100));
             imagestring($IMG, 5, 5 + $i * 10, 2, $n, $text_color);
         }
-        
+
+        u::setSession('captcha', $num);
         
         imagepng($IMG);
-        Session::put('captcha', $num);
-       
         
         imagecolordeallocate($IMG, $line_color);
         imagecolordeallocate($IMG, $text_color);
@@ -49,5 +49,4 @@ class Captcha{
         exit;
     }
 }
-
 Captcha::Run();

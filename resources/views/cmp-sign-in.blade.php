@@ -1,3 +1,32 @@
+<h4 id="{{$id}}_div_err" class="d-none alert alert-danger"></h4>
+
+@if(Session::get('user_id','')!='')
+<div id="{{$id}}">
+    <div class="center m-4">
+        <h3>Welcome dear <em>{{Session::get('user_name','')}}</em>, are now signed in</h3>
+        <button class="btn btn-warning" onclick="{{$id}}_sign_out();">
+            SIGN OUT
+            <img src="{{asset('img/log-out-icon.svg')}}" alt="SIGN-OUT">            
+        </button>
+    </div>
+
+    <script>
+        function {{$id}}_sign_out(){
+            $.post(
+                '/api/log-out',
+                {},
+                function(d,s){
+                    console.log({d,s});
+                    if(d['ok']==1){
+                        document.location.href="/sign-in";
+                    }
+                }
+            );
+        }
+    </script>
+</div>
+
+@else
 <div id="{{$id}}">
     <style>
         .{{$id}}_inp {
@@ -41,61 +70,23 @@
         <input class="{{$id}}_inp form-control" id="{{$id}}_txt_user_pass" type="password" placeholder="PASSWORD" />
     </div>
 
-    <!-- CONFIRM PASSWORD -->
-    <div class="input-group">
-        <div class="input-group-prepend">
-            <div class="input-group-text {{$id}}_svg">
-                <svg class="bi bi-check-all" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M12.354 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L5 10.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"></path>
-                    <path d="M6.25 8.043l-.896-.897a.5.5 0 10-.708.708l.897.896.707-.707zm1 2.414l.896.897a.5.5 0 00.708 0l7-7a.5.5 0 00-.708-.708L8.5 10.293l-.543-.543-.707.707z"></path>
-                </svg>
-            </div>
-        </div>
-        <input class="{{$id}}_inp form-control"
-        id="{{$id}}_txt_user_pass_cnf"
-        type="password"
-        placeholder="CONFIRM PASSWORD"/>
-    </div>
-
-    <!-- USER EMAIL -->
-    <div class="input-group">
-        <div class="input-group-prepend">
-            <div class="input-group-text {{$id}}_svg">@</div>
-        </div>
-        <input class="{{$id}}_inp form-control" id="{{$id}}_txt_user_email" type="email" placeholder="USER EMAIL" />
-    </div>
-
     @component('cmp-captcha')
         @slot('id')
             cmp_captcha
         @endslot
     @endcomponent
 
-
     <br />
-    <button class="btn btn-primary" onclick="{{$id}}_signup();">SIGN-UP</button>
+    <button class="btn btn-primary" onclick="{{$id}}_sign_in();">SIGN-IN</button>
     <br />
     <span id="{{$id}}_spn_result"></span>
 
-
-    <!-- <form>
-        <div class="form-row align-items-center">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">@</div>
-                </div>
-                <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Username">
-            </div>
-        </div>
-    </form> -->
-
     <script>
-        function {{$id}}_signup(){
+        function {{$id}}_sign_in(){
+            
             // alert('ADDING');
             var user_name = $('#{{$id}}_txt_user_name').val();
             var user_pass = $('#{{$id}}_txt_user_pass').val();
-            var user_pass_cnf = $('#{{$id}}_txt_user_pass_cnf').val();
-            var user_email = $('#{{$id}}_txt_user_email').val();
 
             if(user_name.trim()==''){
                 alert('missing user name');
@@ -107,29 +98,46 @@
                 return;
             }
 
-            if(user_pass!=user_pass_cnf){
-                alert('password mismatch');
-                return;
-            }
-
-            if(user_email.trim()==''){
-                alert('missing user email');
-                return;
-            }
-
             var user_pass_hash=getMd5(user_pass);
+            var txt_captcha = $("#cmp_captcha_txt_captcha").val();
+            var login_token='';
+            var digest = "";
 
             $.post(
-                './api/sign-up',
-                {user_name, user_pass_hash, user_email},
-                (d,s)=>{
-                    console.log(d);
+                './api/get-login-token',
+                {},
+                function(d,s){
+                    login_token = d['result'];
+                    digest=getMd5(user_pass_hash + login_token);
+                   
+                    $.post(
+                        './api/sign-in',
+                        {user_name, digest, txt_captcha},
+                        (dd,ss)=>{
+                            console.log(dd);
+                            
+                            if(dd['ok']==1){
+                                console.log(dd);
+                                document.location.href="/sign-in";
+                            }
+                            else {
+                                debugger;
+                                var div_err = $('#{{$id}}_div_err');
+                                div_err.html('');
+                                div_err.hide();
+                                div_err.removeClass('d-none');
+                                div_err.append($('<strong>Login Failed</strong>'));
+                                div_err.append($('<br />'));
+                                div_err.append($('<p></p>').text(dd['result']['err'] || ''));
+                                div_err.fadeIn();
+                            }
+
+                        }
+                    );
                 }
             );
 
-            // console.log({user_name, user_pass,user_pass_hash, user_pass_cnf, user_email});
-
-            // $('#{{$id}}_spn_result').text(z);
         }
     </script>
 </div>
+@endif

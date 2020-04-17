@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
  */
+use App\Util as u;
 
 Route::get('/home', function () {
     $cnt = Session::get('cnt',0);
@@ -21,11 +22,11 @@ Route::get('/home', function () {
         'cnt'=>$cnt
     ]);
 });
-Route::get('/login', function () {
-    return view('login', []);
+Route::get('/sign-in', function () {
+    return view('sign-in', []);
 });
-Route::get('/signup', function () {
-    return view('signup', []);
+Route::get('/sign-up', function () {
+    return view('sign-up', []);
 });
 
 Route::get('/products', function () {
@@ -55,4 +56,8 @@ Route::get('/about-us', function () {
 Route::get('/captcha', function () {
     return view('captcha', []);
 });
+
+// Route::get('/captcha-str', function () {
+//     return u::resp(1, u::getSession('captcha',''));
+// });
 
