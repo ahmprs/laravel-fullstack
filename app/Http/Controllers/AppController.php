@@ -7,6 +7,7 @@ use App\Util as u;
 use Session;
 use DB;
 use App\tbl_users;
+USE App\calendar;
 
 class AppController extends Controller
 {
@@ -246,4 +247,156 @@ class AppController extends Controller
         ]);        
     }
 
+    function getRootUrl(){
+        return u::resp(1, u::getRootUrl());
+    }
+
+    function upload(Request $req){
+
+        $callback = $req->input('callback');
+
+        $upload_max_allowed_file_size_bytes = 5000000;
+        // = Settings::get('upload_max_allowed_file_size_bytes');
+        
+        $arr_allowed_formats=["pdf","pdff"];
+        // = Settings::get('upload_allowed_formats');
+        
+        $user_id = Session::get('user_id','');
+        if ($user_id == '') {
+            // return u::resp(0, [
+            //     'err' => 'access denied',
+            //     'hint' => 'please login first',
+            // ]);
+
+            header("Location: $callback?upload_state=0&err=1");
+            exit;
+
+        }
+            
+
+        $posts_dir = storage_path();
+        $posts_dir = "$posts_dir\\posts";
+        
+        if(!is_dir($posts_dir)) {
+            mkdir($posts_dir, 0755, true);
+        }
+
+        if(!is_dir($posts_dir)) {
+            // return u::resp(0, [
+            //     'err'=>'posts directory does not exist, and cannot be created'
+            // ]);
+            header("Location: $callback?upload_state=0&err=2");
+            exit;
+        }
+
+        
+        $target_dir = $posts_dir;
+        
+        
+        $cal = new Calendar();
+        $gdp = $cal->get_server_gdp_time();
+        
+
+        
+        $file_uploaded_basic_name = basename($_FILES["fileToUpload"]["name"]);
+        $target_file = "$target_dir\\$file_uploaded_basic_name";
+        $file_extension = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $file_extension = strtolower($file_extension);
+        if($file_extension=="pdf"){$file_extension="pdff";}
+        $stamp = $cal->getStamp();
+        $fnn = "$stamp.$file_extension";
+        $file_new_name = "$target_dir\\$fnn";
+        $file_tmp_name = $_FILES["fileToUpload"]["tmp_name"];
+        
+
+
+        // IMAGE CHECK SIZE
+        // if (isset($_POST["submit"])) {
+        //     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+        //     if ($check !== false) {
+        //         // echo "File is an image - " . $check["mime"] . ".";
+        //         $uploadOk = 1;
+        //     } else {
+        //         $err_msg = "File is not an image.";
+        //         $uploadOk = 0;
+        //     }
+        // }
+
+        // checks if file already exists
+        if (file_exists($file_new_name)) {
+            // return u::resp(0, [
+            //     'err' => 'file already exists',
+            //     'hint' => 'try again in a few seconds',
+            // ]);
+            header("Location: $callback?upload_state=0&err=3");
+            exit;
+        }
+
+        // check file size
+        $file_size_bytes = $_FILES["fileToUpload"]["size"];
+        if ($file_size_bytes > $upload_max_allowed_file_size_bytes) {
+            // return u::resp(0, [
+            //     'err' => 'file is too large',
+            //     'file_size_bytes' => $file_size_bytes,
+            //     'ttt' => $_FILES["fileToUpload"]["name"],
+            // ]);
+            header("Location: $callback?upload_state=0&err=4");
+            exit;
+        }
+
+        // check file extension
+        if (!in_array($file_extension, $arr_allowed_formats)) {
+            // return u::resp(0, [
+            //     'err' => 'extension not allowed',
+            //     'extension' => $file_extension,
+            //     'allowed_formats' => $arr_allowed_formats,
+            //     'file_uploaded_basic_name' => $file_uploaded_basic_name,
+            // ]);
+            header("Location: $callback?upload_state=0&err=5");
+            exit;
+        }
+
+        // move temp file to destination
+        if (move_uploaded_file($file_tmp_name, $file_new_name)) {
+
+            DB::table('tbl_files')->insert([
+                'file_id'=>null,
+                'user_id'=>$user_id,
+                'file_org_name'=>$file_uploaded_basic_name,
+                'file_new_name'=>$fnn,
+                'file_size_bytes'=>$file_size_bytes,
+                'file_target_dir'=>$target_dir,
+                'file_extension'=>$file_extension,
+                'file_gdp_create'=>$gdp,
+                'file_gdp_publish'=>$gdp,
+                'file_gdp_expires'=>$gdp + 3650,
+                'file_show'=>1,
+                'file_tag'=>'',
+                'file_title'=>'',
+                'file_desc'=>'',
+            ]); 
+            
+            header("Location: $callback?upload_state=1&err=0");
+            exit;
+            // return u::resp(1, [
+            //     'ok' => 'success',
+            //     'file_uploaded_basic_name' => $file_uploaded_basic_name,
+            //     'file_tmp_name' => $file_tmp_name,
+            //     'file_new_name' => $fnn,
+            //     'file_extension' => $file_extension,
+            //     'file_size_bytes' => $file_size_bytes,
+            //     'target_dir' => $target_dir,
+            //     'allowed_formats' => $arr_allowed_formats,
+            // ]);
+        } else {
+            header("Location: $callback?upload_state=0&err=6");
+            exit;
+
+            // u::resp(0, [
+            //     'err' => 'file copy to destination folder failed.',
+            //     'file_tmp_name' => $file_tmp_name,
+            //     'file_new_name' => $file_new_name,
+            // ]);
+        }
+    }
 }

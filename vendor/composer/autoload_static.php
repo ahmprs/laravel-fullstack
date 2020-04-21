@@ -387,6 +387,7 @@ class ComposerStaticInitf305f811f59eb19befc3c0570529b247
     );
 
     public static $classMap = array (
+        'App\\Calendar' => __DIR__ . '/../..' . '/app/calendar.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\AppController' => __DIR__ . '/../..' . '/app/Http/Controllers/AppController.php',
@@ -412,6 +413,7 @@ class ComposerStaticInitf305f811f59eb19befc3c0570529b247
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Util' => __DIR__ . '/../..' . '/app/Util.php',
+        'App\\tbl_files' => __DIR__ . '/../..' . '/app/tbl_files.php',
         'App\\tbl_users' => __DIR__ . '/../..' . '/app/tbl_users.php',
         'BeyondCode\\DumpServer\\DumpServerCommand' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/DumpServerCommand.php',
         'BeyondCode\\DumpServer\\DumpServerServiceProvider' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/DumpServerServiceProvider.php',

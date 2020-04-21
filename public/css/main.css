@@ -10,8 +10,8 @@ a:hover {
     color: #83cf65;
 }
 
-.center{
-    text-align:center;
+.center {
+    text-align: center;
 }
 
 .btn_toggle_sidebar {
@@ -25,12 +25,15 @@ a:hover {
 
 body,
 #div_contents {
-    background-image: linear-gradient(to right, rgb(255, 255, 255), rgb(211, 228, 250));
+    background-image: linear-gradient(
+        to right,
+        rgb(255, 255, 255),
+        rgb(211, 228, 250)
+    );
 }
 
 #div_side_bar {
     background-image: linear-gradient(to right, rgb(33, 44, 56), #123);
-    position: fixed;
     width: var(--sbw);
     height: 100%;
     /* padding: 5px; */
@@ -62,11 +65,6 @@ body,
     color: rgb(75, 8, 8);
 }
 
-#div_body {
-    margin-left: var(--sbw);
-    width: auto;
-}
-
 #div_search_results {
     padding: 10px;
 }
@@ -79,9 +77,10 @@ body,
 }
 
 #div_header {
+    z-index: 10;
     text-align: left;
     background-color: #333;
-    color: #eee;
+    color: rgb(244, 245, 216);
     box-shadow: 10px 10px 5px #aaaaaa;
 }
 #div_footer {
@@ -140,17 +139,9 @@ body,
 }
 
 @media screen and (max-width: 600px) {
-    #div_side_bar {
-        position: relative;
-        width: 100%;
-    }
     #div_contents,
     #div_header,
     #div_footer,
-    #div_body {
-        margin-left: 0px;
-    }
-
     #div_header input,
     #div_header button {
         width: 100%;

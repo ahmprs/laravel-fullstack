@@ -3,8 +3,11 @@
 
 @section('content')
     @component('cmp-sign-up')
-        @slot('id')
+       @slot('id')
             cmp_sign_up
+        @endslot
+        @slot('root_url')
+            {{$root_url}}
         @endslot
     @endcomponent
 @stop

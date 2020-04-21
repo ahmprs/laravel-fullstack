@@ -1,8 +1,8 @@
 <?php
 namespace App;
 
-$JAL_ORG_GDP = 226894;
-$JAL_MAX_GDP = 3652058;
+define("JAL_ORG_GDP", 226894);
+define("JAL_MAX_GDP", 3652058);
 
 class Calendar
 {
@@ -307,11 +307,11 @@ class Calendar
 
     public function getJalYear($GregDaysPassed, &$rem)
     {
-        if ($GregDaysPassed < $GLOBALS['JAL_ORG_GDP']) {
+        if ($GregDaysPassed < JAL_ORG_GDP) {
             return -1;
         }
 
-        if ($GregDaysPassed > $GLOBALS['JAL_MAX_GDP']) {
+        if ($GregDaysPassed > JAL_MAX_GDP) {
             return -1;
         }
 
@@ -374,7 +374,7 @@ class Calendar
 
     public function GetJalLeapSequence($GregDaysPassed, &$rem)
     {
-        $JalDaysPassed = $GregDaysPassed - $GLOBALS['JAL_ORG_GDP'];
+        $JalDaysPassed = $GregDaysPassed - JAL_ORG_GDP;
         $n = floor(($JalDaysPassed + 2922) / 12053);
 
         if ($n == 0) {
@@ -446,7 +446,7 @@ class Calendar
             $m++;
         }
         $d += $DayOfMonth;
-        $d += $GLOBALS['JAL_ORG_GDP'];
+        $d += JAL_ORG_GDP;
 
         return $d - 1;
     }

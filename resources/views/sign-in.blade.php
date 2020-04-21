@@ -6,6 +6,9 @@
         @slot('id')
             cmp_sign_in
         @endslot
+        @slot('root_url')
+            {{$root_url}}
+        @endslot
     @endcomponent
 @stop
 

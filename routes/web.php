@@ -13,48 +13,54 @@
 use App\Util as u;
 
 Route::get('/home', function () {
-    $cnt = Session::get('cnt',0);
-    $cnt++;
-    if($cnt>5)$cnt=0;
-    Session::put('cnt', $cnt);
-
-    return view('home', [
-        'cnt'=>$cnt
-    ]);
+    return view('home', ['root_url'=> u::getRootUrl()]);
 });
+
+Route::get('/admin-area', function () {
+    return view('admin-area', [
+        'root_url'=> u::getRootUrl(),
+        'tbl_users'=>DB::table('tbl_users'),
+        'tbl_files'=>DB::table('tbl_files'),
+        ]);
+});
+
+Route::get('/', function () {
+    return view('home', ['root_url'=> u::getRootUrl()]);
+});
+
 Route::get('/sign-in', function () {
-    return view('sign-in', []);
+    return view('sign-in', ['root_url'=> u::getRootUrl()]);
 });
 Route::get('/sign-up', function () {
-    return view('sign-up', []);
+    return view('sign-up', ['root_url'=> u::getRootUrl()]);
 });
 
 Route::get('/products', function () {
-    return view('products', []);
+    return view('products', ['root_url'=> u::getRootUrl()]);
 });
 
 Route::get('/contacts', function () {
-    return view('contacts', []);
+    return view('contacts', ['root_url'=> u::getRootUrl()]);
 });
 
 Route::get('/orders', function () {
-    return view('orders', []);
+    return view('orders', ['root_url'=> u::getRootUrl()]);
 });
 
 Route::get('/customer-service', function () {
-    return view('customer-service', []);
+    return view('customer-service', ['root_url'=> u::getRootUrl()]);
 });
 
 Route::get('/offers', function () {
-    return view('offers', []);
+    return view('offers', ['root_url'=> u::getRootUrl()]);
 });
 
 Route::get('/about-us', function () {
-    return view('about-us', []);
+    return view('about-us', ['root_url'=> u::getRootUrl()]);
 });
 
 Route::get('/captcha', function () {
-    return view('captcha', []);
+    return view('captcha', ['root_url'=> u::getRootUrl()]);
 });
 
 // Route::get('/captcha-str', function () {

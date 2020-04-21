@@ -50,4 +50,9 @@ Route::get('/hide-side-bar', 'AppController@hideSideBar');
 Route::post('/get-side-bar-state', 'AppController@getSideBarState');
 Route::get('/get-side-bar-state', 'AppController@getSideBarState');
 
+Route::post('/get-root-url', 'AppController@getRootUrl');
+Route::get('/get-root-url', 'AppController@getRootUrl');
+
+Route::post('/upload', 'AppController@upload');
+Route::get('/upload', 'AppController@upload');
 

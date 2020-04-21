@@ -11,11 +11,11 @@
         </div>
     </div>
 
-    <img id="{{$id}}_img_captcha" class="captcha" src="/captcha" alt="CAPTCHA-IMAGE">
+    <img id="{{$id}}_img_captcha" class="captcha" src="{{$root_url}}/captcha" alt="CAPTCHA-IMAGE">
 
     <div class="input-group-append">
         <div class="input-group-text">
-            <input class="p-2" type="number" id="{{$id}}_txt_captcha" placeholder=" ← TYPE THE NUMBER">
+            <input class="p-2" type="number" id="{{$id}}_txt_captcha" placeholder=" → THE NUMBER">
         </div>
     </div>
 </div>
@@ -23,6 +23,6 @@
 <script>
     function {{$id}}_refresh(){
         var img = document.getElementById("{{$id}}_img_captcha");
-        img.src = "/captcha";
+        img.src =  root_url + "/captcha";
     }    
 </script>

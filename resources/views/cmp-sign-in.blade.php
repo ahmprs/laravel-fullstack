@@ -3,7 +3,7 @@
 @if(Session::get('user_id','')!='')
 <div id="{{$id}}">
     <div class="center m-4">
-        <h3>Welcome dear <em>{{Session::get('user_name','')}}</em>, are now signed in</h3>
+        <h3>Welcome dear <em>{{Session::get('user_name','')}}</em>, you are now signed in</h3>
         <button class="btn btn-warning" onclick="{{$id}}_sign_out();">
             SIGN OUT
             <img src="{{asset('img/log-out-icon.svg')}}" alt="SIGN-OUT">            
@@ -13,12 +13,12 @@
     <script>
         function {{$id}}_sign_out(){
             $.post(
-                '/api/log-out',
+                root_url + '/api/log-out',
                 {},
                 function(d,s){
                     console.log({d,s});
                     if(d['ok']==1){
-                        document.location.href="/sign-in";
+                        document.location.href= root_url + "/sign-in";
                     }
                 }
             );
@@ -47,7 +47,7 @@
     </style>
 
     <!-- USER NAME -->
-    <div class="input-group">
+    <div class="input-group col-md-4">
         <div class="input-group-prepend">
             <div class="input-group-text {{$id}}_svg">
                 <svg class="bi bi-person-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -59,7 +59,7 @@
     </div>
 
     <!-- USER PASSWORD -->
-    <div class="input-group">
+    <div class="input-group col-md-4">
         <div class="input-group-prepend">
             <div class="input-group-text {{$id}}_svg">
                 <svg class="bi bi-lock" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -73,6 +73,9 @@
     @component('cmp-captcha')
         @slot('id')
             cmp_captcha
+        @endslot
+        @slot('root_url')
+            {{$root_url}}
         @endslot
     @endcomponent
 
@@ -104,21 +107,21 @@
             var digest = "";
 
             $.post(
-                './api/get-login-token',
+                root_url + '/api/get-login-token',
                 {},
                 function(d,s){
                     login_token = d['result'];
                     digest=getMd5(user_pass_hash + login_token);
                    
                     $.post(
-                        './api/sign-in',
+                        root_url + '/api/sign-in',
                         {user_name, digest, txt_captcha},
                         (dd,ss)=>{
                             console.log(dd);
                             
                             if(dd['ok']==1){
                                 console.log(dd);
-                                document.location.href="/sign-in";
+                                document.location.href=root_url + "/sign-in";
                             }
                             else {
                                 debugger;

@@ -8,6 +8,55 @@ use Illuminate\Support\Facades\Storage;
 
 class Util 
 {
+
+    static function diff($strA, $strB)
+    {
+        // swap $strA and $strB if needed
+        if (strlen($strA) < strlen($strB)) {
+            $t = $strA;
+            $strA = $strB;
+            $strB = $t;
+        }
+        return substr($strA, strlen($strB));
+    }
+    
+
+    static function getRootUrl(){
+        // LARAVEL DEVELOPMENT SERVER:
+        // HTTP_HOST -> localhost:8000
+        // PATH_INFO -> /api/get-root-url
+        // REQUEST_URI -> /api/get-root-url
+        // SERVER_NAME -> 127.0.0.1
+        // SERVER_PORT -> 8000
+        // "DOCUMENT_ROOT": "C:\\xampp\\htdocs\\1-WebApps\\laravel-fullstack\\laravel-fullstack\\public"
+        // dir "C:\\xampp\\htdocs\\1-WebApps\\laravel-fullstack\\laravel-fullstack",
+
+        
+        // APACHE:
+        // HTTP_HOST -> localhost
+        // REQUEST_URI -> /1-WebApps/laravel-fullstack/laravel-fullstack/public/api/get-root-url
+        // DOCUMENT_ROOT -> C:/xampp/htdocs,
+        // dir "C:\\xampp\\htdocs\\1-WebApps\\laravel-fullstack\\laravel-fullstack",
+
+        
+        $doc_root = realpath($_SERVER['DOCUMENT_ROOT']);
+        $sfn = dirname(realpath($_SERVER['SCRIPT_FILENAME']));
+        $df = Util::diff($sfn, $doc_root);
+        $df = str_replace("\\","/",$df);
+        $url = $_SERVER['HTTP_HOST'].$df;
+        $url = str_replace("\\","/",$url);
+        $url = "http://$url";
+
+        return $url;
+        // return Util::resp(1, [
+        //     'doc_root'=>$doc_root,
+        //     'sfn'=>$sfn,
+        //     'diff'=>$df,
+        //     'root-url'=>$url,
+        //     // 'SERVER' => $_SERVER,
+        // ]);
+    }
+
     static function getSession($key, $default=''){
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
