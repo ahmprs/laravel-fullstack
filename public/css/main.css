@@ -3,6 +3,20 @@
     --sbw: 150px;
 }
 
+.round {
+    border-radius: 5px;
+}
+
+.dark {
+    background-color: #123;
+    color: #def;
+}
+
+.gray {
+    background-color: rgb(95, 98, 102);
+    color: rgb(208, 222, 236);
+}
+
 a {
     color: #79aee4;
 }
@@ -25,11 +39,7 @@ a:hover {
 
 body,
 #div_contents {
-    background-image: linear-gradient(
-        to right,
-        rgb(255, 255, 255),
-        rgb(211, 228, 250)
-    );
+    background-image: linear-gradient(to right, rgb(255, 255, 255), rgb(211, 228, 250));
 }
 
 #div_side_bar {

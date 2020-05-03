@@ -12,8 +12,11 @@
       var root_url = "{{$root_url}}";
     </script>
 
+    <!-- <script>var exports = {"__esModule": true};</script> -->
     <script src="{{asset('js/jquery.min.js')}}"></script>
     <script src="{{asset('js/main.js')}}"></script>
+    <script src="{{asset('js/app/cmp.js')}}"></script>
+    <script src="{{asset('js/app/cmp-add.js')}}"></script>
     <script src="{{asset('js/md5.js')}}"></script>
     <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
     <title>@yield('page_title')</title>

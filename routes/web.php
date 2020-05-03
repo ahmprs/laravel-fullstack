@@ -10,7 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
  */
-use App\Util as u;
+ use App\Util as u;
+ use App\calendar;
 
 Route::get('/home', function () {
     return view('home', ['root_url'=> u::getRootUrl()]);
@@ -21,6 +22,8 @@ Route::get('/admin-area', function () {
         'root_url'=> u::getRootUrl(),
         'tbl_users'=>DB::table('tbl_users'),
         'tbl_files'=>DB::table('tbl_files'),
+        'calendar'=> new Calendar(),
+        'calendar_class'=>Calendar::class,
         ]);
 });
 
@@ -61,6 +64,10 @@ Route::get('/about-us', function () {
 
 Route::get('/captcha', function () {
     return view('captcha', ['root_url'=> u::getRootUrl()]);
+});
+
+Route::get('/test', function () {
+    return view('test', ['root_url'=> u::getRootUrl()]);
 });
 
 // Route::get('/captcha-str', function () {

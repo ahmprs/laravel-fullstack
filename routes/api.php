@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\Util;
+use App\Util as u;
+use App\Calendar;
 use App\Http\Controllers\AppController;
 
 /*
@@ -56,3 +57,7 @@ Route::get('/get-root-url', 'AppController@getRootUrl');
 Route::post('/upload', 'AppController@upload');
 Route::get('/upload', 'AppController@upload');
 
+
+Route::get('/test', function(){
+    return u::resp(1,'TEST');
+});

@@ -1,0 +1,9 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        // "sourceMap": true,
+        "target": "es5",
+        "outDir": "../js/app"
+        // "sourceRoot": "./app"
+    }
+}

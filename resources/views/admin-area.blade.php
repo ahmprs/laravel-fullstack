@@ -33,17 +33,44 @@
         <input class="btn btn-success" type="submit" value="UPLOAD">
         <input type="hidden" name="callback" value="{{$root_url}}/admin-area">
     </form>
+    <?php
+        // $recs = DB::table('tbl_users')->get();
+        $records = 
+            DB::table('tbl_files')
+                ->select(
+                    'file_id', 
+                    'file_org_name', 
+                    'file_show',
+                    'file_gdp_create',
+                    'file_gdp_publish',
+                    'file_gdp_expires',
+                    'file_tag',
+                    'file_title',
+                    'file_desc'
+                )
+                ->get();
+    ?>
 
-    <div>
-        <?php
-            $u = $tbl_users->where('user_name', 'Jack')->first();
-            print_r($u);
+    @component('cmp-files',['records'=>$records, 'calendar'=>$calendar])
+        @slot('id')
+            cmp_files
+        @endslot
+        @slot('title')
+            FILES
+        @endslot
+    @endcomponent
 
-            echo('<hr>');
-            $f = $tbl_files->get();
-            print_r($f);
-        ?>
-    </div>
+    @component('cmp-calendar',['calendar'=>$calendar, 'base_gdp'=>737541])
+        @slot('id')
+            cmp_d1
+        @endslot
+    @endcomponent
+
+    @component('cmp-calendar',['calendar'=>$calendar, 'base_gdp'=>737571])
+        @slot('id')
+            cmp_d2
+        @endslot
+   @endcomponent
 
     <script>
         // mention the name of the file on select
@@ -51,17 +78,6 @@
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
         });
-
-        function send(){
-            var data = $('#frm_upload').serialize();
-            $.post(
-                "{{$root_url}}" + '/api/upload',
-                data,
-                function(d,s){
-                    console.log({d,s});
-                }
-            );
-        }
     </script>
 @stop
 
