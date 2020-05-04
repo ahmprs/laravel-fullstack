@@ -8,10 +8,14 @@ class CmpAdd extends Cmp {
         let y = parseFloat(this.getVal(owner + "txt_y"));
         let z = x + y;
         this.setVal(owner + "spn_result", z);
+
+        $(this.elm(owner + "txt_x")).on("change", function () {
+            console.log("JQUERY HERE");
+        });
     }
 
     public static run(e) {
-        let bbb = new CmpAdd();
-        bbb.perform(e);
+        let cmp = new CmpAdd();
+        cmp.perform(e);
     }
 }

@@ -15,10 +15,32 @@
     <!-- <script>var exports = {"__esModule": true};</script> -->
     <script src="{{asset('js/jquery.min.js')}}"></script>
     <script src="{{asset('js/main.js')}}"></script>
-    <script src="{{asset('js/app/cmp.js')}}"></script>
-    <script src="{{asset('js/app/cmp-add.js')}}"></script>
     <script src="{{asset('js/md5.js')}}"></script>
     <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
+    
+    <!-- PUTS JAVASCRIPTS -->
+    <?php 
+        function putJavaScripts(){
+            $js_dir = realpath ($_SERVER['DOCUMENT_ROOT']."/js/app/");
+            $arr = scandir($js_dir,0);
+            $brr = [];
+            for($i=0;$i<count($arr);$i++){
+                $fn=$js_dir."/".$arr[$i];
+                if(!is_file($fn)) continue;
+                $inf = pathinfo($fn);
+                if (strtolower($inf["extension"]) !='js') continue;
+                $brr[]=$arr[$i];
+            }
+    
+            for($i=0;$i<count($brr);$i++){
+                $src = "js/app/".$brr[$i];
+                $src = asset($src);
+                echo("<script src= '$src'></script>");
+            }
+        }
+        putJavaScripts();
+    ?>
+    
     <title>@yield('page_title')</title>
   </head>
   <body onload="init();">

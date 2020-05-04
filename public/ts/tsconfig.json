@@ -5,5 +5,9 @@
         "target": "es5",
         "outDir": "../js/app"
         // "sourceRoot": "./app"
+
+        // "exclude": [
+        //     "app/**/*.js",
+        //   ]
     }
 }

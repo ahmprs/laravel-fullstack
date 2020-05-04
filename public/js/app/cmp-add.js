@@ -25,10 +25,13 @@ var CmpAdd = /** @class */ (function (_super) {
         var y = parseFloat(this.getVal(owner + "txt_y"));
         var z = x + y;
         this.setVal(owner + "spn_result", z);
+        $(this.elm(owner + "txt_x")).on("change", function () {
+            console.log("JQUERY HERE");
+        });
     };
     CmpAdd.run = function (e) {
-        var bbb = new CmpAdd();
-        bbb.perform(e);
+        var cmp = new CmpAdd();
+        cmp.perform(e);
     };
     return CmpAdd;
 }(Cmp));
