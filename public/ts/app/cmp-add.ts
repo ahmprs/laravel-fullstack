@@ -1,21 +1,32 @@
 class CmpAdd extends Cmp {
-    public perform(e) {
-        let owner = this.applyPath(e, "target/attributes/owner/value");
-        if (owner == null) return;
-        owner += "_";
+    // html elements used by GUI
+    private txt_x = null;
+    private txt_y = null;
+    private spn_result = null;
+    private btn_add = null;
 
-        let x = parseFloat(this.getVal(owner + "txt_x"));
-        let y = parseFloat(this.getVal(owner + "txt_y"));
-        let z = x + y;
-        this.setVal(owner + "spn_result", z);
+    // main constructor
+    constructor(ownerId: string) {
+        super(ownerId);
+        let self = this;
 
-        $(this.elm(owner + "txt_x")).on("change", function () {
-            console.log("JQUERY HERE");
+        // bind js objects to html elements
+        this.txt_x = this.dlr("txt_x");
+        this.txt_y = this.dlr("txt_y");
+        this.spn_result = this.dlr("spn_result");
+        this.btn_add = this.dlr("btn_add");
+
+        // assign event handlers
+        this.btn_add.on("click", () => {
+            let x = parseFloat(self.txt_x.val());
+            let y = parseFloat(self.txt_y.val());
+            let z = x + y;
+            self.spn_result.text(z);
         });
     }
 
-    public static run(e) {
-        let cmp = new CmpAdd();
-        cmp.perform(e);
+    // entry point
+    public static init(ownerId) {
+        new CmpAdd(ownerId);
     }
 }

@@ -1,20 +1,8 @@
 var Cmp = /** @class */ (function () {
-    function Cmp() {
+    function Cmp(ownerId) {
+        this.prefix = "";
+        this.prefix = ownerId + "_";
     }
-    Cmp.prototype.elm = function (elementId) {
-        var element = document.getElementById(elementId);
-        return element;
-    };
-    Cmp.prototype.getVal = function (elementId) {
-        var element = this.elm(elementId);
-        return element.value;
-    };
-    Cmp.prototype.setVal = function (elementId, value) {
-        var element = this.elm(elementId);
-        if (element == null)
-            return;
-        element.innerText = "" + value;
-    };
     Cmp.prototype.applyPath = function (el, path) {
         var arr = path.split("/");
         var res = el;
@@ -24,6 +12,9 @@ var Cmp = /** @class */ (function () {
                 return null;
         }
         return res;
+    };
+    Cmp.prototype.dlr = function (id) {
+        return $("#" + this.prefix + id);
     };
     return Cmp;
 }());

@@ -1,18 +1,8 @@
 class Cmp {
-    protected elm(elementId: string) {
-        let element = <HTMLInputElement>document.getElementById(elementId);
-        return element;
-    }
+    public prefix: string = "";
 
-    protected getVal(elementId: string) {
-        let element = this.elm(elementId);
-        return element.value;
-    }
-
-    protected setVal(elementId: string, value: any) {
-        let element = this.elm(elementId);
-        if (element == null) return;
-        element.innerText = "" + value;
+    public constructor(ownerId: string) {
+        this.prefix = ownerId + "_";
     }
 
     protected applyPath(el, path) {
@@ -23,5 +13,9 @@ class Cmp {
             if (res == null) return null;
         }
         return res;
+    }
+
+    protected dlr(id: string) {
+        return $("#" + this.prefix + id);
     }
 }

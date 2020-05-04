@@ -15,8 +15,13 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
+        <div>
+            <button class="float-right mt-1 mr-1" id="{{$id}}_btn_next_month">NEXT</button>
+            <button class="mt-1 ml-1" id="{{$id}}_btn_prev_month">PREV</button>
+            <hr>
+        </div>
         <div class="modal-body">
-            <table style="margin-left:auto; margin-right:auto;">
+            <table id="{{$id}}_tbl_calendar" style="margin-left:auto; margin-right:auto;">
                 <tr>
                     <th class='center'>0</th>
                     <th class='center'>1</th>
@@ -67,7 +72,7 @@
 
                         echo('<td>');
                         $display = ($indx<$pre||$indx>=$post)? 'd-none':'';
-                        echo("<button id='{$id}_btn_$indx' class='btn btn-primary $display' style='width:100%' onclick='{$id}_btn_click();' gdp='$gdp' jal='$jal' greg='$greg'>$j<sub gdp='$gdp' jal='$jal' greg='$greg'>$g</sub></button>");
+                        echo("<button id='{$id}_btn_$indx' class='btn btn-primary $display' style='width:100%' gdp='$gdp' jal='$jal' greg='$greg'>$j<sub gdp='$gdp' jal='$jal' greg='$greg'>$g</sub></button>");
                         echo('</td>');
                         $indx++;
                     }
@@ -77,8 +82,8 @@
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="{{$id}}_btn_cancel_click();">CANCEL</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="{{$id}}_btn_ok_click();">OK</button>
+            <button id="{{$id}}_btn_cancel" type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
+            <button id="{{$id}}_btn_ok" type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
         </div>
         </div>
     </div>
@@ -88,35 +93,12 @@
         type="text" 
         id="{{$id}}_txt_date" 
         placeholder="DATE" 
-        onclick="{{$id}}_txt_date_click();"
         data-toggle="modal" 
         data-target="#{{$id}}_div_modal"
         readonly
     >
 
     <script>
-        function {{$id}}_txt_date_click(){
-            console.log("{{$id}} DATE CLICKED");
-        }
-
-        function {{$id}}_btn_cancel_click(){
-            console.log("{{$id}} MODAL CANCELED");
-        }
-
-        function {{$id}}_btn_ok_click(){
-            console.log("{{$id}} MODAL OK");
-        }
-
-        function {{$id}}_btn_click(){
-            var btn = $(window.event.target);
-            var gdp = btn.attr('gdp');
-            var jal = btn.attr('jal');
-            var greg = btn.attr('greg');
-            $("#{{$id}}_txt_date").val(jal+'-'+greg);
-            $("#{{$id}}_txt_date").attr('gdp', gdp);
-            $("#{{$id}}_txt_date").attr('jal', jal);
-            $("#{{$id}}_txt_date").attr('greg', greg);
-        }
-
+        CmpCalendar.init("{{$id}}");
     </script>
 </div>

@@ -13,25 +13,32 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var CmpAdd = /** @class */ (function (_super) {
     __extends(CmpAdd, _super);
-    function CmpAdd() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    CmpAdd.prototype.perform = function (e) {
-        var owner = this.applyPath(e, "target/attributes/owner/value");
-        if (owner == null)
-            return;
-        owner += "_";
-        var x = parseFloat(this.getVal(owner + "txt_x"));
-        var y = parseFloat(this.getVal(owner + "txt_y"));
-        var z = x + y;
-        this.setVal(owner + "spn_result", z);
-        $(this.elm(owner + "txt_x")).on("change", function () {
-            console.log("JQUERY HERE");
+    // main constructor
+    function CmpAdd(ownerId) {
+        var _this = _super.call(this, ownerId) || this;
+        // html elements used by GUI
+        _this.txt_x = null;
+        _this.txt_y = null;
+        _this.spn_result = null;
+        _this.btn_add = null;
+        var self = _this;
+        // bind js objects to html elements
+        _this.txt_x = _this.dlr("txt_x");
+        _this.txt_y = _this.dlr("txt_y");
+        _this.spn_result = _this.dlr("spn_result");
+        _this.btn_add = _this.dlr("btn_add");
+        // assign event handlers
+        _this.btn_add.on("click", function () {
+            var x = parseFloat(self.txt_x.val());
+            var y = parseFloat(self.txt_y.val());
+            var z = x + y;
+            self.spn_result.text(z);
         });
-    };
-    CmpAdd.run = function (e) {
-        var cmp = new CmpAdd();
-        cmp.perform(e);
+        return _this;
+    }
+    // entry point
+    CmpAdd.init = function (ownerId) {
+        new CmpAdd(ownerId);
     };
     return CmpAdd;
 }(Cmp));
