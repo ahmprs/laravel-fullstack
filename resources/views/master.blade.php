@@ -21,7 +21,8 @@
     <!-- PUTS JAVASCRIPTS -->
     <?php 
         function putJavaScripts(){
-            $js_dir = realpath ($_SERVER['DOCUMENT_ROOT']."/js/app/");
+          // $js_dir = realpath ($_SERVER['DOCUMENT_ROOT']."/js/app/");
+          $js_dir = realpath (__dir__."/../../../public/js/app/");
             $arr = scandir($js_dir,0);
             $brr = [];
             for($i=0;$i<count($arr);$i++){

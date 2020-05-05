@@ -15,10 +15,16 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div>
-            <button class="float-right mt-1 mr-1" id="{{$id}}_btn_next_month">NEXT</button>
-            <button class="mt-1 ml-1" id="{{$id}}_btn_prev_month">PREV</button>
-            <hr>
+        <div id="{{$id}}_div_brief" class="round dark mono m-1 p-1">
+            <h4 id="{{$id}}_h4_greg_date" class="d-inline">GREG</h4>
+            <h4 id="{{$id}}_h4_jal_date" class="d-inline float-right">JAL</h4>
+        </div>
+
+        <h4 id="{{$id}}_h3_month" class="center round dark p-2 m-1">MONTH HERE</h4>
+
+        <div class="round dark p-2 m-1">
+            <button class="btn btn-secondary float-right" id="{{$id}}_btn_next_month">NEXT &rArr;</button>
+            <button class="btn btn-secondary" id="{{$id}}_btn_prev_month">&lArr; PREV</button>
         </div>
         <div class="modal-body">
             <table id="{{$id}}_tbl_calendar" style="margin-left:auto; margin-right:auto;">
@@ -32,6 +38,7 @@
                     <th class='center'>6</th>
                 </tr>
             <?php
+                $server_gdp=(int)$calendar->getServerGdp();
                 $gdp = $base_gdp;
                 $c = $calendar->getNew();
                 $c->setGdp($gdp);
@@ -71,8 +78,8 @@
                         }
 
                         echo('<td>');
-                        $display = ($indx<$pre||$indx>=$post)? 'd-none':'';
-                        echo("<button id='{$id}_btn_$indx' class='btn btn-primary $display' style='width:100%' gdp='$gdp' jal='$jal' greg='$greg'>$j<sub gdp='$gdp' jal='$jal' greg='$greg'>$g</sub></button>");
+                        
+                        echo("<button id='{$id}_btn_$indx' class='btn btn-primary' style='width:100%' ><span></span><sub></sub></button>");
                         echo('</td>');
                         $indx++;
                     }
@@ -89,14 +96,26 @@
     </div>
     </div>     
 
-    <input 
-        type="text" 
-        id="{{$id}}_txt_date" 
-        placeholder="DATE" 
-        data-toggle="modal" 
-        data-target="#{{$id}}_div_modal"
-        readonly
-    >
+    <div class="input-group  col-md-3">
+        <div class="input-group-prepend">
+            <button 
+                id="{{$id}}_btn_change" 
+                class="input-group-text m-0"
+                data-toggle="modal" 
+                data-target="#{{$id}}_div_modal"
+                >...
+            </button>
+        </div>
+        <input 
+            type="text" 
+            class="form-control"
+            id="{{$id}}_txt_date" 
+            placeholder="DATE" 
+            readonly
+            server_gdp="{{$server_gdp}}"
+            gdp="{{$server_gdp}}"
+        >
+        </div>
 
     <script>
         CmpCalendar.init("{{$id}}");

@@ -12,6 +12,10 @@
     color: #def;
 }
 
+.mono {
+    font-family: "Courier New", Courier, monospace;
+}
+
 .gray {
     background-color: rgb(95, 98, 102);
     color: rgb(208, 222, 236);
