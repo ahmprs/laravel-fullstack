@@ -23,19 +23,19 @@
         <h4 id="{{$id}}_h3_month" class="center round dark p-2 m-1">MONTH HERE</h4>
 
         <div class="round dark p-2 m-1">
-            <button class="btn btn-secondary float-right" id="{{$id}}_btn_next_month">NEXT &rArr;</button>
-            <button class="btn btn-secondary" id="{{$id}}_btn_prev_month">&lArr; PREV</button>
+            <button class="btn btn-secondary float-right" id="{{$id}}_btn_next_month">NEXT ►</button>
+            <button class="btn btn-secondary" id="{{$id}}_btn_prev_month">◄ PREV</button>
         </div>
         <div class="modal-body">
             <table id="{{$id}}_tbl_calendar" style="margin-left:auto; margin-right:auto;">
                 <tr>
-                    <th class='center'>0</th>
-                    <th class='center'>1</th>
-                    <th class='center'>2</th>
-                    <th class='center'>3</th>
-                    <th class='center'>4</th>
-                    <th class='center'>5</th>
-                    <th class='center'>6</th>
+                    <th class='center dark round m-1'>ش</th>
+                    <th class='center dark round m-1'>ی</th>
+                    <th class='center dark round m-1'>د</th>
+                    <th class='center dark round m-1'>س</th>
+                    <th class='center dark round m-1'>چ</th>
+                    <th class='center dark round m-1'>پ</th>
+                    <th class='center dark round m-1'>ج</th>
                 </tr>
             <?php
                 $server_gdp=(int)$calendar->getServerGdp();
@@ -79,7 +79,7 @@
 
                         echo('<td>');
                         
-                        echo("<button id='{$id}_btn_$indx' class='btn btn-primary' style='width:100%' ><span></span><sub></sub></button>");
+                        echo("<button id='{$id}_btn_$indx' class='btn btn-primary' style='width:100%; padding:2px; font-size:1.1em;'><span></span><span style='float:right; font-size:0.6em; padding:2px;'></span><span style='float:right; background-color:rgb(246, 217, 154); color:#135; border-radius:5px; font-size:0.5em;padding:2px;'></span></button>");
                         echo('</td>');
                         $indx++;
                     }

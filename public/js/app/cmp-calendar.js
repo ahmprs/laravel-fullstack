@@ -58,6 +58,7 @@ var CmpCalendar = /** @class */ (function (_super) {
         var btn = null;
         var spn = null;
         var sub = null;
+        var spn2 = null;
         this.server_gdp = parseInt(this.txt_date.attr("server_gdp"));
         this.gdp = parseInt(this.txt_date.attr("gdp"));
         var c = new Calendar();
@@ -73,7 +74,7 @@ var CmpCalendar = /** @class */ (function (_super) {
         this.h4_jal_date.attr("gdp", this.gdp);
         this.h4_jal_date.attr("jal", jal["DateString"]);
         this.h4_jal_date.attr("jal", jal["DateString"]);
-        this.h3_month.text(jal["MonthTitle"]);
+        this.h3_month.text(jal["MonthTitle"] + " " + jal["Year"]);
         //--
         var g = this.gdp - d + 1;
         var jal_base = c.getJalDateFromGdp(g);
@@ -84,14 +85,17 @@ var CmpCalendar = /** @class */ (function (_super) {
             btn = this.arr_btn[i];
             spn = $(btn.children()[0]);
             sub = $(btn.children()[1]);
+            spn2 = $(btn.children()[2]);
+            spn2.hide();
             // apply the first day of week
             if (i < w) {
                 btn.hide();
-                spn.innerText = "";
-                sub.innerText = "";
+                spn.text("");
+                sub.text("");
                 btn.attr("gdp", 0);
                 spn.attr("gdp", 0);
                 sub.attr("gdp", 0);
+                spn2.attr("gdp", 0);
                 continue;
             }
             btn.fadeIn();
@@ -103,18 +107,20 @@ var CmpCalendar = /** @class */ (function (_super) {
                     btn = this.arr_btn[j];
                     spn = $(btn.children()[0]);
                     sub = $(btn.children()[1]);
+                    spn2 = $(btn.children()[2]);
                     btn.hide();
-                    spn.innerText = "";
-                    sub.innerText = "";
+                    spn.text("");
+                    sub.text("");
                     btn.attr("gdp", 0);
                     spn.attr("gdp", 0);
                     sub.attr("gdp", 0);
+                    spn2.attr("gdp", 0);
                 }
                 break;
             }
             // set day of month and gdp
             spn.text(jal["DayOfMonth"]);
-            var dom = "";
+            sub.text(greg["DayOfMonth"]);
             if (jal["DayOfWeek"] >= 5) {
                 btn.removeClass("btn-primary");
                 btn.addClass("btn-success");
@@ -124,19 +130,18 @@ var CmpCalendar = /** @class */ (function (_super) {
                 btn.addClass("btn-primary");
             }
             if (greg["DayOfMonth"] == 1) {
-                dom = greg["MonthTitle"];
-                btn.removeClass("btn-primary");
-                btn.addClass("btn-warning");
+                spn2.text(greg["MonthTitle"]);
+                spn2.fadeIn();
+                sub.hide();
             }
             else {
-                dom = greg["DayOfMonth"];
-                btn.removeClass("btn-warning");
-                btn.addClass("btn-primary");
+                spn2.text("");
+                sub.show();
             }
-            sub.text(dom);
             btn.attr("gdp", g);
             spn.attr("gdp", g);
             sub.attr("gdp", g);
+            spn2.attr("gdp", g);
             g++;
         }
     };
