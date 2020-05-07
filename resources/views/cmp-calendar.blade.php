@@ -20,7 +20,8 @@
             <h4 id="{{$id}}_h4_jal_date" class="d-inline float-right">JAL</h4>
         </div>
 
-        <h4 id="{{$id}}_h3_month" class="center round dark p-2 m-1">MONTH HERE</h4>
+        <h4 id="{{$id}}_h3_jal_date_str" class="center round dark p-2 m-1" style="direction:rtl;"></h4>
+        <h4 id="{{$id}}_h3_greg_date_str" class="center round dark p-2 m-1" ></h4>
 
         <div class="round dark p-2 m-1">
             <button class="btn btn-secondary float-right" id="{{$id}}_btn_next_month">NEXT ►</button>
@@ -96,7 +97,7 @@
     </div>
     </div>     
 
-    <div class="input-group  col-md-3">
+    <div class="input-group col-md-6" style="padding-left:0px;">
         <div class="input-group-prepend">
             <button 
                 id="{{$id}}_btn_change" 
@@ -108,14 +109,14 @@
         </div>
         <input 
             type="text" 
-            class="form-control"
+            class="form-control col-md-7"
             id="{{$id}}_txt_date" 
             placeholder="DATE" 
             readonly
             server_gdp="{{$server_gdp}}"
-            gdp="{{$server_gdp}}"
+            gdp="{{$base_gdp}}"
         >
-        </div>
+    </div>
 
     <script>
         CmpCalendar.init("{{$id}}");

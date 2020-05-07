@@ -33,8 +33,9 @@
         <input class="btn btn-success" type="submit" value="UPLOAD">
         <input type="hidden" name="callback" value="{{$root_url}}/admin-area">
     </form>
+
+    <hr>
     <?php
-        // $recs = DB::table('tbl_users')->get();
         $records = 
             DB::table('tbl_files')
                 ->select(
@@ -59,18 +60,6 @@
             FILES
         @endslot
     @endcomponent
-
-    @component('cmp-calendar',['calendar'=>$calendar, 'base_gdp'=>737541])
-        @slot('id')
-            cmp_d1
-        @endslot
-    @endcomponent
-
-    @component('cmp-calendar',['calendar'=>$calendar, 'base_gdp'=>737571])
-        @slot('id')
-            cmp_d2
-        @endslot
-   @endcomponent
 
     <script>
         // mention the name of the file on select

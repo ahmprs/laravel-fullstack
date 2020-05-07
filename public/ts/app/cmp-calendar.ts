@@ -4,7 +4,8 @@ class CmpCalendar extends Cmp {
     private div_brief = null;
     private h4_greg_date = null;
     private h4_jal_date = null;
-    private h3_month = null;
+    private h3_jal_date_str = null;
+    private h3_greg_date_str = null;
 
     private tbl_calendar = null;
     private btn_cancel = null;
@@ -25,7 +26,8 @@ class CmpCalendar extends Cmp {
         this.div_brief = this.dlr("div_brief");
         this.h4_greg_date = this.dlr("h4_greg_date");
         this.h4_jal_date = this.dlr("h4_jal_date");
-        this.h3_month = this.dlr("h3_month");
+        this.h3_jal_date_str = this.dlr("h3_jal_date_str");
+        this.h3_greg_date_str = this.dlr("h3_greg_date_str");
         this.tbl_calendar = this.dlr("tbl_calendar");
         this.btn_cancel = this.dlr("btn_cancel");
         this.btn_ok = this.dlr("btn_ok");
@@ -43,8 +45,27 @@ class CmpCalendar extends Cmp {
             }
         }
 
+        this.present();
         this.prepare();
         this.assignEventHandlers();
+    }
+
+    private present() {
+        let gdp = parseInt(this.txt_date.attr("gdp"));
+        let server_gdp = parseInt(this.txt_date.attr("server_gdp"));
+        let diff = server_gdp - gdp;
+
+        let c = new Calendar();
+        let jal = c.getJalDateFromGdp(gdp);
+        let ds = jal["DateString"];
+        let pst = "";
+        if (diff == 0) pst = " today";
+        else if (diff == 1) pst = "yesterday";
+        else if (diff == -1) pst = "tomorrow";
+        else if (diff > 0) pst = diff + " days ago";
+        else pst = "in " + -diff + " days";
+
+        this.txt_date.val(ds + "    " + "(" + pst + ")");
     }
 
     private prepare() {
@@ -71,7 +92,12 @@ class CmpCalendar extends Cmp {
         this.h4_jal_date.attr("jal", jal["DateString"]);
         this.h4_jal_date.attr("jal", jal["DateString"]);
 
-        this.h3_month.text(jal["MonthTitle"] + " " + jal["Year"]);
+        this.h3_jal_date_str.text(
+            jal["DayOfMonth"] + " " + jal["MonthTitle"] + " " + jal["Year"]
+        );
+        this.h3_greg_date_str.text(
+            greg["DayOfMonth"] + " " + greg["MonthTitle"] + " " + greg["Year"]
+        );
         //--
 
         let g = this.gdp - d + 1;
@@ -185,20 +211,14 @@ class CmpCalendar extends Cmp {
         });
 
         this.btn_ok.on("click", () => {
-            self.txt_date.val(self.h4_greg_date.text());
             self.txt_date.attr("gdp", self.h4_greg_date.attr("gdp"));
             self.txt_date.attr("jal", self.h4_greg_date.attr("jal"));
             self.txt_date.attr("greg", self.h4_greg_date.attr("greg"));
-
-            // OR
-            // self.txt_date.val(self.h4_jal_date.text());
-            // self.txt_date.attr("gdp", self.h4_jal_date.attr("gdp"));
-            // self.txt_date.attr("jal", self.h4_jal_date.attr("jal"));
-            // self.txt_date.attr("greg", self.h4_jal_date.attr("greg"));
+            self.present();
         });
 
         this.btn_cancel.on("click", () => {
-            alert("CANCEL");
+            // alert("CANCEL");
         });
 
         for (let i = 0; i < this.arr_btn.length; i++) {
@@ -219,6 +239,21 @@ class CmpCalendar extends Cmp {
                 self.h4_jal_date.attr("gdp", gdp);
                 self.h4_jal_date.attr("jal", jal["DateString"]);
                 self.h4_jal_date.attr("jal", jal["DateString"]);
+
+                self.h3_jal_date_str.text(
+                    jal["DayOfMonth"] +
+                        " " +
+                        jal["MonthTitle"] +
+                        " " +
+                        jal["Year"]
+                );
+                self.h3_greg_date_str.text(
+                    greg["DayOfMonth"] +
+                        " " +
+                        greg["MonthTitle"] +
+                        " " +
+                        greg["Year"]
+                );
             });
         }
     }

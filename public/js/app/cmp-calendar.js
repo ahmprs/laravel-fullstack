@@ -20,7 +20,8 @@ var CmpCalendar = /** @class */ (function (_super) {
         _this.div_brief = null;
         _this.h4_greg_date = null;
         _this.h4_jal_date = null;
-        _this.h3_month = null;
+        _this.h3_jal_date_str = null;
+        _this.h3_greg_date_str = null;
         _this.tbl_calendar = null;
         _this.btn_cancel = null;
         _this.btn_ok = null;
@@ -35,7 +36,8 @@ var CmpCalendar = /** @class */ (function (_super) {
         _this.div_brief = _this.dlr("div_brief");
         _this.h4_greg_date = _this.dlr("h4_greg_date");
         _this.h4_jal_date = _this.dlr("h4_jal_date");
-        _this.h3_month = _this.dlr("h3_month");
+        _this.h3_jal_date_str = _this.dlr("h3_jal_date_str");
+        _this.h3_greg_date_str = _this.dlr("h3_greg_date_str");
         _this.tbl_calendar = _this.dlr("tbl_calendar");
         _this.btn_cancel = _this.dlr("btn_cancel");
         _this.btn_ok = _this.dlr("btn_ok");
@@ -50,10 +52,31 @@ var CmpCalendar = /** @class */ (function (_super) {
                 indx++;
             }
         }
+        _this.present();
         _this.prepare();
         _this.assignEventHandlers();
         return _this;
     }
+    CmpCalendar.prototype.present = function () {
+        var gdp = parseInt(this.txt_date.attr("gdp"));
+        var server_gdp = parseInt(this.txt_date.attr("server_gdp"));
+        var diff = server_gdp - gdp;
+        var c = new Calendar();
+        var jal = c.getJalDateFromGdp(gdp);
+        var ds = jal["DateString"];
+        var pst = "";
+        if (diff == 0)
+            pst = " today";
+        else if (diff == 1)
+            pst = "yesterday";
+        else if (diff == -1)
+            pst = "tomorrow";
+        else if (diff > 0)
+            pst = diff + " days ago";
+        else
+            pst = "in " + -diff + " days";
+        this.txt_date.val(ds + "    " + "(" + pst + ")");
+    };
     CmpCalendar.prototype.prepare = function () {
         var btn = null;
         var spn = null;
@@ -74,7 +97,8 @@ var CmpCalendar = /** @class */ (function (_super) {
         this.h4_jal_date.attr("gdp", this.gdp);
         this.h4_jal_date.attr("jal", jal["DateString"]);
         this.h4_jal_date.attr("jal", jal["DateString"]);
-        this.h3_month.text(jal["MonthTitle"] + " " + jal["Year"]);
+        this.h3_jal_date_str.text(jal["DayOfMonth"] + " " + jal["MonthTitle"] + " " + jal["Year"]);
+        this.h3_greg_date_str.text(greg["DayOfMonth"] + " " + greg["MonthTitle"] + " " + greg["Year"]);
         //--
         var g = this.gdp - d + 1;
         var jal_base = c.getJalDateFromGdp(g);
@@ -178,18 +202,13 @@ var CmpCalendar = /** @class */ (function (_super) {
             self.prepare();
         });
         this.btn_ok.on("click", function () {
-            self.txt_date.val(self.h4_greg_date.text());
             self.txt_date.attr("gdp", self.h4_greg_date.attr("gdp"));
             self.txt_date.attr("jal", self.h4_greg_date.attr("jal"));
             self.txt_date.attr("greg", self.h4_greg_date.attr("greg"));
-            // OR
-            // self.txt_date.val(self.h4_jal_date.text());
-            // self.txt_date.attr("gdp", self.h4_jal_date.attr("gdp"));
-            // self.txt_date.attr("jal", self.h4_jal_date.attr("jal"));
-            // self.txt_date.attr("greg", self.h4_jal_date.attr("greg"));
+            self.present();
         });
         this.btn_cancel.on("click", function () {
-            alert("CANCEL");
+            // alert("CANCEL");
         });
         for (var i = 0; i < this.arr_btn.length; i++) {
             this.arr_btn[i].on("click", function () {
@@ -206,6 +225,16 @@ var CmpCalendar = /** @class */ (function (_super) {
                 self.h4_jal_date.attr("gdp", gdp);
                 self.h4_jal_date.attr("jal", jal["DateString"]);
                 self.h4_jal_date.attr("jal", jal["DateString"]);
+                self.h3_jal_date_str.text(jal["DayOfMonth"] +
+                    " " +
+                    jal["MonthTitle"] +
+                    " " +
+                    jal["Year"]);
+                self.h3_greg_date_str.text(greg["DayOfMonth"] +
+                    " " +
+                    greg["MonthTitle"] +
+                    " " +
+                    greg["Year"]);
             });
         }
     };

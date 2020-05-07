@@ -251,6 +251,25 @@ class AppController extends Controller
         return u::resp(1, u::getRootUrl());
     }
 
+    function updateDocumentProperties(Request $req){
+        $file_id = $req->input('file_id');
+        $file_show = $req->input('file_show');
+        $file_gdp_publish = $req->input('file_gdp_publish');
+        $file_gdp_expires = $req->input('file_gdp_expires');
+        $file_tag = $req->input('file_tag');
+
+        $affected = DB::table('tbl_files')->where('file_id', $file_id)->update([
+            'file_show'=>$file_show,
+            'file_gdp_publish'=>$file_gdp_publish,
+            'file_gdp_expires'=>$file_gdp_expires,
+            'file_tag'=>$file_tag,
+        ]);
+        
+        if($affected!=1) return u::resp(0,'update failed');
+        return u::resp(1,'update succeed');
+    }
+
+
     function upload(Request $req){
 
         $callback = $req->input('callback');

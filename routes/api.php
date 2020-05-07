@@ -58,6 +58,13 @@ Route::post('/upload', 'AppController@upload');
 Route::get('/upload', 'AppController@upload');
 
 
+Route::post('/update-document-properties', 'AppController@updateDocumentProperties');
+Route::get('/update-document-properties', 'AppController@updateDocumentProperties');
+
+
 Route::get('/test', function(){
     return u::resp(1,'TEST');
 });
+
+
+

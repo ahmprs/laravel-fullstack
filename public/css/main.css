@@ -12,6 +12,11 @@
     color: #def;
 }
 
+.light {
+    background-color: rgb(165, 180, 195);
+    color: rgb(4, 32, 59);
+}
+
 .mono {
     font-family: "Courier New", Courier, monospace;
 }
