@@ -63,7 +63,7 @@ Route::get('/update-document-properties', 'AppController@updateDocumentPropertie
 
 
 Route::get('/test', function(){
-    return u::resp(1,'TEST');
+    return u::resp(1, u::getRootDir());
 });
 
 

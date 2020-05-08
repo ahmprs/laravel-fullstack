@@ -51,6 +51,14 @@ class Calendar
         }
     }
 
+    public static function getStamp(){
+        $server_gdp = Calendar::getServerGdp();
+        $res= "doc-$server_gdp";
+        $res = \str_replace('.','-',$res);
+        $res = str_pad($res, 6, "0", STR_PAD_RIGHT);
+        return $res;
+    }
+
     public static function fromJalDate(string $jalDateStr){
         // make an instance of calendar from the given jal date string
         $gdp = Calendar::jalToGdp($jalDateStr);

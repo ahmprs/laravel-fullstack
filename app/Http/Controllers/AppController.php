@@ -293,9 +293,11 @@ class AppController extends Controller
         }
             
 
-        $posts_dir = storage_path();
-        $posts_dir = "$posts_dir\\posts";
+        $posts_dir =  u::getRootDir();//???//storage_path();
+        $posts_dir = realpath("$posts_dir/posts");
         
+        // return u::resp(0, $posts_dir);
+
         if(!is_dir($posts_dir)) {
             mkdir($posts_dir, 0755, true);
         }
@@ -313,7 +315,7 @@ class AppController extends Controller
         
         
         $cal = new Calendar();
-        $gdp = $cal->get_server_gdp_time();
+        $gdp = $cal->getServerGdp();
         
 
         
@@ -388,7 +390,7 @@ class AppController extends Controller
                 'file_extension'=>$file_extension,
                 'file_gdp_create'=>$gdp,
                 'file_gdp_publish'=>$gdp,
-                'file_gdp_expires'=>$gdp + 3650,
+                'file_gdp_expires'=>$gdp + 90,
                 'file_show'=>1,
                 'file_tag'=>'',
                 'file_title'=>'',

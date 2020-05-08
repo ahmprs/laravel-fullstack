@@ -21,6 +21,11 @@ class Util
     }
     
 
+    static function getRootDir(){
+        $dir = realpath(__dir__."/../public");
+        return $dir;
+    }
+    
     static function getRootUrl(){
         // LARAVEL DEVELOPMENT SERVER:
         // HTTP_HOST -> localhost:8000

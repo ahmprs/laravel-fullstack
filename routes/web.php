@@ -39,7 +39,10 @@ Route::get('/sign-up', function () {
 });
 
 Route::get('/products', function () {
-    return view('products', ['root_url'=> u::getRootUrl()]);
+    return view('products', [
+        'root_url'=> u::getRootUrl(),
+        'calendar'=> new Calendar(),
+    ]);
 });
 
 Route::get('/contacts', function () {
