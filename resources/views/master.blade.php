@@ -145,15 +145,35 @@
       <hr>
       <div class="text-left">
         <h4 class='inline'>PHONE:</h4>
-        <h4 class='light-1 inline'>+(98) 123456789</h4>
+        <h4 class='light-1 inline'>
+        <?php
+          function getSettings($stg_key){
+            $records = DB::table('tbl_settings')
+            ->where('stg_key','=',"$stg_key")
+            ->where('user_id','=','0')
+            ->get();
+            if(count($records)>0) return $records[0]->stg_val;
+            else return '[]';
+          }
+          echo getSettings('phone');
+        ?>
+
+        </h4>
         <br>
         <h4 class="inline">ADDRESS:</h4>
-        <h4 class="light-2 inline">blob blob blob </h4>
+        <h4 class="light-2 inline">
+        <?php
+          echo getSettings('address');
+        ?>
+        </h4>
         <br>
         <h4 class="inline">EMAIL:</h4>
-        <h4 class="light-2 inline">blob blob blob </h4>
+        <h4 class="light-2 inline">
+        <?php
+          echo getSettings('email');
+        ?>
+        </h4>
       </div>
-          @yield('footer')
     </div>
   </div>
   </body>

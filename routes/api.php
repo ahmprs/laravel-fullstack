@@ -61,6 +61,9 @@ Route::get('/upload', 'AppController@upload');
 Route::post('/update-document-properties', 'AppController@updateDocumentProperties');
 Route::get('/update-document-properties', 'AppController@updateDocumentProperties');
 
+Route::post('/update-settings', 'AppController@updateSettings');
+Route::get('/update-settings', 'AppController@updateSettings');
+
 
 Route::get('/test', function(){
     return u::resp(1, u::getRootDir());

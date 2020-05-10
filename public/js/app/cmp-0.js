@@ -2,6 +2,8 @@ var Cmp = /** @class */ (function () {
     function Cmp(ownerId) {
         this.prefix = "";
         this.prefix = ownerId + "_";
+        // Keep track of each object generated
+        Globals.arr[ownerId] = this;
     }
     Cmp.prototype.applyPath = function (el, path) {
         var arr = path.split("/");
@@ -15,6 +17,9 @@ var Cmp = /** @class */ (function () {
     };
     Cmp.prototype.dlr = function (id) {
         return $("#" + this.prefix + id);
+    };
+    Cmp.prototype.getCmp = function (id) {
+        return Globals.arr[this.prefix + id];
     };
     return Cmp;
 }());

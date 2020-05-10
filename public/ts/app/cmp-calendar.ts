@@ -18,6 +18,9 @@ class CmpCalendar extends Cmp {
     private server_gdp = 0;
     private gdp = 0;
 
+    // an event which is fired when date is changed.
+    public onDateChange = null;
+
     constructor(ownerId) {
         super(ownerId);
 
@@ -50,8 +53,13 @@ class CmpCalendar extends Cmp {
         this.assignEventHandlers();
     }
 
+    public getGdp() {
+        return this.gdp;
+    }
+
     private present() {
         let gdp = parseInt(this.txt_date.attr("gdp"));
+        this.gdp = gdp;
         let server_gdp = parseInt(this.txt_date.attr("server_gdp"));
         let diff = server_gdp - gdp;
 
@@ -215,6 +223,14 @@ class CmpCalendar extends Cmp {
             self.txt_date.attr("jal", self.h4_greg_date.attr("jal"));
             self.txt_date.attr("greg", self.h4_greg_date.attr("greg"));
             self.present();
+
+            if (self.onDateChange != null) {
+                try {
+                    self.onDateChange();
+                } catch (err) {
+                    console.log(err);
+                }
+            }
         });
 
         this.btn_cancel.on("click", () => {

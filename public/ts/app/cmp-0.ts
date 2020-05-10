@@ -3,6 +3,9 @@ class Cmp {
 
     public constructor(ownerId: string) {
         this.prefix = ownerId + "_";
+
+        // Keep track of each object generated
+        Globals.arr[ownerId] = this;
     }
 
     protected applyPath(el, path) {
@@ -17,5 +20,9 @@ class Cmp {
 
     protected dlr(id: string) {
         return $("#" + this.prefix + id);
+    }
+
+    protected getCmp(id: string) {
+        return Globals.arr[this.prefix + id];
     }
 }

@@ -387,7 +387,7 @@ class ComposerStaticInitf305f811f59eb19befc3c0570529b247
     );
 
     public static $classMap = array (
-        'App\\Calendar' => __DIR__ . '/../..' . '/app/calendar.php',
+        'App\\Calendar' => __DIR__ . '/../..' . '/app/Calendar-op.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\AppController' => __DIR__ . '/../..' . '/app/Http/Controllers/AppController.php',
@@ -414,6 +414,7 @@ class ComposerStaticInitf305f811f59eb19befc3c0570529b247
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Util' => __DIR__ . '/../..' . '/app/Util.php',
         'App\\tbl_files' => __DIR__ . '/../..' . '/app/tbl_files.php',
+        'App\\tbl_settings' => __DIR__ . '/../..' . '/app/tbl_settings.php',
         'App\\tbl_users' => __DIR__ . '/../..' . '/app/tbl_users.php',
         'BeyondCode\\DumpServer\\DumpServerCommand' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/DumpServerCommand.php',
         'BeyondCode\\DumpServer\\DumpServerServiceProvider' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/DumpServerServiceProvider.php',
@@ -4094,6 +4095,7 @@ class ComposerStaticInitf305f811f59eb19befc3c0570529b247
         'phpDocumentor\\Reflection\\Types\\String_' => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src/Types/String_.php',
         'phpDocumentor\\Reflection\\Types\\This' => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src/Types/This.php',
         'phpDocumentor\\Reflection\\Types\\Void_' => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src/Types/Void_.php',
+        'seed_tbl_settings' => __DIR__ . '/../..' . '/database/seeds/seed_tbl_settings.php',
         'seed_tbl_users' => __DIR__ . '/../..' . '/database/seeds/seed_tbl_users.php',
     );
 

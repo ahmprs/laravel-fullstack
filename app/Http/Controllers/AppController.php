@@ -270,6 +270,18 @@ class AppController extends Controller
     }
 
 
+    function updateSettings(Request $req){
+        $stg_id = $req->input('stg_id');
+        $stg_val = $req->input('stg_val');
+        $affected = DB::table('tbl_settings')->where('stg_id', $stg_id)->update([
+            'stg_val'=>$stg_val,
+        ]);
+        
+        if($affected!=1) return u::resp(0,'update failed');
+        return u::resp(1,'update succeed');
+    }
+
+
     function upload(Request $req){
 
         $callback = $req->input('callback');

@@ -51,13 +51,10 @@
                 )
                 ->get();
     ?>
-
+    <h3 class="dark round p-3 center">Available Documents</h3>
     @component('cmp-files',['records'=>$records, 'calendar'=>$calendar])
         @slot('id')
             cmp_files
-        @endslot
-        @slot('title')
-            FILES
         @endslot
     @endcomponent
 
@@ -68,6 +65,11 @@
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
         });
     </script>
+
+    <h3 class="dark round p-3 center">Settings</h3>
+    @component('cmp-settings', ['id'=>'cmp_settings'])
+    @endcomponent
+
 @stop
 
 @section('footer')

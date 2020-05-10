@@ -31,6 +31,8 @@ var CmpCalendar = /** @class */ (function (_super) {
         _this.arr_btn = [];
         _this.server_gdp = 0;
         _this.gdp = 0;
+        // an event which is fired when date is changed.
+        _this.onDateChange = null;
         _this.div_modal = _this.dlr("div_modal");
         _this.div_modal_title = _this.dlr("div_modal_title");
         _this.div_brief = _this.dlr("div_brief");
@@ -57,8 +59,12 @@ var CmpCalendar = /** @class */ (function (_super) {
         _this.assignEventHandlers();
         return _this;
     }
+    CmpCalendar.prototype.getGdp = function () {
+        return this.gdp;
+    };
     CmpCalendar.prototype.present = function () {
         var gdp = parseInt(this.txt_date.attr("gdp"));
+        this.gdp = gdp;
         var server_gdp = parseInt(this.txt_date.attr("server_gdp"));
         var diff = server_gdp - gdp;
         var c = new Calendar();
@@ -206,6 +212,14 @@ var CmpCalendar = /** @class */ (function (_super) {
             self.txt_date.attr("jal", self.h4_greg_date.attr("jal"));
             self.txt_date.attr("greg", self.h4_greg_date.attr("greg"));
             self.present();
+            if (self.onDateChange != null) {
+                try {
+                    self.onDateChange();
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            }
         });
         this.btn_cancel.on("click", function () {
             // alert("CANCEL");

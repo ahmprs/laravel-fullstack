@@ -40,18 +40,6 @@ var CmpFile = /** @class */ (function (_super) {
         this.file_show.prop("selectedIndex", file_show_s_indx);
         var file_tag_s_txt = this.file_tag.attr("s_txt");
         this.file_tag.val(file_tag_s_txt);
-        console.log(file_tag_s_txt);
-        // make a loop over items and find the selected index then
-        // let file_tag_s_indx = 0;
-        // var s = this.file_tag[0];
-        // for (var i = 0; i < s.length; i++) {
-        //     var option = s.options[i];
-        //     if (option == file_tag_s_txt) {
-        //         file_tag_s_indx = i;
-        //         break;
-        //     }
-        // }
-        // this.file_tag.prop("selectedIndex", file_tag_s_indx);
     };
     CmpFile.prototype.assignEventHandlers = function () {
         var _this = this;

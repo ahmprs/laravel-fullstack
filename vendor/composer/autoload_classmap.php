@@ -6,7 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'App\\Calendar' => $baseDir . '/app/calendar.php',
+    'App\\Calendar' => $baseDir . '/app/Calendar-op.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\AppController' => $baseDir . '/app/Http/Controllers/AppController.php',
@@ -33,6 +33,7 @@ return array(
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
     'App\\Util' => $baseDir . '/app/Util.php',
     'App\\tbl_files' => $baseDir . '/app/tbl_files.php',
+    'App\\tbl_settings' => $baseDir . '/app/tbl_settings.php',
     'App\\tbl_users' => $baseDir . '/app/tbl_users.php',
     'BeyondCode\\DumpServer\\DumpServerCommand' => $vendorDir . '/beyondcode/laravel-dump-server/src/DumpServerCommand.php',
     'BeyondCode\\DumpServer\\DumpServerServiceProvider' => $vendorDir . '/beyondcode/laravel-dump-server/src/DumpServerServiceProvider.php',
@@ -3713,5 +3714,6 @@ return array(
     'phpDocumentor\\Reflection\\Types\\String_' => $vendorDir . '/phpdocumentor/type-resolver/src/Types/String_.php',
     'phpDocumentor\\Reflection\\Types\\This' => $vendorDir . '/phpdocumentor/type-resolver/src/Types/This.php',
     'phpDocumentor\\Reflection\\Types\\Void_' => $vendorDir . '/phpdocumentor/type-resolver/src/Types/Void_.php',
+    'seed_tbl_settings' => $baseDir . '/database/seeds/seed_tbl_settings.php',
     'seed_tbl_users' => $baseDir . '/database/seeds/seed_tbl_users.php',
 );
