@@ -157,6 +157,41 @@ body,
     border-radius: 5px;
 }
 
+.bg-blue {
+    background-color: #cde;
+}
+.bg-white {
+    background-color: white;
+}
+.b-l {
+    border-left: 1px solid gray;
+}
+.b-r {
+    border-right: 1px solid gray;
+}
+.b-t {
+    border-top: 1px solid gray;
+}
+.b-b {
+    border-bottom: 1px solid gray;
+}
+
+.round-top-left {
+    border-top-left-radius: 5px;
+}
+
+.round-top-right {
+    border-top-right-radius: 5px;
+}
+
+.round-bottom-left {
+    border-bottom-left-radius: 5px;
+}
+
+.round-bottom-right {
+    border-bottom-right-radius: 5px;
+}
+
 @media screen and (max-width: 600px) {
     #div_contents,
     #div_header,

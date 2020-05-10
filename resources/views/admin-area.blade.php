@@ -51,12 +51,33 @@
                 )
                 ->get();
     ?>
-    <h3 class="dark round p-3 center">Available Documents</h3>
-    @component('cmp-files',['records'=>$records, 'calendar'=>$calendar])
-        @slot('id')
-            cmp_files
-        @endslot
+
+<!-- TAB PAGES HERE -->
+    @component('cmp-tab-pages', [
+        'id'=>'cmp_tab_pages',
+        'arr_buttons'=>['Documents', 'Settings'],
+    ])
+        @section('pages')
+        <div pin="0" class='d-none'>
+            <h3 class="dark round p-3 center">Available Documents</h3>
+            @component('cmp-files',['records'=>$records, 'calendar'=>$calendar])
+            @slot('id')
+                cmp_files
+            @endslot
+            @endcomponent
+        </div>
+
+        <div pin="1" class='d-none'>
+            <h3 class="dark round p-3 center">Settings</h3>
+            @component('cmp-settings', ['id'=>'cmp_settings'])
+            @endcomponent
+        </div>
+
+        @stop
     @endcomponent
+
+<!-- TAB PAGES END -->
+
 
     <script>
         // mention the name of the file on select
@@ -65,10 +86,6 @@
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
         });
     </script>
-
-    <h3 class="dark round p-3 center">Settings</h3>
-    @component('cmp-settings', ['id'=>'cmp_settings'])
-    @endcomponent
 
 @stop
 

@@ -14,7 +14,10 @@
  use App\calendar;
 
 Route::get('/home', function () {
-    return view('home', ['root_url'=> u::getRootUrl()]);
+    return view('home', [
+        'root_url'=> u::getRootUrl(),
+        'calendar'=> new Calendar(),
+    ]);
 });
 
 Route::get('/admin-area', function () {
@@ -28,7 +31,10 @@ Route::get('/admin-area', function () {
 });
 
 Route::get('/', function () {
-    return view('home', ['root_url'=> u::getRootUrl()]);
+    return view('home', [
+        'root_url'=> u::getRootUrl(),
+        'calendar'=> new Calendar(),
+    ]);
 });
 
 Route::get('/sign-in', function () {
@@ -46,23 +52,38 @@ Route::get('/products', function () {
 });
 
 Route::get('/contacts', function () {
-    return view('contacts', ['root_url'=> u::getRootUrl()]);
+    return view('contacts', [
+        'root_url'=> u::getRootUrl(),
+        'calendar'=> new Calendar(),
+    ]);
 });
 
 Route::get('/orders', function () {
-    return view('orders', ['root_url'=> u::getRootUrl()]);
+    return view('orders', [
+        'root_url'=> u::getRootUrl(),
+        'calendar'=> new Calendar(),
+    ]);
 });
 
 Route::get('/customer-service', function () {
-    return view('customer-service', ['root_url'=> u::getRootUrl()]);
+    return view('customer-service', [
+        'root_url'=> u::getRootUrl(),
+        'calendar'=> new Calendar(),
+    ]);
 });
 
 Route::get('/offers', function () {
-    return view('offers', ['root_url'=> u::getRootUrl()]);
+    return view('offers', [
+        'root_url'=> u::getRootUrl(),
+        'calendar'=> new Calendar(),
+    ]);
 });
 
 Route::get('/about-us', function () {
-    return view('about-us', ['root_url'=> u::getRootUrl()]);
+    return view('about-us', [
+        'root_url'=> u::getRootUrl(),
+        'calendar'=> new Calendar(),
+    ]);
 });
 
 Route::get('/captcha', function () {
@@ -70,10 +91,7 @@ Route::get('/captcha', function () {
 });
 
 Route::get('/test', function () {
+    // return u::resp(1,1);
     return view('test', ['root_url'=> u::getRootUrl()]);
 });
-
-// Route::get('/captcha-str', function () {
-//     return u::resp(1, u::getSession('captcha',''));
-// });
 

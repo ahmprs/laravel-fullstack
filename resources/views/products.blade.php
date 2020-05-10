@@ -2,12 +2,11 @@
 @section('page_title', 'products')
 
 @section('content')
-    <h3>
-        PRODUCTS HERE
+    <h3 class="dark round center p-2">
+        PRODUCTS
     </h3>
     <?php
     $gdp_now = (int)$calendar->getServerGdp();
-
     $records = 
         DB::table('tbl_files')
             ->select(
@@ -22,13 +21,12 @@
                 'file_title',
                 'file_desc'
             )
-            ->where('file_tag','=','PRODUCTS')
-            ->where('file_show','=','1')
-            ->where('file_gdp_publish','<=', $gdp_now)
-            ->where('file_gdp_expires','>=', $gdp_now)
-            ->get();
-    ?>
-    <?php
+        ->where('file_tag','=','PRODUCTS')
+        ->where('file_show','=','1')
+        ->where('file_gdp_publish','<=', $gdp_now)
+        ->where('file_gdp_expires','>=', $gdp_now)
+        ->get();
+
         $i=0;
         foreach ($records as $f){
             ?>
