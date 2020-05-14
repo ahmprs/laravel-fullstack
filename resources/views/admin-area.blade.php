@@ -1,7 +1,6 @@
 @extends('master')
 @section('page_title', 'admin')
 @section('content')
-    <h4>ADD NEW DOCUMENT</h4>
     <?php
         if (isset ($_GET['upload_state']))
         {
@@ -25,15 +24,6 @@
             }
         }
     ?>    
-    <form id="frm_upload" action="{{$root_url}}/api/upload" enctype="multipart/form-data" method='post'>
-        <div class="custom-file  col-md-4">
-            <input type="file" class="custom-file-input" id="fileToUpload" name="fileToUpload">
-            <label class="custom-file-label" for="customFile">Choose file</label>
-        </div>
-        <input class="btn btn-success" type="submit" value="UPLOAD">
-        <input type="hidden" name="callback" value="{{$root_url}}/admin-area">
-    </form>
-
     <hr>
     <?php
         $records = 
@@ -50,12 +40,14 @@
                     'file_desc'
                 )
                 ->get();
+
+        $tbl_div_docs_records=DB::table('tbl_div_docs')->get();
     ?>
 
 <!-- TAB PAGES HERE -->
     @component('cmp-tab-pages', [
         'id'=>'cmp_tab_pages',
-        'arr_buttons'=>['Documents', 'Settings'],
+        'arr_buttons'=>['Documents', 'Settings', 'Upload Documents', 'DivDocs'],
     ])
         @section('pages')
         <div pin="0" class='d-none'>
@@ -73,9 +65,29 @@
             @endcomponent
         </div>
 
+        <div pin="2">
+            <h3 class="dark round p-3 center">Upload Documents</h3>
+            <form id="frm_upload" action="{{$root_url}}/api/upload" enctype="multipart/form-data" method='post'>
+                <div class="custom-file  col-md-4">
+                    <input type="file" class="custom-file-input" id="fileToUpload" name="fileToUpload">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+                <input class="btn btn-success" type="submit" value="UPLOAD">
+                <input type="hidden" name="callback" value="{{$root_url}}/admin-area">
+            </form>
+        </div>
+
+        <div pin="3">
+            <h3 class="dark round p-3 center">Division Documents</h3>
+            @component('cmp-div-docs',['records'=>$tbl_div_docs_records, 'calendar'=>$calendar])
+            @slot('id')
+                cmp_div_docs
+            @endslot
+            @endcomponent
+        </div>
+
         @stop
     @endcomponent
-
 <!-- TAB PAGES END -->
 
 

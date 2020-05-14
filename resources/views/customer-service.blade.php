@@ -6,7 +6,22 @@
         CUSTOMER SERVICE
     </h3>
     <?php
-    $gdp_now = (int)$calendar->getServerGdp();
+    $gdp_now = $calendar->getServerGdp();
+    $tbl_div_docs_records = DB::table('tbl_div_docs')
+        ->where('doc_tag','=','CUSTOMERS')
+        ->where('doc_show','=','1')
+        ->where('doc_gdp_publish','<=', $gdp_now)
+        ->where('doc_gdp_expires','>=', $gdp_now)
+        ->get();
+        $i=0;
+        foreach ($tbl_div_docs_records as $rec){
+            ?>
+            @component('cmp-doc',['id'=>"cmp_doc_$i", 'rec'=>$rec])
+            @endcomponent
+            <?php  
+            $i++;
+        }
+
     $records = 
         DB::table('tbl_files')
             ->select(
@@ -21,7 +36,7 @@
                 'file_title',
                 'file_desc'
             )
-        ->where('file_tag','=','PRODUCTS')
+        ->where('file_tag','=','CUSTOMERS')
         ->where('file_show','=','1')
         ->where('file_gdp_publish','<=', $gdp_now)
         ->where('file_gdp_expires','>=', $gdp_now)

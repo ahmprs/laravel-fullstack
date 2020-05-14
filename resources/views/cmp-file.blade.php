@@ -61,7 +61,7 @@
     // SHOW SECTION == FILE TAG
     $k = 'Assign To';
     echo("$k");
-    echo ("<select class='form-control col-md-4' s_txt='{$f->file_tag}' file_id='{$file_id}' id='{$id}_file_tag' class='round col-md-4 pl-0'><option>HOME</option><option>PRODUCTS</option><option>CONTACTS</option><option>CUSTOMER SERVICE</option><option>OFFERS</option></select>");
+    echo ("<select class='form-control col-md-4' s_txt='{$f->file_tag}' file_id='{$file_id}' id='{$id}_file_tag' class='round col-md-4 pl-0'><option>HOME</option><option>PRODUCTS</option><option>CONTACTS</option><option>CUSTOMERS</option><option>OFFERS</option></select>");
     echo('<br>');
 
     // EXTRA EMPTY ROW

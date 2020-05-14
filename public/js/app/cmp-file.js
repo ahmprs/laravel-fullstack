@@ -23,6 +23,8 @@ var CmpFile = /** @class */ (function (_super) {
         _this.file_gdp_create = null;
         _this.file_gdp_publish = null;
         _this.file_gdp_expires = null;
+        _this.me = null;
+        _this.me = $("#" + ownerId);
         _this.file_show = _this.dlr("file_show");
         _this.btn_save = _this.dlr("btn_save");
         _this.btn_remove = _this.dlr("btn_remove");
@@ -72,8 +74,21 @@ var CmpFile = /** @class */ (function (_super) {
             });
         });
         this.btn_remove.on("click", function () {
+            var delete_confirm = window.prompt("DELETE FILE?", "NO");
+            if (delete_confirm.trim().toLocaleLowerCase() != "yes")
+                return;
             var file_id = self.btn_save.attr("file_id");
-            alert(file_id);
+            $.post("./api/delete-document", { file_id: file_id }, function (d, s) {
+                try {
+                    if (d["ok"] == 1) {
+                        alert("DELETED");
+                        self.me.fadeOut();
+                    }
+                }
+                catch (error) {
+                    alert("DELETE Failed!");
+                }
+            });
         });
         this.btn_view.on("click", function () {
             var file_id = self.btn_save.attr("file_id");

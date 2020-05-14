@@ -61,8 +61,19 @@ Route::get('/upload', 'AppController@upload');
 Route::post('/update-document-properties', 'AppController@updateDocumentProperties');
 Route::get('/update-document-properties', 'AppController@updateDocumentProperties');
 
+
+Route::post('/delete-document', 'AppController@deleteDocument');
+Route::get('/delete-document', 'AppController@deleteDocument');
+
 Route::post('/update-settings', 'AppController@updateSettings');
 Route::get('/update-settings', 'AppController@updateSettings');
+
+
+Route::post('/save-div-doc', 'AppController@saveDivDoc');
+Route::get('/save-div-doc', 'AppController@saveDivDoc');
+
+Route::post('/get-div-doc', 'AppController@getDivDoc');
+Route::get('/get-div-doc', 'AppController@getDivDoc');
 
 
 Route::get('/test', function(){

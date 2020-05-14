@@ -8,7 +8,7 @@
         ?>
     </div>
 
-    <div id="{{{$id}}}_div_page_holder" class="p-1 b-l b-r b-b round-bottom-right round-bottom-left">
+    <div id="{{{$id}}}_div_page_holder" class="p-3 b-l b-r b-b round-bottom-right round-bottom-left">
         @yield('pages')
     </div>
 

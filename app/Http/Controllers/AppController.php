@@ -270,6 +270,23 @@ class AppController extends Controller
     }
 
 
+    function deleteDocument(Request $req){
+
+        $file_id = $req->input('file_id');
+        $records = DB::table('tbl_files')->where('file_id', $file_id)->get();
+        if(count($records)==0) return u::resp(0,'file does not exist');
+
+        $r = $records[0];
+        $fn = $r->file_target_dir."/".$r->file_new_name;
+        $fn = realpath($fn);
+        $ok = unlink($fn);
+        if(!$ok) return u::resp(0,'delete failed');
+        $affected = DB::table('tbl_files')->where('file_id', $file_id)->delete();
+        if($affected!=1) return u::resp(0,'delete failed');
+        return u::resp(1,'delete succeed');
+    }
+
+
     function updateSettings(Request $req){
         $stg_id = $req->input('stg_id');
         $stg_val = $req->input('stg_val');
@@ -279,6 +296,65 @@ class AppController extends Controller
         
         if($affected!=1) return u::resp(0,'update failed');
         return u::resp(1,'update succeed');
+    }
+
+    function getDivDoc(Request $req){
+        $doc_id = $req->input('doc_id');
+        $records = DB::table('tbl_div_docs')->where('doc_id','=',"$doc_id")->get();
+        if(count($records)==0) return u::resp(0,'');
+        else return u::resp(1, [
+            'doc_content'=>$records[0]->doc_content
+        ]);
+    }
+
+    function saveDivDoc(Request $req){
+        $doc_id = $req->input('doc_id');
+        $doc_content = $req->input('doc_content');
+        $user_id = Session::get('user_id','');
+        if($user_id == '') $user_id = 0;
+
+        $doc_show = $req->input('doc_show');
+        $doc_tag = $req->input('doc_tag');/* SECTION */
+        $doc_gdp_publish = $req->input('doc_gdp_publish');
+        $doc_gdp_expires = $req->input('doc_gdp_expires');
+
+        // TODO:
+        // set gdp
+
+        if($doc_id == ''){
+            $cal = new Calendar();
+            $server_gdp = $cal->getServerGdp();
+
+            $doc_id = DB::table('tbl_div_docs')->insertGetId([
+                'doc_id' => null,
+                'user_id' => "$user_id",
+                'doc_content' => "$doc_content",
+                'doc_gdp_create' => "$server_gdp",
+                'doc_gdp_publish' => "$server_gdp",
+                'doc_gdp_expires' => "$server_gdp",
+                'doc_show' => '0',
+                'doc_tag' => 'HOME',
+                'doc_title' => '',
+                'doc_desc' => '',
+            ]);        
+            return u::resp(1, ['doc_id'=>$doc_id]);
+        }
+        else
+        {
+            $affected = DB::table('tbl_div_docs')->where('doc_id','=',"$doc_id")->update(
+                [
+                    'user_id' => "$user_id",
+                    'doc_content' => "$doc_content",
+                    'doc_gdp_publish' => "$doc_gdp_publish",
+                    'doc_gdp_expires' => "$doc_gdp_expires",
+                    'doc_show' => "$doc_show",
+                    'doc_tag' => "$doc_tag",
+                    'doc_title' => '',
+                    'doc_desc' => '',
+                ]);
+            if($affected > 0) return u::resp(1, 'saveDivDic succeeded');
+        }
+        return u::resp(0, 'saveDivDic failed');
     }
 
 

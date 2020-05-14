@@ -7,10 +7,12 @@ class CmpFile extends Cmp {
     private file_gdp_create = null;
     private file_gdp_publish = null;
     private file_gdp_expires = null;
+    private me = null;
 
     constructor(ownerId) {
         super(ownerId);
 
+        this.me = $("#" + ownerId);
         this.file_show = this.dlr("file_show");
         this.btn_save = this.dlr("btn_save");
         this.btn_remove = this.dlr("btn_remove");
@@ -73,8 +75,20 @@ class CmpFile extends Cmp {
         });
 
         this.btn_remove.on("click", () => {
+            let delete_confirm = window.prompt("DELETE FILE?", "NO");
+            if (delete_confirm.trim().toLocaleLowerCase() != "yes") return;
+
             let file_id = self.btn_save.attr("file_id");
-            alert(file_id);
+            $.post("./api/delete-document", { file_id }, (d, s) => {
+                try {
+                    if (d["ok"] == 1) {
+                        alert("DELETED");
+                        self.me.fadeOut();
+                    }
+                } catch (error) {
+                    alert("DELETE Failed!");
+                }
+            });
         });
 
         this.btn_view.on("click", () => {
