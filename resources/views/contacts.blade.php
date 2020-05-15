@@ -2,9 +2,15 @@
 @section('page_title', 'contacts')
 
 @section('content')
-    <h3 class="dark round center p-2">
-        CONTACTS HERE
-    </h3>
+<?php
+    use App\Util as u;
+    if(u::userIsAdmin()){
+        ?>
+            @component('cmp-content-menu',['id'=>'mnuMain', 'section'=>'CONTACTS'])
+            @endcomponent
+        <?php
+    }
+?>
 
     <?php
     $gdp_now = $calendar->getServerGdp();

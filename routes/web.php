@@ -94,4 +94,3 @@ Route::get('/test', function () {
     // return u::resp(1,1);
     return view('test', ['root_url'=> u::getRootUrl()]);
 });
-

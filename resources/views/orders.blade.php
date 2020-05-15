@@ -2,10 +2,17 @@
 @section('page_title', 'products')
 
 @section('content')
-    <h3 class="dark round center p-2">
-        ORDERS
-    </h3>
-    <?php
+<?php
+    use App\Util as u;
+    if(u::userIsAdmin()){
+        ?>
+            @component('cmp-content-menu',['id'=>'mnuMain', 'section'=>'ORDERS'])
+            @endcomponent
+        <?php
+    }
+?>
+
+<?php
     $gdp_now = $calendar->getServerGdp();
 
     $tbl_div_docs_records = DB::table('tbl_div_docs')

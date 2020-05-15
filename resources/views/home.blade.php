@@ -1,10 +1,17 @@
 @extends('master')
 @section('page_title', 'home')
 @section('content')
-    <h3 class="dark round center p-2">
-        HOME
-    </h3>
-    
+
+    <?php
+        use App\Util as u;
+        if(u::userIsAdmin()){
+            ?>
+                @component('cmp-content-menu',['id'=>'mnuMain', 'section'=>'HOME'])
+                @endcomponent
+            <?php
+        }
+    ?>
+
     <?php
     $gdp_now = $calendar->getServerGdp();
 

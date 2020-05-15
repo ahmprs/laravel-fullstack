@@ -1,3 +1,7 @@
+<?php
+    use App\Util as u;
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -64,7 +68,9 @@
       <a href="{{$root_url}}/orders">ORDERS</a>
       <a href="{{$root_url}}/customer-service">CUSTOMER-SERVICE</a>
       <a href="{{$root_url}}/offers">OFFERS</a>
+      @if(u::userIsAdmin())
       <a href="{{$root_url}}/admin-area">ADMIN</a>
+      @endif
       <hr>
       <a href="{{$root_url}}/about-us" class="about-us" >ABOUT US</a>
     </div>

@@ -48,7 +48,6 @@ class CmpDoc extends Cmp {
         let doc_show = parseInt(this.cmb_publish.attr("tag"));
         this.cmb_publish.prop("selectedIndex", doc_show);
 
-        debugger;
         let doc_tag = this.cmb_section.attr("tag");
         this.cmb_section.val(doc_tag);
     }
@@ -111,6 +110,8 @@ class CmpDoc extends Cmp {
                 },
                 (d, s) => {
                     console.log(d);
+                    this.div_menu.fadeOut();
+                    this.btn_menu.fadeIn();
                 }
             );
         });
@@ -120,56 +121,19 @@ class CmpDoc extends Cmp {
         });
 
         this.btn_delete.on("click", (event) => {
-            let doc_id = 4;
-            $.post("./api/get-div-doc", { doc_id }, (d, s) => {
-                // console.log(d);
+            if (this.doc_id == null) return;
+            let doc_id = this.doc_id;
+
+            let delete_confirm = window.prompt("DELETE CONTENTS?", "NO");
+            if (delete_confirm.trim().toLocaleLowerCase() != "yes") return;
+
+            $.post("./api/delete-div-doc", { doc_id }, (d, s) => {
+                if (d["ok"] == 1) {
+                    this.me.fadeOut();
+                }
             });
         });
     }
-
-    // private fnn() {
-    //     navigator.clipboard
-    //         .readText()
-    //         .then((text) => {
-    //             console.log("Pasted content: ", text);
-    //         })
-    //         .catch((err) => {
-    //             console.error("Failed to read clipboard contents: ", err);
-    //         });
-    // }
-
-    // private fn() {
-    //     navigator.permissions.query({name: "clipboard-read"}).then(result => {
-    //         // If permission to read the clipboard is granted or if the user will
-    //         // be prompted to allow it, we proceed.
-
-    //         if (result.state == "granted" || result.state == "prompt") {
-    //           navigator.clipboard.read().then(data => {
-    //             for (let i=0; i<data.items.length; i++) {
-    //               if (data.items[i].type != "text/plain") {
-    //                 alert("Clipboard contains non-text data. Unable to access it.");
-    //               } else {
-    //                 textElem.innerText = data.items[i].getAs("text/plain");
-    //               }
-    //             }
-    //           });
-    //         }
-    //       });
-    // }
-
-    // async function getClipboardContents() {
-    //     try {
-    //       const clipboardItems = await navigator.clipboard.read();
-    //       for (const clipboardItem of clipboardItems) {
-    //         for (const type of clipboardItem.types) {
-    //           const blob = await clipboardItem.getType(type);
-    //           console.log(URL.createObjectURL(blob));
-    //         }
-    //       }
-    //     } catch (err) {
-    //       console.error(err.name, err.message);
-    //     }
-    //   }
 
     private present() {
         this.div_doc.html(this.doc);

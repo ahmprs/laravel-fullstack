@@ -5,9 +5,16 @@ namespace App;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use Session;
 
 class Util 
 {
+
+    static function userIsAdmin(){
+        $user_access_level = Session::get('user_access_level', 0);
+        if($user_access_level == 100) return true;
+        else return false;
+    }
 
     static function diff($strA, $strB)
     {

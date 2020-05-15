@@ -72,8 +72,14 @@ Route::get('/update-settings', 'AppController@updateSettings');
 Route::post('/save-div-doc', 'AppController@saveDivDoc');
 Route::get('/save-div-doc', 'AppController@saveDivDoc');
 
+Route::post('/new-div-doc', 'AppController@newDivDoc');
+Route::get('/new-div-doc', 'AppController@newDivDoc');
+
 Route::post('/get-div-doc', 'AppController@getDivDoc');
 Route::get('/get-div-doc', 'AppController@getDivDoc');
+
+Route::post('/delete-div-doc', 'AppController@deleteDivDoc');
+Route::get('/delete-div-doc', 'AppController@deleteDivDoc');
 
 
 Route::get('/test', function(){

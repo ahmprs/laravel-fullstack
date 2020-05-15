@@ -7,9 +7,22 @@
     border-radius: 5px;
 }
 
+.circle {
+    border-radius: 50%;
+}
+
 .dark {
     background-color: #123;
     color: #def;
+}
+
+.high-light {
+    background-color: rgb(159, 187, 159);
+}
+
+.high-light:hover {
+    background-color: rgb(102, 175, 102);
+    border: solid 1px rgb(0, 162, 255);
 }
 
 .light {
@@ -123,6 +136,10 @@ body,
 
 .inline {
     display: inline;
+}
+
+.border {
+    border: 2px solid rgb(97, 2, 2);
 }
 
 #txtSearch {

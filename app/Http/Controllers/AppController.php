@@ -306,7 +306,36 @@ class AppController extends Controller
             'doc_content'=>$records[0]->doc_content
         ]);
     }
+    function deleteDivDoc(Request $req){
+        $doc_id = $req->input('doc_id');
+        $affected = DB::table('tbl_div_docs')->where('doc_id','=',"$doc_id")->delete();
+        if($affected>0) return u::resp(1, 'removed');
+        else return  u::resp(1, 'delete failed');
+    }
+    function newDivDoc(Request $req){
+        $cal = new Calendar();
+        $user_id = Session::get('user_id','');
+        if($user_id == '') $user_id = 0;
+        $server_gdp = $cal->getServerGdp();
+        $exp=$server_gdp + 30;
 
+        // section on which doc shall be shown
+        $doc_tag = $req->input('doc_tag');
+
+        $doc_id = DB::table('tbl_div_docs')->insertGetId([
+            'doc_id' => null,
+            'user_id' => "$user_id",
+            'doc_content' => "PASTE CONTENTS HERE",
+            'doc_gdp_create' => "$server_gdp",
+            'doc_gdp_publish' => "$server_gdp",
+            'doc_gdp_expires' => "$exp",
+            'doc_show' => '1',
+            'doc_tag' => "$doc_tag",
+            'doc_title' => '',
+            'doc_desc' => '',
+        ]);        
+        return u::resp(1, ['doc_id'=>$doc_id]);
+    }
     function saveDivDoc(Request $req){
         $doc_id = $req->input('doc_id');
         $doc_content = $req->input('doc_content');
