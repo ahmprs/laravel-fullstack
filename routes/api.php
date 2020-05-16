@@ -81,6 +81,15 @@ Route::get('/get-div-doc', 'AppController@getDivDoc');
 Route::post('/delete-div-doc', 'AppController@deleteDivDoc');
 Route::get('/delete-div-doc', 'AppController@deleteDivDoc');
 
+Route::post('/new-plugin', 'AppController@newPlugin');
+Route::get('/new-plugin', 'AppController@newPlugin');
+
+Route::post('/get-plugin', 'AppController@getPlugin');
+Route::get('/get-plugin', 'AppController@getPlugin');
+
+Route::post('/save-plugin', 'AppController@savePlugin');
+Route::get('/save-plugin', 'AppController@savePlugin');
+
 
 Route::get('/test', function(){
     return u::resp(1, u::getRootDir());

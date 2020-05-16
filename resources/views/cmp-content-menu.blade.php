@@ -9,6 +9,7 @@
 
     <div id="{{{$id}}}_div_menu_items" class="d-none dark round p-1 mb-1">
         <button id="{{{$id}}}_btn_new_div_doc" class="btn btn-primary">New Div Document</button>
+        <button id="{{{$id}}}_btn_new_plugin" class="btn btn-primary">New Plugin</button>
     </div>
 </div>
 

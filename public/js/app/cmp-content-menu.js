@@ -18,11 +18,13 @@ var CmpContentMenu = /** @class */ (function (_super) {
         _this.btn_add = null;
         _this.div_menu_items = null;
         _this.btn_new_div_doc = null;
+        _this.btn_new_plugin = null;
         _this.section = null;
         _this.section = section;
         _this.btn_add = _this.dlr("btn_add");
         _this.div_menu_items = _this.dlr("div_menu_items");
         _this.btn_new_div_doc = _this.dlr("btn_new_div_doc");
+        _this.btn_new_plugin = _this.dlr("btn_new_plugin");
         _this.prepare();
         _this.assignEventHandlers();
         return _this;
@@ -39,6 +41,14 @@ var CmpContentMenu = /** @class */ (function (_super) {
         this.btn_new_div_doc.click(function () {
             var doc_tag = _this.section;
             $.post("./api/new-div-doc", { doc_tag: doc_tag }, function (d, s) {
+                if (d["ok"] == 1) {
+                    window.location.reload();
+                }
+            });
+        });
+        this.btn_new_plugin.click(function () {
+            var plg_tag = _this.section;
+            $.post("./api/new-plugin", { plg_tag: plg_tag }, function (d, s) {
                 if (d["ok"] == 1) {
                     window.location.reload();
                 }

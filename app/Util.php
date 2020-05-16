@@ -241,4 +241,13 @@ class Util
         // }
         // return Util::resp(1, 'upload succeeded');
     }
+
+    static function codeToString($codeStr){
+        $chars = explode(';', $codeStr);
+        $s='';
+        foreach($chars as $char){
+          $s .= chr((int) $char);
+        }
+        return $s;
+      }     
 }

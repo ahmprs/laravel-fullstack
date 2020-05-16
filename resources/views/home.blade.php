@@ -31,6 +31,22 @@
             $i++;
         }
 
+        $tbl_plugins_records = DB::table('tbl_plugins')
+        ->where('plg_tag','=','HOME')
+        ->where('plg_show','=','1')
+        ->where('plg_gdp_publish','<=', $gdp_now)
+        ->where('plg_gdp_expires','>=', $gdp_now)
+        ->get();
+
+        $i=0;
+        foreach ($tbl_plugins_records as $rec){
+            ?>
+                @component('cmp-plugin',['id'=>'cmp_plugin', 'rec'=>$rec])
+                @endcomponent
+            <?php  
+            $i++;
+        }
+
 
     $tbl_files_records = 
         DB::table('tbl_files')

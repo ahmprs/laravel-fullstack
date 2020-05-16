@@ -11,6 +11,157 @@ USE App\calendar;
 
 class AppController extends Controller
 {
+    function upload(Request $req){
+
+        $callback = $req->input('callback');
+
+        $upload_max_allowed_file_size_bytes = 5000000;
+        // = Settings::get('upload_max_allowed_file_size_bytes');
+        
+        $arr_allowed_formats=["pdf","pdff"];
+        // = Settings::get('upload_allowed_formats');
+        
+        $user_id = Session::get('user_id','');
+        if ($user_id == '') {
+            // return u::resp(0, [
+            //     'err' => 'access denied',
+            //     'hint' => 'please login first',
+            // ]);
+
+            header("Location: $callback?upload_state=0&err=1");
+            exit;
+
+        }
+            
+
+        $posts_dir =  u::getRootDir();//???//storage_path();
+        $posts_dir = realpath("$posts_dir/posts");
+        
+        // return u::resp(0, $posts_dir);
+
+        if(!is_dir($posts_dir)) {
+            mkdir($posts_dir, 0755, true);
+        }
+
+        if(!is_dir($posts_dir)) {
+            // return u::resp(0, [
+            //     'err'=>'posts directory does not exist, and cannot be created'
+            // ]);
+            header("Location: $callback?upload_state=0&err=2");
+            exit;
+        }
+
+        
+        $target_dir = $posts_dir;
+        
+        
+        $cal = new Calendar();
+        $gdp = $cal->getServerGdp();
+        
+
+        
+        $file_uploaded_basic_name = basename($_FILES["fileToUpload"]["name"]);
+        $target_file = "$target_dir\\$file_uploaded_basic_name";
+        $file_extension = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $file_extension = strtolower($file_extension);
+        if($file_extension=="pdf"){$file_extension="pdff";}
+        $stamp = $cal->getStamp();
+        $fnn = "$stamp.$file_extension";
+        $file_new_name = "$target_dir\\$fnn";
+        $file_tmp_name = $_FILES["fileToUpload"]["tmp_name"];
+        
+
+
+        // IMAGE CHECK SIZE
+        // if (isset($_POST["submit"])) {
+        //     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+        //     if ($check !== false) {
+        //         // echo "File is an image - " . $check["mime"] . ".";
+        //         $uploadOk = 1;
+        //     } else {
+        //         $err_msg = "File is not an image.";
+        //         $uploadOk = 0;
+        //     }
+        // }
+
+        // checks if file already exists
+        if (file_exists($file_new_name)) {
+            // return u::resp(0, [
+            //     'err' => 'file already exists',
+            //     'hint' => 'try again in a few seconds',
+            // ]);
+            header("Location: $callback?upload_state=0&err=3");
+            exit;
+        }
+
+        // check file size
+        $file_size_bytes = $_FILES["fileToUpload"]["size"];
+        if ($file_size_bytes > $upload_max_allowed_file_size_bytes) {
+            // return u::resp(0, [
+            //     'err' => 'file is too large',
+            //     'file_size_bytes' => $file_size_bytes,
+            //     'ttt' => $_FILES["fileToUpload"]["name"],
+            // ]);
+            header("Location: $callback?upload_state=0&err=4");
+            exit;
+        }
+
+        // check file extension
+        if (!in_array($file_extension, $arr_allowed_formats)) {
+            // return u::resp(0, [
+            //     'err' => 'extension not allowed',
+            //     'extension' => $file_extension,
+            //     'allowed_formats' => $arr_allowed_formats,
+            //     'file_uploaded_basic_name' => $file_uploaded_basic_name,
+            // ]);
+            header("Location: $callback?upload_state=0&err=5");
+            exit;
+        }
+
+        // move temp file to destination
+        if (move_uploaded_file($file_tmp_name, $file_new_name)) {
+
+            DB::table('tbl_files')->insert([
+                'file_id'=>null,
+                'user_id'=>$user_id,
+                'file_org_name'=>$file_uploaded_basic_name,
+                'file_new_name'=>$fnn,
+                'file_size_bytes'=>$file_size_bytes,
+                'file_target_dir'=>$target_dir,
+                'file_extension'=>$file_extension,
+                'file_gdp_create'=>$gdp,
+                'file_gdp_publish'=>$gdp,
+                'file_gdp_expires'=>$gdp + 90,
+                'file_show'=>1,
+                'file_tag'=>'',
+                'file_title'=>'',
+                'file_desc'=>'',
+            ]); 
+            
+            header("Location: $callback?upload_state=1&err=0");
+            exit;
+            // return u::resp(1, [
+            //     'ok' => 'success',
+            //     'file_uploaded_basic_name' => $file_uploaded_basic_name,
+            //     'file_tmp_name' => $file_tmp_name,
+            //     'file_new_name' => $fnn,
+            //     'file_extension' => $file_extension,
+            //     'file_size_bytes' => $file_size_bytes,
+            //     'target_dir' => $target_dir,
+            //     'allowed_formats' => $arr_allowed_formats,
+            // ]);
+        } else {
+            header("Location: $callback?upload_state=0&err=6");
+            exit;
+
+            // u::resp(0, [
+            //     'err' => 'file copy to destination folder failed.',
+            //     'file_tmp_name' => $file_tmp_name,
+            //     'file_new_name' => $file_new_name,
+            // ]);
+        }
+    }
+
     function sayHello(Request $req){
         return u::resp(1, 'Hello with hope!');
     }
@@ -306,12 +457,15 @@ class AppController extends Controller
             'doc_content'=>$records[0]->doc_content
         ]);
     }
+
+
     function deleteDivDoc(Request $req){
         $doc_id = $req->input('doc_id');
         $affected = DB::table('tbl_div_docs')->where('doc_id','=',"$doc_id")->delete();
         if($affected>0) return u::resp(1, 'removed');
         else return  u::resp(1, 'delete failed');
     }
+
     function newDivDoc(Request $req){
         $cal = new Calendar();
         $user_id = Session::get('user_id','');
@@ -387,154 +541,105 @@ class AppController extends Controller
     }
 
 
-    function upload(Request $req){
-
-        $callback = $req->input('callback');
-
-        $upload_max_allowed_file_size_bytes = 5000000;
-        // = Settings::get('upload_max_allowed_file_size_bytes');
-        
-        $arr_allowed_formats=["pdf","pdff"];
-        // = Settings::get('upload_allowed_formats');
-        
-        $user_id = Session::get('user_id','');
-        if ($user_id == '') {
-            // return u::resp(0, [
-            //     'err' => 'access denied',
-            //     'hint' => 'please login first',
-            // ]);
-
-            header("Location: $callback?upload_state=0&err=1");
-            exit;
-
-        }
-            
-
-        $posts_dir =  u::getRootDir();//???//storage_path();
-        $posts_dir = realpath("$posts_dir/posts");
-        
-        // return u::resp(0, $posts_dir);
-
-        if(!is_dir($posts_dir)) {
-            mkdir($posts_dir, 0755, true);
-        }
-
-        if(!is_dir($posts_dir)) {
-            // return u::resp(0, [
-            //     'err'=>'posts directory does not exist, and cannot be created'
-            // ]);
-            header("Location: $callback?upload_state=0&err=2");
-            exit;
-        }
-
-        
-        $target_dir = $posts_dir;
-        
-        
+    function newPlugin(Request $req){
         $cal = new Calendar();
-        $gdp = $cal->getServerGdp();
-        
+        $user_id = Session::get('user_id','');
+        if($user_id == '') $user_id = 0;
+        $server_gdp = $cal->getServerGdp();
+        $exp=$server_gdp + 30;
 
-        
-        $file_uploaded_basic_name = basename($_FILES["fileToUpload"]["name"]);
-        $target_file = "$target_dir\\$file_uploaded_basic_name";
-        $file_extension = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-        $file_extension = strtolower($file_extension);
-        if($file_extension=="pdf"){$file_extension="pdff";}
-        $stamp = $cal->getStamp();
-        $fnn = "$stamp.$file_extension";
-        $file_new_name = "$target_dir\\$fnn";
-        $file_tmp_name = $_FILES["fileToUpload"]["tmp_name"];
-        
+        // section on which doc shall be shown
+        $plg_tag = $req->input('plg_tag');
 
-
-        // IMAGE CHECK SIZE
-        // if (isset($_POST["submit"])) {
-        //     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-        //     if ($check !== false) {
-        //         // echo "File is an image - " . $check["mime"] . ".";
-        //         $uploadOk = 1;
-        //     } else {
-        //         $err_msg = "File is not an image.";
-        //         $uploadOk = 0;
-        //     }
-        // }
-
-        // checks if file already exists
-        if (file_exists($file_new_name)) {
-            // return u::resp(0, [
-            //     'err' => 'file already exists',
-            //     'hint' => 'try again in a few seconds',
-            // ]);
-            header("Location: $callback?upload_state=0&err=3");
-            exit;
-        }
-
-        // check file size
-        $file_size_bytes = $_FILES["fileToUpload"]["size"];
-        if ($file_size_bytes > $upload_max_allowed_file_size_bytes) {
-            // return u::resp(0, [
-            //     'err' => 'file is too large',
-            //     'file_size_bytes' => $file_size_bytes,
-            //     'ttt' => $_FILES["fileToUpload"]["name"],
-            // ]);
-            header("Location: $callback?upload_state=0&err=4");
-            exit;
-        }
-
-        // check file extension
-        if (!in_array($file_extension, $arr_allowed_formats)) {
-            // return u::resp(0, [
-            //     'err' => 'extension not allowed',
-            //     'extension' => $file_extension,
-            //     'allowed_formats' => $arr_allowed_formats,
-            //     'file_uploaded_basic_name' => $file_uploaded_basic_name,
-            // ]);
-            header("Location: $callback?upload_state=0&err=5");
-            exit;
-        }
-
-        // move temp file to destination
-        if (move_uploaded_file($file_tmp_name, $file_new_name)) {
-
-            DB::table('tbl_files')->insert([
-                'file_id'=>null,
-                'user_id'=>$user_id,
-                'file_org_name'=>$file_uploaded_basic_name,
-                'file_new_name'=>$fnn,
-                'file_size_bytes'=>$file_size_bytes,
-                'file_target_dir'=>$target_dir,
-                'file_extension'=>$file_extension,
-                'file_gdp_create'=>$gdp,
-                'file_gdp_publish'=>$gdp,
-                'file_gdp_expires'=>$gdp + 90,
-                'file_show'=>1,
-                'file_tag'=>'',
-                'file_title'=>'',
-                'file_desc'=>'',
-            ]); 
-            
-            header("Location: $callback?upload_state=1&err=0");
-            exit;
-            // return u::resp(1, [
-            //     'ok' => 'success',
-            //     'file_uploaded_basic_name' => $file_uploaded_basic_name,
-            //     'file_tmp_name' => $file_tmp_name,
-            //     'file_new_name' => $fnn,
-            //     'file_extension' => $file_extension,
-            //     'file_size_bytes' => $file_size_bytes,
-            //     'target_dir' => $target_dir,
-            //     'allowed_formats' => $arr_allowed_formats,
-            // ]);
-        } else {
-            header("Location: $callback?upload_state=0&err=6");
-            exit;
-
-            // u::resp(0, [
-            //     'err' => 'file copy to destination folder failed.',
-            //     'file_tmp_name' => $file_tmp_name,
-            //     'file_new_name' => $file_new_name,
-            // ]);
-        }
+        $doc_id = DB::table('tbl_plugins')->insertGetId([
+            'plg_id' => null,
+            'user_id' => "$user_id",
+            'plg_js_code' => "// JS CODE HERE",
+            'plg_ts_code' => "// TS CODE HERE",
+            'plg_js_plain' => "// JS PLAIN CODE",
+            'plg_gdp_create' => "$server_gdp",
+            'plg_gdp_publish' => "$server_gdp",
+            'plg_gdp_expires' => "$exp",
+            'plg_show' => '1',
+            'plg_tag' => "$plg_tag",
+            'plg_title' => '',
+            'plg_desc' => '',
+        ]);        
+        return u::resp(1, ['plg_id'=>$doc_id]);
     }
+
+    function getPlugin(Request $req){
+        $plg_id = $req->input('plg_id');
+        $records = DB::table('tbl_plugins')->where('plg_id','=',"$plg_id")->get();
+        if(count($records)==0) return u::resp(0,'');
+        else return u::resp(1, [
+            'plg_js_code'=>$records[0]->plg_js_code,
+            'plg_ts_code'=>$records[0]->plg_ts_code,
+            'plg_js_plain'=>$records[0]->plg_js_plain,
+        ]);
+    }
+
+    function deletePlugin(Request $req){
+        $plg_id = $req->input('plg_id');
+        $affected = DB::table('tbl_plugins')->where('plg_id','=',"$plg_id")->delete();
+        if($affected>0) return u::resp(1, 'removed');
+        else return  u::resp(1, 'delete failed');
+    }
+
+    function savePlugin(Request $req){
+        $plg_id = $req->input('plg_id');
+        $plg_js_code = $req->input('plg_js_code');
+        $plg_ts_code = $req->input('plg_ts_code');
+        $plg_js_plain = $req->input('plg_js_plain');
+        $user_id = Session::get('user_id','');
+        if($user_id == '') $user_id = 0;
+
+        $plg_show = $req->input('plg_show');
+        $plg_tag = $req->input('plg_tag');/* SECTION */
+        $plg_gdp_publish = $req->input('plg_gdp_publish');
+        $plg_gdp_expires = $req->input('plg_gdp_expires');
+
+        // TODO:
+        // set gdp
+
+        if($plg_id == ''){
+            $cal = new Calendar();
+            $server_gdp = $cal->getServerGdp();
+
+            $plg_id = DB::table('tbl_plugins')->insertGetId([
+                'plg_id' => null,
+                'user_id' => "$user_id",
+                'plg_js_code' => "$plg_js_code",
+                'plg_ts_code' => "$plg_ts_code",
+                'plg_js_plain' => "$plg_js_plain",
+                'plg_gdp_create' => "$server_gdp",
+                'plg_gdp_publish' => "$server_gdp",
+                'plg_gdp_expires' => "$server_gdp",
+                'plg_show' => '0',
+                'plg_tag' => 'HOME',
+                'plg_title' => '',
+                'plg_desc' => '',
+            ]);        
+            return u::resp(1, ['plg_id'=>$plg_id]);
+        }
+        else
+        {
+            $affected = DB::table('tbl_plugins')->where('plg_id','=',"$plg_id")->update(
+                [
+                    'user_id' => "$user_id",
+                    'plg_js_code' => "$plg_js_code",
+                    'plg_ts_code' => "$plg_ts_code",
+                    'plg_js_plain' => "$plg_js_plain",
+                    'plg_gdp_publish' => "$plg_gdp_publish",
+                    'plg_gdp_expires' => "$plg_gdp_expires",
+                    'plg_show' => "$plg_show",
+                    'plg_tag' => "$plg_tag",
+                    'plg_title' => '',
+                    'plg_desc' => '',
+                ]);
+            if($affected > 0) return u::resp(1, 'save plugin succeeded');
+        }
+        return u::resp(0, 'save plugin failed');
+    }
+
 }

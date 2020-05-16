@@ -34,6 +34,7 @@ return array(
     'App\\Util' => $baseDir . '/app/Util.php',
     'App\\tbl_div_doc' => $baseDir . '/app/tbl_div_doc.php',
     'App\\tbl_files' => $baseDir . '/app/tbl_files.php',
+    'App\\tbl_plugins' => $baseDir . '/app/tbl_plugins.php',
     'App\\tbl_settings' => $baseDir . '/app/tbl_settings.php',
     'App\\tbl_users' => $baseDir . '/app/tbl_users.php',
     'BeyondCode\\DumpServer\\DumpServerCommand' => $vendorDir . '/beyondcode/laravel-dump-server/src/DumpServerCommand.php',
@@ -3716,6 +3717,7 @@ return array(
     'phpDocumentor\\Reflection\\Types\\This' => $vendorDir . '/phpdocumentor/type-resolver/src/Types/This.php',
     'phpDocumentor\\Reflection\\Types\\Void_' => $vendorDir . '/phpdocumentor/type-resolver/src/Types/Void_.php',
     'seed_tbl_div_docs' => $baseDir . '/database/seeds/seed_tbl_div_docs.php',
+    'seed_tbl_plugins' => $baseDir . '/database/seeds/seed_tbl_plugins.php',
     'seed_tbl_settings' => $baseDir . '/database/seeds/seed_tbl_settings.php',
     'seed_tbl_users' => $baseDir . '/database/seeds/seed_tbl_users.php',
 );

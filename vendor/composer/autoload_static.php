@@ -415,6 +415,7 @@ class ComposerStaticInitf305f811f59eb19befc3c0570529b247
         'App\\Util' => __DIR__ . '/../..' . '/app/Util.php',
         'App\\tbl_div_doc' => __DIR__ . '/../..' . '/app/tbl_div_doc.php',
         'App\\tbl_files' => __DIR__ . '/../..' . '/app/tbl_files.php',
+        'App\\tbl_plugins' => __DIR__ . '/../..' . '/app/tbl_plugins.php',
         'App\\tbl_settings' => __DIR__ . '/../..' . '/app/tbl_settings.php',
         'App\\tbl_users' => __DIR__ . '/../..' . '/app/tbl_users.php',
         'BeyondCode\\DumpServer\\DumpServerCommand' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/DumpServerCommand.php',
@@ -4097,6 +4098,7 @@ class ComposerStaticInitf305f811f59eb19befc3c0570529b247
         'phpDocumentor\\Reflection\\Types\\This' => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src/Types/This.php',
         'phpDocumentor\\Reflection\\Types\\Void_' => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src/Types/Void_.php',
         'seed_tbl_div_docs' => __DIR__ . '/../..' . '/database/seeds/seed_tbl_div_docs.php',
+        'seed_tbl_plugins' => __DIR__ . '/../..' . '/database/seeds/seed_tbl_plugins.php',
         'seed_tbl_settings' => __DIR__ . '/../..' . '/database/seeds/seed_tbl_settings.php',
         'seed_tbl_users' => __DIR__ . '/../..' . '/database/seeds/seed_tbl_users.php',
     );

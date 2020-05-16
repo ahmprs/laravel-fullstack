@@ -3,8 +3,9 @@
 ?>
 
 @if(u::userIsAdmin() == false)
-    <h1>Access Denied</h1>
     <?php 
+        // redirect any user other than admin to home
+        header('location: ./home');
         exit();
     ?>
 @else

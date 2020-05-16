@@ -2,7 +2,9 @@ class CmpContentMenu extends Cmp {
     private btn_add = null;
     private div_menu_items = null;
     private btn_new_div_doc = null;
+    private btn_new_plugin = null;
     private section = null;
+
     public constructor(ownerId, section) {
         super(ownerId);
 
@@ -10,6 +12,7 @@ class CmpContentMenu extends Cmp {
         this.btn_add = this.dlr("btn_add");
         this.div_menu_items = this.dlr("div_menu_items");
         this.btn_new_div_doc = this.dlr("btn_new_div_doc");
+        this.btn_new_plugin = this.dlr("btn_new_plugin");
 
         this.prepare();
 
@@ -29,6 +32,15 @@ class CmpContentMenu extends Cmp {
         this.btn_new_div_doc.click(() => {
             let doc_tag = this.section;
             $.post("./api/new-div-doc", { doc_tag }, (d, s) => {
+                if (d["ok"] == 1) {
+                    window.location.reload();
+                }
+            });
+        });
+
+        this.btn_new_plugin.click(() => {
+            let plg_tag = this.section;
+            $.post("./api/new-plugin", { plg_tag }, (d, s) => {
                 if (d["ok"] == 1) {
                     window.location.reload();
                 }
