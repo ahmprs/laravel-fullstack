@@ -557,6 +557,7 @@ class AppController extends Controller
             'plg_js_code' => "// JS CODE HERE",
             'plg_ts_code' => "// TS CODE HERE",
             'plg_js_plain' => "// JS PLAIN CODE",
+            'plg_cls' => "PLUGIN CLASS",
             'plg_gdp_create' => "$server_gdp",
             'plg_gdp_publish' => "$server_gdp",
             'plg_gdp_expires' => "$exp",
@@ -576,6 +577,7 @@ class AppController extends Controller
             'plg_js_code'=>$records[0]->plg_js_code,
             'plg_ts_code'=>$records[0]->plg_ts_code,
             'plg_js_plain'=>$records[0]->plg_js_plain,
+            'plg_cls'=>$records[0]->plg_cls,
         ]);
     }
 
@@ -591,6 +593,7 @@ class AppController extends Controller
         $plg_js_code = $req->input('plg_js_code');
         $plg_ts_code = $req->input('plg_ts_code');
         $plg_js_plain = $req->input('plg_js_plain');
+        $plg_cls = $req->input('plg_cls');
         $user_id = Session::get('user_id','');
         if($user_id == '') $user_id = 0;
 
@@ -612,6 +615,7 @@ class AppController extends Controller
                 'plg_js_code' => "$plg_js_code",
                 'plg_ts_code' => "$plg_ts_code",
                 'plg_js_plain' => "$plg_js_plain",
+                'plg_cls' => "$plg_cls",
                 'plg_gdp_create' => "$server_gdp",
                 'plg_gdp_publish' => "$server_gdp",
                 'plg_gdp_expires' => "$server_gdp",
@@ -630,6 +634,7 @@ class AppController extends Controller
                     'plg_js_code' => "$plg_js_code",
                     'plg_ts_code' => "$plg_ts_code",
                     'plg_js_plain' => "$plg_js_plain",
+                    'plg_cls' => "$plg_cls",
                     'plg_gdp_publish' => "$plg_gdp_publish",
                     'plg_gdp_expires' => "$plg_gdp_expires",
                     'plg_show' => "$plg_show",

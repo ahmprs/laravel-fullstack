@@ -24,6 +24,8 @@ class CmpPlugin extends Cmp {
     private plg_js_code = null;
     private plg_ts_code = null;
 
+    private txt_cls = null;
+
     constructor(ownerId, plgId) {
         super(ownerId);
 
@@ -49,6 +51,8 @@ class CmpPlugin extends Cmp {
         this.cmb_publish = this.dlr("cmb_publish");
         this.cmb_section = this.dlr("cmb_section");
 
+        this.txt_cls = this.dlr("txt_cls");
+
         this.prepare();
         this.assignEventHandlers();
     }
@@ -67,6 +71,7 @@ class CmpPlugin extends Cmp {
             let plg_ts_code = this.div_ts_code.html();
 
             let plg_js_plain = this.div_js_code.text();
+            let plg_cls = this.txt_cls.val();
 
             // plg_js_code = /*Globals.strToCode*/ plg_js_code;
             // plg_ts_code = /*Globals.strToCode*/ plg_ts_code;
@@ -90,6 +95,7 @@ class CmpPlugin extends Cmp {
                     plg_js_code,
                     plg_ts_code,
                     plg_js_plain,
+                    plg_cls,
                     plg_show,
                     plg_tag,
                     plg_gdp_publish,

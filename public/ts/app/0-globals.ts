@@ -1,5 +1,6 @@
 class Globals {
     public static arr = [];
+    public static arrPlg = [];
 
     public static strToCode(txt: string): string {
         let n = txt.length;

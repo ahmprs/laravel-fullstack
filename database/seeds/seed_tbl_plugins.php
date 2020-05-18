@@ -14,9 +14,10 @@ class seed_tbl_plugins extends Seeder
         DB::table('tbl_plugins')->insert([
             'plg_id' => null,
             'user_id' => '0',
-            'plg_js_code' => '',
-            'plg_ts_code' => '',
-            'plg_js_plain' => '',
+            'plg_js_code' => 'var test=[]; test["init"] = function(ownerId){console.log("TEST TEMPLATE "+ownerId);}',
+            'plg_ts_code' => 'var test=[]; test["init"] = function(ownerId){console.log("TEST TEMPLATE "+ownerId);}',
+            'plg_js_plain' => 'var test=[]; test["init"] = function(ownerId){console.log("TEST TEMPLATE "+ownerId);}',
+            'plg_cls' => 'test',
             'plg_gdp_create' => '737373',
             'plg_gdp_publish' => '737373',
             'plg_gdp_expires' => '738383',

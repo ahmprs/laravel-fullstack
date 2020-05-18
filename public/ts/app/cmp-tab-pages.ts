@@ -5,8 +5,11 @@ class CmpTabPages extends Cmp {
     private div_page_holder = null;
     private active_page_index = -1;
 
+    private test = null;
+
     constructor(ownerId) {
         super(ownerId);
+        this.test = ownerId;
 
         this.div_buttons = this.dlr("div_buttons");
         let arr = this.div_buttons.children();

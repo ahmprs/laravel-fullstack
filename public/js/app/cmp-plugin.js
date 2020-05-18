@@ -34,6 +34,7 @@ var CmpPlugin = /** @class */ (function (_super) {
         _this.plg_gdp_expires = null;
         _this.plg_js_code = null;
         _this.plg_ts_code = null;
+        _this.txt_cls = null;
         _this.me = $("#" + ownerId);
         _this.plg_id = plgId;
         _this.div_js_code = _this.dlr("div_js_code");
@@ -51,6 +52,7 @@ var CmpPlugin = /** @class */ (function (_super) {
         _this.plg_gdp_expires = _this.dlr("plg_gdp_expires");
         _this.cmb_publish = _this.dlr("cmb_publish");
         _this.cmb_section = _this.dlr("cmb_section");
+        _this.txt_cls = _this.dlr("txt_cls");
         _this.prepare();
         _this.assignEventHandlers();
         return _this;
@@ -67,6 +69,7 @@ var CmpPlugin = /** @class */ (function (_super) {
             var plg_js_code = _this.div_js_code.html();
             var plg_ts_code = _this.div_ts_code.html();
             var plg_js_plain = _this.div_js_code.text();
+            var plg_cls = _this.txt_cls.val();
             // plg_js_code = /*Globals.strToCode*/ plg_js_code;
             // plg_ts_code = /*Globals.strToCode*/ plg_ts_code;
             var plg_show = _this.cmb_publish.prop("selectedIndex");
@@ -78,6 +81,7 @@ var CmpPlugin = /** @class */ (function (_super) {
                 plg_js_code: plg_js_code,
                 plg_ts_code: plg_ts_code,
                 plg_js_plain: plg_js_plain,
+                plg_cls: plg_cls,
                 plg_show: plg_show,
                 plg_tag: plg_tag,
                 plg_gdp_publish: plg_gdp_publish,

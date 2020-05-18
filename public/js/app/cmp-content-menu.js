@@ -36,7 +36,7 @@ var CmpContentMenu = /** @class */ (function (_super) {
     CmpContentMenu.prototype.assignEventHandlers = function () {
         var _this = this;
         this.btn_add.click(function () {
-            _this.div_menu_items.fadeIn();
+            _this.div_menu_items.fadeToggle();
         });
         this.btn_new_div_doc.click(function () {
             var doc_tag = _this.section;

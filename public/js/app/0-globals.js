@@ -19,5 +19,6 @@ var Globals = /** @class */ (function () {
         return s;
     };
     Globals.arr = [];
+    Globals.arrPlg = [];
     return Globals;
 }());

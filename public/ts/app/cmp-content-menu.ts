@@ -26,7 +26,7 @@ class CmpContentMenu extends Cmp {
 
     private assignEventHandlers() {
         this.btn_add.click(() => {
-            this.div_menu_items.fadeIn();
+            this.div_menu_items.fadeToggle();
         });
 
         this.btn_new_div_doc.click(() => {

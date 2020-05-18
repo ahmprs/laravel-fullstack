@@ -10,6 +10,16 @@
 
     <div id="{{{$id}}}_div_page_holder" class="p-3 b-l b-r b-b round-bottom-right round-bottom-left">
         @yield('pages')
+
+        <?php
+            // Just a support for dynamic pages
+            if(isset($arr_pages)){
+                for($i=0;$i<count($arr_pages);$i++){
+                    $p = $arr_pages[$i];
+                    echo($p);
+                }
+            }
+        ?>
     </div>
 
 
