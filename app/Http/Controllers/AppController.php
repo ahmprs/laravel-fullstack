@@ -541,32 +541,25 @@ class AppController extends Controller
     }
 
 
-    function newPlugin(Request $req){
-        $cal = new Calendar();
+    function newPluginUse(Request $req){
         $user_id = Session::get('user_id','');
         if($user_id == '') $user_id = 0;
-        $server_gdp = $cal->getServerGdp();
-        $exp=$server_gdp + 30;
 
-        // section on which doc shall be shown
+        // plg_tag: section on which doc shall be shown
         $plg_tag = $req->input('plg_tag');
-
-        $doc_id = DB::table('tbl_plugins')->insertGetId([
-            'plg_id' => null,
-            'user_id' => "$user_id",
-            'plg_js_code' => "// JS CODE HERE",
-            'plg_ts_code' => "// TS CODE HERE",
-            'plg_js_plain' => "// JS PLAIN CODE",
-            'plg_cls' => "PLUGIN CLASS",
-            'plg_gdp_create' => "$server_gdp",
-            'plg_gdp_publish' => "$server_gdp",
-            'plg_gdp_expires' => "$exp",
-            'plg_show' => '1',
-            'plg_tag' => "$plg_tag",
-            'plg_title' => '',
-            'plg_desc' => '',
+        $cal = new Calendar();
+        $gdp = $cal->getServerGdp();
+        $exp = $gdp + 90;
+        $rec_id = DB::table('tbl_plugin_uses')->insertGetId([
+            'rec_id' => null,
+            'plg_id' => 1,
+            'plg_gdp_create' => $gdp,
+            'plg_gdp_publish' => $gdp,
+            'plg_gdp_expires' => $exp,
+            'plg_show' => 1,
+            'plg_tag' => $plg_tag,
         ]);        
-        return u::resp(1, ['plg_id'=>$doc_id]);
+        return u::resp(1, ['rec_id'=>$rec_id]);
     }
 
     function getPlugin(Request $req){
@@ -588,63 +581,63 @@ class AppController extends Controller
         else return  u::resp(1, 'delete failed');
     }
 
-    function savePlugin(Request $req){
+    function savePluginMeta(Request $req){
+        $rec_id = $req->input('rec_id');
+        $plg_id = $req->input('plg_id');
+        $plg_gdp_publish = $req->input('plg_gdp_publish');
+        $plg_gdp_expires = $req->input('plg_gdp_expires');
+        $plg_show = $req->input('plg_show');
+        $plg_tag = $req->input('plg_tag');
+        
+        $affected = 
+            DB::table('tbl_plugin_uses')
+            ->where('rec_id','=',"$rec_id")
+            ->update([
+                'plg_id'=>$plg_id,
+                'plg_gdp_publish' => "$plg_gdp_publish",
+                'plg_gdp_expires' => "$plg_gdp_expires",
+                'plg_show' => "$plg_show",
+                'plg_tag' => "$plg_tag",
+            ]);
+        if($affected > 0) return u::resp(1, 'save plugin meta succeeded');
+        return u::resp(0, 'save plugin meta failed');
+    }
+
+    function deletePluginMeta(Request $req){
+        $rec_id = $req->input('rec_id');
+        $affected = 
+            DB::table('tbl_plugin_uses')
+            ->where('rec_id','=',"$rec_id")->delete();
+
+        if($affected > 0) return u::resp(1, 'save plugin meta succeeded');
+        return u::resp(0, 'save plugin meta failed');
+    }
+
+
+    function savePluginCode(Request $req){
         $plg_id = $req->input('plg_id');
         $plg_js_code = $req->input('plg_js_code');
         $plg_ts_code = $req->input('plg_ts_code');
         $plg_js_plain = $req->input('plg_js_plain');
         $plg_cls = $req->input('plg_cls');
-        $user_id = Session::get('user_id','');
-        if($user_id == '') $user_id = 0;
-
-        $plg_show = $req->input('plg_show');
-        $plg_tag = $req->input('plg_tag');/* SECTION */
-        $plg_gdp_publish = $req->input('plg_gdp_publish');
-        $plg_gdp_expires = $req->input('plg_gdp_expires');
-
-        // TODO:
-        // set gdp
-
-        if($plg_id == ''){
-            $cal = new Calendar();
-            $server_gdp = $cal->getServerGdp();
-
-            $plg_id = DB::table('tbl_plugins')->insertGetId([
-                'plg_id' => null,
-                'user_id' => "$user_id",
+        $affected = DB::table('tbl_plugins')->where('plg_id','=',"$plg_id")->update(
+            [
                 'plg_js_code' => "$plg_js_code",
                 'plg_ts_code' => "$plg_ts_code",
                 'plg_js_plain' => "$plg_js_plain",
                 'plg_cls' => "$plg_cls",
-                'plg_gdp_create' => "$server_gdp",
-                'plg_gdp_publish' => "$server_gdp",
-                'plg_gdp_expires' => "$server_gdp",
-                'plg_show' => '0',
-                'plg_tag' => 'HOME',
                 'plg_title' => '',
                 'plg_desc' => '',
-            ]);        
-            return u::resp(1, ['plg_id'=>$plg_id]);
-        }
-        else
-        {
-            $affected = DB::table('tbl_plugins')->where('plg_id','=',"$plg_id")->update(
-                [
-                    'user_id' => "$user_id",
-                    'plg_js_code' => "$plg_js_code",
-                    'plg_ts_code' => "$plg_ts_code",
-                    'plg_js_plain' => "$plg_js_plain",
-                    'plg_cls' => "$plg_cls",
-                    'plg_gdp_publish' => "$plg_gdp_publish",
-                    'plg_gdp_expires' => "$plg_gdp_expires",
-                    'plg_show' => "$plg_show",
-                    'plg_tag' => "$plg_tag",
-                    'plg_title' => '',
-                    'plg_desc' => '',
-                ]);
-            if($affected > 0) return u::resp(1, 'save plugin succeeded');
-        }
-        return u::resp(0, 'save plugin failed');
+            ]);
+        if($affected > 0) return u::resp(1, 'save plugin code succeeded');
+        return u::resp(0, 'save plugin code failed');
+    }
+
+    function deletePluginCode(Request $req){
+        $plg_id = $req->input('plg_id');
+        $affected = DB::table('tbl_plugins')->where('plg_id','=',"$plg_id")->delete();
+        if($affected > 0) return u::resp(1, 'delete plugin code succeeded');
+        return u::resp(0, 'delete plugin code failed');
     }
 
 }

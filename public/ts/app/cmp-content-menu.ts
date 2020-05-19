@@ -40,7 +40,7 @@ class CmpContentMenu extends Cmp {
 
         this.btn_new_plugin.click(() => {
             let plg_tag = this.section;
-            $.post("./api/new-plugin", { plg_tag }, (d, s) => {
+            $.post("./api/new-plugin-use", { plg_tag }, (d, s) => {
                 if (d["ok"] == 1) {
                     window.location.reload();
                 }

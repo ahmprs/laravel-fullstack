@@ -38,7 +38,7 @@
         ?>    
         <hr>
         <?php
-            $records = 
+            $tbl_files_records = 
                 DB::table('tbl_files')
                     ->select(
                         'file_id', 
@@ -52,28 +52,33 @@
                         'file_desc'
                     )
                     ->get();
-
             $tbl_div_docs_records=DB::table('tbl_div_docs')->get();
+        ?>
+
+        <?php
+        
+        $tbl_plugin_records = DB::table('tbl_plugins')->get();
         ?>
 
     <!-- TAB PAGES HERE -->
         @component('cmp-tab-pages', [
             'id'=>'cmp_tab_pages',
-            'arr_buttons'=>['Documents', 'Settings', 'Upload Documents', 'DivDocs'],
+            'arr_buttons'=>['Settings', 'Documents', 'Upload Documents', 'DivDocs', 'Plugins'],
         ])
             @section('pages')
+
             <div pin="0" class='d-none'>
-                <h3 class="dark round p-3 center">Available Documents</h3>
-                @component('cmp-files',['records'=>$records, 'calendar'=>$calendar])
-                @slot('id')
-                    cmp_files
-                @endslot
+                <h3 class="dark round p-3 center">Settings</h3>
+                @component('cmp-settings', ['id'=>'cmp_settings'])
                 @endcomponent
             </div>
 
             <div pin="1" class='d-none'>
-                <h3 class="dark round p-3 center">Settings</h3>
-                @component('cmp-settings', ['id'=>'cmp_settings'])
+                <h3 class="dark round p-3 center">Available Documents</h3>
+                @component('cmp-files',['records'=>$tbl_files_records, 'calendar'=>$calendar])
+                @slot('id')
+                    cmp_files
+                @endslot
                 @endcomponent
             </div>
 
@@ -98,6 +103,14 @@
                 @endcomponent
             </div>
 
+            <div pin="4">
+                <?php
+                    for($i=0;$i<count($tbl_plugin_records); $i++){
+                        $rec = $tbl_plugin_records[$i];
+                        echo view('cmp-plugin-code', ['id'=>'cmp_plugin_'.$i, 'rec'=>$rec]);
+                    }
+                ?>
+            </div>
             @stop
         @endcomponent
     <!-- TAB PAGES END -->

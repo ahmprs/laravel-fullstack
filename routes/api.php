@@ -81,14 +81,23 @@ Route::get('/get-div-doc', 'AppController@getDivDoc');
 Route::post('/delete-div-doc', 'AppController@deleteDivDoc');
 Route::get('/delete-div-doc', 'AppController@deleteDivDoc');
 
-Route::post('/new-plugin', 'AppController@newPlugin');
-Route::get('/new-plugin', 'AppController@newPlugin');
+Route::post('/new-plugin-use', 'AppController@newPluginUse');
+Route::get('/new-plugin-use', 'AppController@newPluginUse');
 
 Route::post('/get-plugin', 'AppController@getPlugin');
 Route::get('/get-plugin', 'AppController@getPlugin');
 
-Route::post('/save-plugin', 'AppController@savePlugin');
-Route::get('/save-plugin', 'AppController@savePlugin');
+Route::post('/save-plugin-meta', 'AppController@savePluginMeta');
+Route::get('/save-plugin-meta', 'AppController@savePluginMeta');
+
+Route::post('/delete-plugin-meta', 'AppController@deletePluginMeta');
+Route::get('/delete-plugin-meta', 'AppController@deletePluginMeta');
+
+Route::post('/save-plugin-code', 'AppController@savePluginCode');
+Route::get('/save-plugin-code', 'AppController@savePluginCode');
+
+Route::post('/delete-plugin-code', 'AppController@deletePluginCode');
+Route::get('/delete-plugin-code', 'AppController@deletePluginCode');
 
 
 Route::get('/test', function(){

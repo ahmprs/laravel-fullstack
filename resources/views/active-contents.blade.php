@@ -35,11 +35,13 @@
     }
 
     // Fetch plugins
-    $tbl_plugins_records = DB::table('tbl_plugins')
+    $tbl_plugins_records = DB::table('tbl_plugin_uses')
+        ->join('tbl_plugins','tbl_plugin_uses.plg_id','=','tbl_plugins.plg_id')
         ->where('plg_tag','=', $sec)
         ->where('plg_show','=','1')
         ->where('plg_gdp_publish','<=', $gdp_now)
         ->where('plg_gdp_expires','>=', $gdp_now)
+        ->select('tbl_plugins.*', 'tbl_plugin_uses.rec_id','tbl_plugin_uses.plg_gdp_create','tbl_plugin_uses.plg_gdp_publish','tbl_plugin_uses.plg_gdp_expires','tbl_plugin_uses.plg_show','plg_tag')
         ->get();
 
     // Present plugins 

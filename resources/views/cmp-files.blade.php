@@ -12,6 +12,3 @@
     } 
 ?>
 </div>
-<script>
-    CmpFiles.init("{{$id}}","{{$cnt}}");
-</script>

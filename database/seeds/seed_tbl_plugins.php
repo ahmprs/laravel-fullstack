@@ -14,15 +14,21 @@ class seed_tbl_plugins extends Seeder
         DB::table('tbl_plugins')->insert([
             'plg_id' => null,
             'user_id' => '0',
-            'plg_js_code' => 'var test=[]; test["init"] = function(ownerId){console.log("TEST TEMPLATE "+ownerId);}',
-            'plg_ts_code' => 'var test=[]; test["init"] = function(ownerId){console.log("TEST TEMPLATE "+ownerId);}',
-            'plg_js_plain' => 'var test=[]; test["init"] = function(ownerId){console.log("TEST TEMPLATE "+ownerId);}',
-            'plg_cls' => 'test',
-            'plg_gdp_create' => '737373',
-            'plg_gdp_publish' => '737373',
-            'plg_gdp_expires' => '738383',
-            'plg_show' => '1',
-            'plg_tag' => 'HOME',
+            'plg_js_code' => 'var test1=[]; test1["init"] = function(ownerId){console.log("TEST1 TEMPLATE "+ownerId);};',
+            'plg_ts_code' => 'var test1=[]; test1["init"] = function(ownerId){console.log("TEST1 TEMPLATE "+ownerId);};',
+            'plg_js_plain' => 'var test1=[]; test1["init"] = function(ownerId){console.log("TEST1 TEMPLATE "+ownerId);};',
+            'plg_cls' => 'test1',
+            'plg_title' => 'TITLE',
+            'plg_desc' => '',
+        ]);        
+
+        DB::table('tbl_plugins')->insert([
+            'plg_id' => null,
+            'user_id' => '0',
+            'plg_js_code' => 'var test2=[]; test2["init"] = function(ownerId){console.log("TEST2 TEMPLATE "+ownerId);};',
+            'plg_ts_code' => 'var test2=[]; test2["init"] = function(ownerId){console.log("TEST2 TEMPLATE "+ownerId);};',
+            'plg_js_plain' => 'var test2=[]; test2["init"] = function(ownerId){console.log("TEST2 TEMPLATE "+ownerId);};',
+            'plg_cls' => 'test2',
             'plg_title' => 'TITLE',
             'plg_desc' => '',
         ]);        
