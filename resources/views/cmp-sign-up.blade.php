@@ -21,7 +21,7 @@
                         document.location.href = root_url + "/sign-up";
                     }
                     else {
-                        debugger;
+                        
                         var div_err = $('#{{$id}}_div_err');
                         div_err.html('LOGIN FAILED');
                         div_err.removeClass('d-none');

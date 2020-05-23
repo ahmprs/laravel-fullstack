@@ -16,6 +16,12 @@ class Util
         else return false;
     }
 
+    static function userIsLoggedIn(){
+        $user_id = Session::get('user_id', '');
+        if($user_id == '') return false;
+        else return true;
+    }
+
     static function diff($strA, $strB)
     {
         // swap $strA and $strB if needed

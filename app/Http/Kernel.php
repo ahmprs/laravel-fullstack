@@ -63,7 +63,8 @@ class Kernel extends HttpKernel
 
 
         'requires-logged-in'=>\App\Http\Middleware\RequiresLoggedIn::class,
-        'requires-being-admin'=>\App\Http\Middleware\RequiresBeingAdmin::class,
+        'requires-being-admin'=>\App\Http\Middleware\RequitesBeingAdmin::class,
+        'only-admin'=>\App\Http\Middleware\OnlyAdmin::class
     ];
 
     /**

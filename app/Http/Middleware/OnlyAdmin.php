@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Middleware;
-use Session;
-use App\Util as u;
 use Closure;
+use App\Util as u;
 
-class RequiresLoggedIn
+class OnlyAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,15 +15,10 @@ class RequiresLoggedIn
      */
     public function handle($request, Closure $next)
     {
-        $user_id = Session::get('user_id','');
-        if ($user_id==''){
-            return au::resp(0,[
-                'err'=>'user is not logged in',
-                'hint'=>'please login first',
-            ]);
+        if(!u::userIsAdmin())
+        {
+            return response(view('access-denied',['page_title'=>'Access Denied', 'root_url'=>'']));
         }
-
         return $next($request);
-        
     }
 }

@@ -31,6 +31,7 @@
                             case "4": echo ("<h4 class='alert alert-warning'>file is too large</h4>");break;
                             case "5": echo ("<h4 class='alert alert-warning'>file extension not allowed</h4>");break;
                             case "6": echo ("<h4 class='alert alert-warning'>file copy failed</h4>");break;
+                            case "7": echo ("<h4 class='alert alert-warning'>database insertion failed</h4>");break;
                         }
                     }
                 }

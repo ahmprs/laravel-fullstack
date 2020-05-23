@@ -10,8 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
  */
+ use Illuminate\Http\Request;
  use App\Util as u;
- use App\calendar;
+ use App\Calendar;
 
 Route::get('/home', function () {
     return view('home', [
@@ -28,12 +29,14 @@ Route::get('/admin-area', function () {
         'calendar'=> new Calendar(),
         'calendar_class'=>Calendar::class,
         ]);
-});
+})->middleware('only-admin');
+
 
 Route::get('/', function () {
+    $cl = new Calendar();
     return view('home', [
         'root_url'=> u::getRootUrl(),
-        'calendar'=> new Calendar(),
+        'calendar'=> $cl,
     ]);
 });
 
@@ -92,5 +95,39 @@ Route::get('/captcha', function () {
 
 Route::get('/test', function () {
     // return u::resp(1,1);
-    return view('test', ['root_url'=> u::getRootUrl()]);
+    return view('test');
+})->middleware('only-admin');
+
+Route::get('/cmd', function(Request $req) {
+    $inp = $req->input('inp','');
+    if($inp=='') return u::resp(0,[
+        'err'=>'missing inp (input command)',
+        'reset database'=>'/cmd?inp=migrate:fresh --seed',
+        'clear cache'=>'/cmd?inp=cache:clear',
+    ]);
+
+    $output = [];
+
+    try {
+        \Artisan::call($inp, $output);
+    } catch (\Exception $ex) {
+        return u::resp(0, $ex->getMessage());
+    }
+
+    return u::resp(1,[
+        'inp'=>$inp,
+        'output'=>$output
+    ]);
+    // dd($output);
+})->middleware('only-admin');
+
+Route::get('/main-css', function(Request $req) {
+// 1- read main.css file from public folder
+    // public/css/main.css
+    $contents = File::get(storage_path('../public/css/main.css'));
+    $response = Response::make($contents);
+    $response->header('Content-Type', "text/css");
+    return $response;
+    // return u::resp(1,$contents);
+// 2- echo it to output
 });

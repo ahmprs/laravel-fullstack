@@ -10,6 +10,9 @@
             {{$root_url}}
         @endslot
     @endcomponent
+
+    @component('cmp-account-manage',['id'=>'cmp_account_manage'])
+    @endcomponent
 @stop
 
 @section('footer')

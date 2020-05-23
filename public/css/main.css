@@ -209,6 +209,10 @@ body,
     border-bottom-right-radius: 5px;
 }
 
+#website_icon {
+    width: 100px;
+}
+
 @media screen and (max-width: 600px) {
     #div_contents,
     #div_header,
@@ -217,5 +221,20 @@ body,
     #div_header button {
         width: 100%;
         margin-bottom: 5px;
+    }
+
+    #website_icon {
+        width: 60px;
+    }
+
+    * {
+        font-size: 0.9em;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        font-size: 1.2em !important;
     }
 }

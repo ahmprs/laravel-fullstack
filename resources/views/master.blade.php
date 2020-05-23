@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('css/main.css')}}">
+    <link rel="stylesheet" href="{{$root_url}}/main-css">
 
     <script>
       var root_url = "{{$root_url}}";
@@ -51,7 +51,7 @@
   <body onload="init();">
 
 
-    <div id="div_side_bar" style="display:none;" >
+    <div id="div_side_bar" style="display:none; overflow: auto;" >
       <button id="btn_toggle_sidebar_1" class="btn_toggle_sidebar" style="width:100%" onclick="toggleSidebar();">
         <svg class="bi bi-list" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" d="M2.5 11.5A.5.5 0 013 11h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zm0-4A.5.5 0 013 7h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zm0-4A.5.5 0 013 3h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5z" clip-rule="evenodd"></path>
@@ -84,7 +84,7 @@
         </button>
 
         <!-- LOGO -->
-        <img style="width:100px; float:right" src="{{asset('img/alvand-icon.svg')}}" alt="">
+        <img id="website_icon" style="width:65px; float:right" src="{{asset('img/alvand-icon.svg')}}" alt="alvand-softs-logo">
 
         <!-- MSG -->
         <h3 class="d-inline">
@@ -97,31 +97,22 @@
         </h3>
         <br>
 
-
-        <!-- SEARCH COMPONENT -->
-        @component('cmp-search')
-          @slot('id')
-            cmp-search
-          @endslot
-        @endcomponent
-
-        
         <!-- SIGN-UP -->
-        <button class="btn btn-primary" id='btnSignUp' >
+        <!-- <button class="btn btn-primary" id='btnSignUp' >
           <img src="{{asset('img/sign-up-icon.svg')}}" alt="SIGN-UP">
-        </button>
+        </button> -->
 
 
         <!-- LOG-OUT -->
-        <button class="btn btn-secondary" id='btnLog-out' >
+        <!-- <button class="btn btn-secondary" id='btnLog-out' >
           <img src="{{asset('img/log-out-icon.svg')}}" alt="SIGN-OUT">
-        </button>
+        </button> -->
       </div>
 
   <div id='div_body'>
 
     <!-- SEARCH RESULTS -->
-    <div id='div_search_results'></div>
+    <!-- <div id='div_search_results'></div> -->
 
     
     <!-- PAGE CONTENTS -->

@@ -7,7 +7,7 @@ use App\Util as u;
 use Session;
 use DB;
 use App\tbl_users;
-USE App\calendar;
+USE App\Calendar;
 
 class AppController extends Controller
 {
@@ -34,7 +34,7 @@ class AppController extends Controller
         }
             
 
-        $posts_dir =  u::getRootDir();//???//storage_path();
+        $posts_dir =  u::getRootDir();
         $posts_dir = realpath("$posts_dir/posts");
         
         // return u::resp(0, $posts_dir);
@@ -121,7 +121,8 @@ class AppController extends Controller
         // move temp file to destination
         if (move_uploaded_file($file_tmp_name, $file_new_name)) {
 
-            DB::table('tbl_files')->insert([
+            //???
+            $affected = DB::table('tbl_files')->insertGetId([
                 'file_id'=>null,
                 'user_id'=>$user_id,
                 'file_org_name'=>$file_uploaded_basic_name,
@@ -138,6 +139,11 @@ class AppController extends Controller
                 'file_desc'=>'',
             ]); 
             
+            if($affected == 0){
+                header("Location: $callback?upload_state=0&err=7");
+                exit;
+            }
+
             header("Location: $callback?upload_state=1&err=0");
             exit;
             // return u::resp(1, [
@@ -467,6 +473,7 @@ class AppController extends Controller
     }
 
     function newDivDoc(Request $req){
+        
         $cal = new Calendar();
         $user_id = Session::get('user_id','');
         if($user_id == '') $user_id = 0;
@@ -491,6 +498,7 @@ class AppController extends Controller
         return u::resp(1, ['doc_id'=>$doc_id]);
     }
     function saveDivDoc(Request $req){
+
         $doc_id = $req->input('doc_id');
         $doc_content = $req->input('doc_content');
         $user_id = Session::get('user_id','');
@@ -638,6 +646,93 @@ class AppController extends Controller
         $affected = DB::table('tbl_plugins')->where('plg_id','=',"$plg_id")->delete();
         if($affected > 0) return u::resp(1, 'delete plugin code succeeded');
         return u::resp(0, 'delete plugin code failed');
+    }
+
+    function updateUserEmailAddress(Request $req){
+        $user_id = $req->input('user_id');
+        $user_email = $req->input('user_email');
+        $affected = DB::table('tbl_users')->where('user_id', $user_id)->update([
+            'user_email'=>$user_email
+        ]);
+        if($affected > 0) {
+            Session::put('user_email', $user_email);
+            return u::resp(1, 'email updated');
+        }
+        return u::resp(0, 'email update failed');
+    }
+
+    function signInInquiry(Request $req){
+
+        
+        $user_name= $req->get('user_name', '');
+        if($user_name == ''){
+            return u::resp(0,[
+                'err'=>'missing user name',
+                ]);
+            }
+
+
+        $digest_client= $req->get('digest', '');
+        if($digest_client == ''){
+            return u::resp(0,[
+                'err'=>'missing user password digest',
+            ]);
+        }
+
+
+        $u = DB::table('tbl_users')->where('user_name', $user_name)->first();
+        if($u == null){
+            return u::resp(0,[
+                'err'=>'invalid user',
+                'hint'=>'try another user name'
+            ]);
+        }
+
+        $user_pass_hash = $u->user_pass_hash;
+        $login_token = Session::get('login-token', '');
+        $digest_server =  hash('md5', $user_pass_hash.$login_token);
+        $user_id = $u->user_id;
+
+        
+        if($digest_client == $digest_server){
+            $user_pass_hash_new = $req->input('user_pass_hash_new');
+            $affected = 
+                DB::table('tbl_users')
+                ->where('user_id', $user_id)
+                ->update([
+                'user_pass_hash'=>"$user_pass_hash_new"
+            ]);
+
+            if($affected == 1) return u::resp(1,'password changed');
+            else return u::resp(0,'password change failed');
+        }
+        else
+        {
+            return u::resp(0,['err'=>'bad password']);
+        }
+    }
+
+    function getUserComments(Request $req){
+        $arr_recs = DB::table('tbl_comments')->get();
+        return u::resp(1, $arr_recs);
+    }
+
+    function insertNewComment(Request $req){
+        
+        $cmn_text = $req->input('cmn_text', '');
+        if($cmn_text == '') return;
+        $cmn_id = DB::table('tbl_comments')->insertGetId([
+            'cmn_id'=>null,
+            'cmn_topic'=>'',
+            'cmn_text'=>"$cmn_text",
+            'cmn_approved'=>'1'
+        ]);
+
+        if($cmn_id>0) return u::resp(1, [
+            'cmn_id', $cmn_id,
+            'msg'=>'comment added'
+        ]);
+        else return u::resp(0, 'comment insertion failed');
     }
 
 }

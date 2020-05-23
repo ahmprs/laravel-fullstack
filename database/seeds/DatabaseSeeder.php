@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call(seed_tbl_div_docs::class);
         $this->call(seed_tbl_plugins::class);
         $this->call(seed_tbl_plugin_use::class);
+        // $this->call(seed_tbl_comments::class);
     }
 }

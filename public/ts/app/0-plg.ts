@@ -1,6 +1,5 @@
 class Plg {
     public prefix: string = "";
-
     public me = null;
 
     public constructor(ownerId: string) {

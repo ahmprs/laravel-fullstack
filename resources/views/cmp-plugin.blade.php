@@ -18,7 +18,7 @@
 ?>
 
 <!-- PLUGIN DIV -->
-<div id="{{{$id}}}" class="p-1 round dark">
+<div id="{{{$id}}}" class="p-1 round light mb-1">
     @if(u::userIsAdmin())
 
     <!-- APP DIV HERE -->

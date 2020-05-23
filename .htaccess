@@ -1,0 +1,8 @@
+# USE THIS FILE ON TARGET MACHINE. 
+# UNCOMMENT LINES BY REMOVING HASHTAG.
+
+# RewriteEngine on
+# RewriteCond %{HTTP_HOST} ^alvandsofts.com$ [NC,OR]
+# RewriteCond %{HTTP_HOST} ^www.alvandsofts.com$ 
+# RewriteCond %{REQUEST_URI} !folder/
+# RewriteRule (.*) /public/$1 [L]
