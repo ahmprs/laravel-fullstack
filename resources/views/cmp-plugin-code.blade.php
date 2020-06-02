@@ -3,13 +3,14 @@
     use App\Util as u;
 
     $calendar = new Calendar();
-    
+    $csrf_token = csrf_token();
+
     $plg_id = $rec->plg_id;
     $plg_js_code= $rec->plg_js_code;
     $plg_ts_code= $rec->plg_ts_code;
     $plg_js_plain= $rec->plg_js_plain;
     $plg_cls = $rec->plg_cls;
-    $plg_init = $plg_cls.".init('".$id."_div_app'".");";
+    $plg_init = "$plg_cls.init('".$id."_div_app', '$csrf_token');";
     $content_editable="contenteditable";
 ?>
 <div id="{{{$id}}}" class="p-1 round dark">

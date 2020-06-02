@@ -19,6 +19,8 @@ class CmpPlugin extends Cmp {
     private plg_gdp_expires = null;
     private cmb_plugin_cls = null;
 
+    private txt_rank = null;
+
     constructor(ownerId, plgId, recId) {
         super(ownerId);
 
@@ -38,6 +40,8 @@ class CmpPlugin extends Cmp {
         this.plg_gdp_publish = this.dlr("plg_gdp_publish");
         this.plg_gdp_expires = this.dlr("plg_gdp_expires");
         this.cmb_plugin_cls = this.dlr("cmb_plugin_cls");
+
+        this.txt_rank = this.dlr("txt_rank");
 
         this.prepare();
         this.assignEventHandlers();
@@ -60,6 +64,7 @@ class CmpPlugin extends Cmp {
                 "#" + this.plg_gdp_expires.attr("id") + "_txt_date"
             ).attr("gdp");
             let plg_show = this.cmb_publish.prop("selectedIndex");
+            let plg_rank = parseInt(this.txt_rank.val());
             let plg_tag = this.cmb_section.val();
 
             let op = this.cmb_plugin_cls.find("option:selected");
@@ -73,6 +78,7 @@ class CmpPlugin extends Cmp {
                     plg_gdp_publish,
                     plg_gdp_expires,
                     plg_show,
+                    plg_rank,
                     plg_tag,
                 },
                 (d, s) => {

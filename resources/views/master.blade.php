@@ -25,6 +25,12 @@
     <!-- PUTS JAVASCRIPTS -->
     <?php 
         function putJavaScripts(){
+
+          $arr_ignore=[
+            'plg-slide-master.js',
+            'plg-top-menu.js',
+          ];
+
           // $js_dir = realpath ($_SERVER['DOCUMENT_ROOT']."/js/app/");
           $js_dir = realpath (__dir__."/../../../public/js/app/");
             $arr = scandir($js_dir,0);
@@ -34,6 +40,9 @@
                 if(!is_file($fn)) continue;
                 $inf = pathinfo($fn);
                 if (strtolower($inf["extension"]) !='js') continue;
+
+                $bn = basename($fn);
+                if (in_array($bn, $arr_ignore)) continue;
                 $brr[]=$arr[$i];
             }
     
@@ -43,8 +52,11 @@
                 echo("<script src= '$src'></script>");
             }
         }
+        
         putJavaScripts();
     ?>
+    <script src="./top-menu"></script>
+    <script src="./plg-slide-master"></script>
     
     <title>@yield('page_title')</title>
   </head>

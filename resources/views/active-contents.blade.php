@@ -28,11 +28,11 @@
         ->get();
 
     // present each div_doc
-    $i=0;
-    foreach ($tbl_div_docs_records as $rec){
-        echo view ('cmp-doc',['id'=>"cmp_doc_$i", 'rec'=>$rec]);
-        $i++;
-    }
+    // $i=0;
+    // foreach ($tbl_div_docs_records as $rec){
+    //     echo view ('cmp-doc',['id'=>"cmp_doc_$i", 'rec'=>$rec]);
+    //     $i++;
+    // }
 
     // Fetch plugins
     $tbl_plugins_records = DB::table('tbl_plugin_uses')
@@ -41,47 +41,82 @@
         ->where('plg_show','=','1')
         ->where('plg_gdp_publish','<=', $gdp_now)
         ->where('plg_gdp_expires','>=', $gdp_now)
-        ->select('tbl_plugins.*', 'tbl_plugin_uses.rec_id','tbl_plugin_uses.plg_gdp_create','tbl_plugin_uses.plg_gdp_publish','tbl_plugin_uses.plg_gdp_expires','tbl_plugin_uses.plg_show','plg_tag')
+        ->select('tbl_plugins.*', 'tbl_plugin_uses.rec_id','tbl_plugin_uses.plg_gdp_create','tbl_plugin_uses.plg_gdp_publish','tbl_plugin_uses.plg_gdp_expires','tbl_plugin_uses.plg_show', 'tbl_plugin_uses.plg_rank','plg_tag')
         ->get();
 
     // Present plugins 
-    for($i=0;$i<count($tbl_plugins_records); $i++){
-        $rec = $tbl_plugins_records[$i];
-        echo view('cmp-plugin', ['id'=>'cmp_plugin_'.$i, 'rec'=>$rec]);
+    // for($i=0;$i<count($tbl_plugins_records); $i++){
+    //     $rec = $tbl_plugins_records[$i];
+    //     echo view('cmp-plugin', ['id'=>'cmp_plugin_'.$i, 'rec'=>$rec]);
+    // }
+
+
+    // Present active contents
+    $i=0;
+    $j=0;
+    $arr=$tbl_div_docs_records;
+    $brr=$tbl_plugins_records;
+    $m=count($arr);
+    $n=count($brr);
+
+    while($i<$m || $j<$n){
+        $ra = ($i<$m) ? $arr[$i]->doc_rank : -1;
+        $rb = ($j<$n) ? $brr[$j]->plg_rank : -1;
+
+        if($ra==-1){
+            echo view('cmp-plugin', ['id'=>'cmp_plugin_'.$j, 'rec'=>$brr[$j]]);
+            $j++;
+            continue;
+        }
+        if($rb==-1){
+            echo view ('cmp-doc',['id'=>"cmp_doc_$i", 'rec'=>$arr[$i]]);
+            $i++;
+            continue;
+        }
+
+        if($ra < $rb){
+            echo view ('cmp-doc',['id'=>"cmp_doc_$i", 'rec'=>$arr[$i]]);
+            $i++;
+        }
+        else {
+            echo view('cmp-plugin', ['id'=>'cmp_plugin_'.$j, 'rec'=>$brr[$j]]);
+            $j++;
+        }
     }
 
+    // ARTICLES ARE NOT USED IN THIS PROJECT
     // Fetch articles (PDF docs)
-    $tbl_files_records = 
-        DB::table('tbl_files')
-            ->select(
-                'file_id', 
-                'file_org_name', 
-                'file_new_name', 
-                'file_show',
-                'file_gdp_create',
-                'file_gdp_publish',
-                'file_gdp_expires',
-                'file_tag',
-                'file_title',
-                'file_desc'
-            )
-        ->where('file_tag','=', $sec)
-        ->where('file_show','=','1')
-        ->where('file_gdp_publish','<=', $gdp_now)
-        ->where('file_gdp_expires','>=', $gdp_now)
-        ->get();
+    // $tbl_files_records = 
+    //     DB::table('tbl_files')
+    //         ->select(
+    //             'file_id', 
+    //             'file_org_name', 
+    //             'file_new_name', 
+    //             'file_show',
+    //             'file_gdp_create',
+    //             'file_gdp_publish',
+    //             'file_gdp_expires',
+    //             'file_tag',
+    //             'file_title',
+    //             'file_desc'
+    //         )
+    //     ->where('file_tag','=', $sec)
+    //     ->where('file_show','=','1')
+    //     ->where('file_gdp_publish','<=', $gdp_now)
+    //     ->where('file_gdp_expires','>=', $gdp_now)
+    //     ->get();
 
     
-    // Present articles
-    $i=0;
-    foreach ($tbl_files_records as $f){
-        echo view ('cmp-pdf',[
-            'id'=>"cmp_pdf_$i",
-            'root_url'=>$root_url,
-            'file_url'=>"$root_url/posts/$f->file_new_name"
-        ]);
-        $i++;
-    }
+    // // Present articles
+    // $i=0;
+    // foreach ($tbl_files_records as $f){
+    //     echo view ('cmp-pdf',[
+    //         'id'=>"cmp_pdf_$i",
+    //         'root_url'=>$root_url,
+    //         'file_url'=>"$root_url/posts/$f->file_new_name"
+    //     ]);
+    //     $i++;
+    // }
     ?>
 @yield('post_active_content')
 @stop

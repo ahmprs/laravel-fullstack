@@ -6,6 +6,8 @@
     $doc_show = $rec->doc_show;
     $doc_tag = $rec->doc_tag;
     $content_editable='';
+    $rank = $rec->doc_rank;
+
     if(u::userIsAdmin()) $content_editable='contenteditable';
 ?>
 
@@ -36,6 +38,9 @@
                     <option value="YES">YES</option>
                 </select>
                 <br>
+
+                <span>RANK:</span>
+                <input type="number" id="{{{$id}}}_txt_rank" value="{{{$rank}}}" class="form-control col-md-4">
 
                 <span>PUBLISH STARTS AT:</span>
                 @component('cmp-calendar', ['id'=>"{$id}_doc_gdp_publish", 'calendar'=>$calendar, 'base_gdp'=>$rec->doc_gdp_publish])

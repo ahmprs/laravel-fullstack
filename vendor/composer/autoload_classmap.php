@@ -36,6 +36,7 @@ return array(
     'App\\tbl_comments' => $baseDir . '/app/tbl_comments.php',
     'App\\tbl_div_doc' => $baseDir . '/app/tbl_div_doc.php',
     'App\\tbl_files' => $baseDir . '/app/tbl_files.php',
+    'App\\tbl_manager_inbox' => $baseDir . '/app/tbl_manager_inbox.php',
     'App\\tbl_plugin_use' => $baseDir . '/app/tbl_plugin_use.php',
     'App\\tbl_plugins' => $baseDir . '/app/tbl_plugins.php',
     'App\\tbl_settings' => $baseDir . '/app/tbl_settings.php',

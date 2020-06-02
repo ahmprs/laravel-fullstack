@@ -21,6 +21,7 @@ class CreateTblDivDocsTable extends Migration
             $table->double('doc_gdp_publish');
             $table->double('doc_gdp_expires');
             $table->integer('doc_show');
+            $table->integer('doc_rank');
             $table->string('doc_tag', 50);
             $table->string('doc_title', 200);
             $table->string('doc_desc', 200);

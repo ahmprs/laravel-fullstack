@@ -1,6 +1,9 @@
 var Cmp = /** @class */ (function () {
-    function Cmp(ownerId) {
+    function Cmp(ownerId, csrf_token) {
+        if (csrf_token === void 0) { csrf_token = ""; }
         this.prefix = "";
+        this.csrf_token = "";
+        this.csrf_token = csrf_token;
         this.prefix = ownerId + "_";
         // Keep track of each object generated
         Globals.arr[ownerId] = this;

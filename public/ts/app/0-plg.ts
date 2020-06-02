@@ -1,8 +1,10 @@
 class Plg {
     public prefix: string = "";
     public me = null;
+    public csrf_token = "";
 
-    public constructor(ownerId: string) {
+    public constructor(ownerId: string, csrf_token = "") {
+        this.csrf_token = csrf_token;
         this.prefix = ownerId + "_";
         this.me = $("#" + ownerId);
         // Keep track of each object generated
@@ -35,5 +37,15 @@ class Plg {
             element.appendTo(parentElement);
         }
         return element;
+    }
+
+    protected put(elementTagName: string, parentElement = null) {
+        let element = $(document.createElement(elementTagName));
+        if (parentElement == null) {
+            element.appendTo(this.me);
+        } else {
+            element.appendTo(parentElement);
+        }
+        return this;
     }
 }

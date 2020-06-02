@@ -30,6 +30,7 @@ var CmpDoc = /** @class */ (function (_super) {
         _this.cmb_section = null;
         _this.doc_gdp_publish = null;
         _this.doc_gdp_expires = null;
+        _this.txt_rank = null;
         _this.doc_id = docId;
         _this.me = $("#" + ownerId);
         _this.div_doc = _this.dlr("div_doc");
@@ -44,6 +45,7 @@ var CmpDoc = /** @class */ (function (_super) {
         _this.cmb_section = _this.dlr("cmb_section");
         _this.doc_gdp_publish = _this.dlr("doc_gdp_publish");
         _this.doc_gdp_expires = _this.dlr("doc_gdp_expires");
+        _this.txt_rank = _this.dlr("txt_rank");
         _this.prepare();
         _this.assignEventHandlers();
         _this.reloadDocContent();
@@ -94,10 +96,12 @@ var CmpDoc = /** @class */ (function (_super) {
             var doc_gdp_publish = $("#" + _this.doc_gdp_publish.attr("id") + "_txt_date").attr("gdp");
             var doc_gdp_expires = $("#" + _this.doc_gdp_expires.attr("id") + "_txt_date").attr("gdp");
             var doc_tag = _this.cmb_section.val(); /* section */
+            var doc_rank = parseInt(_this.txt_rank.val());
             $.post("./api/save-div-doc", {
                 doc_id: _this.doc_id,
                 doc_content: doc_content,
                 doc_show: doc_show,
+                doc_rank: doc_rank,
                 doc_tag: doc_tag,
                 doc_gdp_publish: doc_gdp_publish,
                 doc_gdp_expires: doc_gdp_expires,

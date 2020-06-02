@@ -18,6 +18,7 @@ class seed_tbl_plugin_use extends Seeder
             'plg_gdp_publish' => "737373",
             'plg_gdp_expires' => "737573",
             'plg_show' => 1,
+            'plg_rank' => 100,
             'plg_tag' => "HOME",
         ]);        
     }

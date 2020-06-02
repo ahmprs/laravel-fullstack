@@ -491,6 +491,7 @@ class AppController extends Controller
             'doc_gdp_publish' => "$server_gdp",
             'doc_gdp_expires' => "$exp",
             'doc_show' => '1',
+            'doc_rank' => '100',
             'doc_tag' => "$doc_tag",
             'doc_title' => '',
             'doc_desc' => '',
@@ -505,7 +506,8 @@ class AppController extends Controller
         if($user_id == '') $user_id = 0;
 
         $doc_show = $req->input('doc_show');
-        $doc_tag = $req->input('doc_tag');/* SECTION */
+        $doc_rank = $req->input('doc_rank');
+        $doc_tag = $req->input('doc_tag'); /* SECTION */
         $doc_gdp_publish = $req->input('doc_gdp_publish');
         $doc_gdp_expires = $req->input('doc_gdp_expires');
 
@@ -524,6 +526,7 @@ class AppController extends Controller
                 'doc_gdp_publish' => "$server_gdp",
                 'doc_gdp_expires' => "$server_gdp",
                 'doc_show' => '0',
+                'doc_rank' => '100',
                 'doc_tag' => 'HOME',
                 'doc_title' => '',
                 'doc_desc' => '',
@@ -539,6 +542,7 @@ class AppController extends Controller
                     'doc_gdp_publish' => "$doc_gdp_publish",
                     'doc_gdp_expires' => "$doc_gdp_expires",
                     'doc_show' => "$doc_show",
+                    'doc_rank' => "$doc_rank",
                     'doc_tag' => "$doc_tag",
                     'doc_title' => '',
                     'doc_desc' => '',
@@ -565,6 +569,7 @@ class AppController extends Controller
             'plg_gdp_publish' => $gdp,
             'plg_gdp_expires' => $exp,
             'plg_show' => 1,
+            'plg_rank' => 100,
             'plg_tag' => $plg_tag,
         ]);        
         return u::resp(1, ['rec_id'=>$rec_id]);
@@ -595,6 +600,7 @@ class AppController extends Controller
         $plg_gdp_publish = $req->input('plg_gdp_publish');
         $plg_gdp_expires = $req->input('plg_gdp_expires');
         $plg_show = $req->input('plg_show');
+        $plg_rank = $req->input('plg_rank','100');
         $plg_tag = $req->input('plg_tag');
         
         $affected = 
@@ -605,6 +611,7 @@ class AppController extends Controller
                 'plg_gdp_publish' => "$plg_gdp_publish",
                 'plg_gdp_expires' => "$plg_gdp_expires",
                 'plg_show' => "$plg_show",
+                'plg_rank' => "$plg_rank",
                 'plg_tag' => "$plg_tag",
             ]);
         if($affected > 0) return u::resp(1, 'save plugin meta succeeded');
@@ -713,8 +720,48 @@ class AppController extends Controller
     }
 
     function getUserComments(Request $req){
-        $arr_recs = DB::table('tbl_comments')->get();
-        return u::resp(1, $arr_recs);
+        $is_admin = u::userIsAdmin();
+
+        if($is_admin){
+            $arr_recs = DB::table('tbl_comments')->get();
+        }else
+        {
+            $arr_recs = DB::table('tbl_comments')
+            ->where('cmn_approved', 1)
+            ->get();
+        }
+
+        return u::resp(1, [
+            'records'=>$arr_recs,
+            'is_admin'=>$is_admin
+        ]);
+    }
+
+    function deleteComment(Request $req){
+        $cmn_id = $req->input('cmn_id','');
+        if($cmn_id=='') return u::resp(0, 'missing cmn_id');
+
+        $affected = DB::table('tbl_comments')
+            ->where('cmn_id', "$cmn_id")
+            ->delete();
+            if($affected>0) return u::resp(1, 'comment removed');
+            else return u::resp(0, 'comment removal failed');
+    }
+
+    function approveComment(Request $req){
+        $cmn_id = $req->input('cmn_id','');
+        $cmn_approved = $req->input('cmn_approved','0');
+
+        if($cmn_id=='') return u::resp(0, 'missing cmn_id');
+
+        $affected = DB::table('tbl_comments')
+            ->where('cmn_id', "$cmn_id")
+            ->update([
+                'cmn_approved'=> "$cmn_approved"
+            ]);
+        
+        $rec = DB::table('tbl_comments')->where('cmn_id', $cmn_id)->first();
+        return u::resp(1, $rec);
     }
 
     function insertNewComment(Request $req){
@@ -725,7 +772,7 @@ class AppController extends Controller
             'cmn_id'=>null,
             'cmn_topic'=>'',
             'cmn_text'=>"$cmn_text",
-            'cmn_approved'=>'1'
+            'cmn_approved'=>'0'
         ]);
 
         if($cmn_id>0) return u::resp(1, [
@@ -735,4 +782,51 @@ class AppController extends Controller
         else return u::resp(0, 'comment insertion failed');
     }
 
+    function newPlugin(Request $req){
+        $records = DB::table('tbl_plugins')->insertGetId([
+            'plg_id' => null,
+            'user_id' => '0',
+            'plg_js_code' => 'var test2=[]; test2["init"] = function(ownerId){console.log("TEST2 TEMPLATE "+ownerId);};',
+            'plg_ts_code' => 'var test2=[]; test2["init"] = function(ownerId){console.log("TEST2 TEMPLATE "+ownerId);};',
+            'plg_js_plain' => 'var test2=[]; test2["init"] = function(ownerId){console.log("TEST2 TEMPLATE "+ownerId);};',
+            'plg_cls' => 'NewPlugin',
+            'plg_title' => '',
+            'plg_desc' => '',
+
+        ]);
+    }
+
+    function getPhone(Request $req){
+        $rec = DB::table('tbl_settings')->where('stg_key', 'phone')->first();
+        return u::resp(1,$rec);
+    }
+
+    function getAddress(Request $req){
+        $rec = DB::table('tbl_settings')->where('stg_key', 'address')->first();
+        return u::resp(1,$rec);
+    }
+
+    function getEmail(Request $req){
+        $rec = DB::table('tbl_settings')->where('stg_key', 'email')->first();
+        return u::resp(1,$rec);
+    }
+
+    function msgToAdmin(Request $req){
+        $mng_sender=$req->input('mng_sender','');
+        $mng_message=$req->input('mng_message','');
+
+        if($mng_sender=="") return u::resp(0,"missing mng_sender");
+        if($mng_message=="") return u::resp(0,"missing mng_message");
+
+        $affected = DB::table('tbl_manager_inboxes')->insert([
+            "mng_id"=>null,
+            "mng_sender"=>$mng_sender,
+            "mng_message"=>$mng_message,
+            "mng_resp"=>'',
+            "mng_dismissed"=>0
+        ]);
+        if ($affected>0) return u::resp(1,'message to admin successfully done.');
+        else return u::resp(0,'message to admin failed');
+    }
+    
 }

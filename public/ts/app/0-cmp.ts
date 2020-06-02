@@ -1,7 +1,9 @@
 class Cmp {
     public prefix: string = "";
+    public csrf_token = "";
 
-    public constructor(ownerId: string) {
+    public constructor(ownerId: string, csrf_token = "") {
+        this.csrf_token = csrf_token;
         this.prefix = ownerId + "_";
 
         // Keep track of each object generated

@@ -3,7 +3,8 @@
     use App\Util as u;
     
     $calendar = new Calendar();
-    
+    $csrf_token = csrf_token();
+        
     $plg_id = $rec->plg_id;
     $rec_id = $rec->rec_id;
     $plg_show = $rec->plg_show;
@@ -12,23 +13,24 @@
     $plg_cls = $rec->plg_cls;
     $plg_init = $plg_cls.".init('".$id."_div_app'".");";
     $plg_js_plain = $rec->plg_js_plain;
+    $rank = $rec->plg_rank;
 
     // GET ALL PLUGINS
     $plugins = DB::table('tbl_plugins')->get();
 ?>
 
 <!-- PLUGIN DIV -->
-<div id="{{{$id}}}" class="p-1 round light mb-1">
+<div id="{{{$id}}}" class="p-1 round mb-1">
     @if(u::userIsAdmin())
 
     <!-- APP DIV HERE -->
-    <div id="{{{$id}}}_div_app" class="round" style="background-color:white; color:#000; padding:5px 10px;">
+    <div id="{{{$id}}}_div_app" class="round" style="color:#000; padding:5px 10px;">
     </div>
 
     <!-- PLUGIN SCRIPT -->
     <script id="{{{$id}}}_div_app_script">
         <?php echo($plg_js_plain); ?>
-        <?php echo($plg_cls.".init('".$id."_div_app'".");"); ?>
+        <?php echo("$plg_cls.init('".$id."_div_app', '$csrf_token');"); ?>
     </script>
 
     <!-- PLUGIN META CONTROL -->
@@ -54,6 +56,9 @@
             <option value="YES">YES</option>
         </select>
         <br>
+
+        <span>RANK:</span>
+        <input type="number" id="{{{$id}}}_txt_rank" value="{{{$rank}}}" class="form-control col-md-4">
 
         <span>PUBLISH STARTS AT:</span>
         @component('cmp-calendar', ['id'=>"{$id}_plg_gdp_publish", 'calendar'=>$calendar, 'base_gdp'=>$rec->plg_gdp_publish])
@@ -85,7 +90,8 @@
     <!-- PLUGIN SCRIPT HERE -->
     <script id="{{{$id}}}_div_app_script">
         <?php echo($plg_js_plain); ?>
-        <?php echo($plg_cls.".init('".$id."_div_app'".");"); ?>
+        <?php $csrf_token = csrf_token(); ?>
+        <?php echo("$plg_cls.init('".$id."_div_app', '$csrf_token');"); ?>
     </script>
     @endif
 

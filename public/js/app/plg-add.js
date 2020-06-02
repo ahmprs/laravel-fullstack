@@ -13,8 +13,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var PlgAdd = /** @class */ (function (_super) {
     __extends(PlgAdd, _super);
-    function PlgAdd(ownerId) {
-        var _this = _super.call(this, ownerId) || this;
+    function PlgAdd(ownerId, csrf_token) {
+        if (csrf_token === void 0) { csrf_token = ""; }
+        var _this = _super.call(this, ownerId, csrf_token) || this;
         _this.h1_title = null;
         _this.h2_title = null;
         _this.txt_a = null;
@@ -60,8 +61,9 @@ var PlgAdd = /** @class */ (function (_super) {
             _this.spn_result.text(c);
         });
     };
-    PlgAdd.init = function (ownerId) {
-        new PlgAdd(ownerId);
+    PlgAdd.init = function (ownerId, csrf_token) {
+        if (csrf_token === void 0) { csrf_token = ""; }
+        new PlgAdd(ownerId, csrf_token);
     };
     return PlgAdd;
 }(Plg));

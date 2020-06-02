@@ -6,8 +6,8 @@ class PlgAdd extends Plg {
     private btn_add = null;
     private spn_result = null;
 
-    constructor(ownerId) {
-        super(ownerId);
+    constructor(ownerId, csrf_token = "") {
+        super(ownerId, csrf_token);
         this.h1_title = this.make("h1");
         this.h2_title = this.make("h2");
         this.txt_a = this.make("input");
@@ -54,7 +54,7 @@ class PlgAdd extends Plg {
         });
     }
 
-    public static init(ownerId) {
-        new PlgAdd(ownerId);
+    public static init(ownerId, csrf_token = "") {
+        new PlgAdd(ownerId, csrf_token);
     }
 }

@@ -417,6 +417,7 @@ class ComposerStaticInitf305f811f59eb19befc3c0570529b247
         'App\\tbl_comments' => __DIR__ . '/../..' . '/app/tbl_comments.php',
         'App\\tbl_div_doc' => __DIR__ . '/../..' . '/app/tbl_div_doc.php',
         'App\\tbl_files' => __DIR__ . '/../..' . '/app/tbl_files.php',
+        'App\\tbl_manager_inbox' => __DIR__ . '/../..' . '/app/tbl_manager_inbox.php',
         'App\\tbl_plugin_use' => __DIR__ . '/../..' . '/app/tbl_plugin_use.php',
         'App\\tbl_plugins' => __DIR__ . '/../..' . '/app/tbl_plugins.php',
         'App\\tbl_settings' => __DIR__ . '/../..' . '/app/tbl_settings.php',

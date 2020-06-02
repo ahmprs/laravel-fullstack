@@ -20,6 +20,7 @@ class CreateTblPluginUsesTable extends Migration
             $table->double('plg_gdp_publish');
             $table->double('plg_gdp_expires');
             $table->integer('plg_show');
+            $table->integer('plg_rank');
             $table->string('plg_tag', 50);
         });
     }

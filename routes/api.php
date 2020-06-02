@@ -98,6 +98,9 @@ Route::get('/delete-plugin-meta', 'AppController@deletePluginMeta')->middleware(
 Route::post('/save-plugin-code', 'AppController@savePluginCode')->middleware('requires-being-admin');
 Route::get('/save-plugin-code', 'AppController@savePluginCode')->middleware('requires-being-admin');
 
+Route::post('/new-plugin', 'AppController@newPlugin')->middleware('requires-being-admin');
+Route::get('/new-plugin', 'AppController@newPlugin')->middleware('requires-being-admin');
+
 Route::post('/delete-plugin-code', 'AppController@deletePluginCode')->middleware('requires-being-admin');
 Route::get('/delete-plugin-code', 'AppController@deletePluginCode')->middleware('requires-being-admin');
 
@@ -109,6 +112,27 @@ Route::get('/get-user-comments', 'AppController@getUserComments');
 
 Route::post('/insert-new-comment', 'AppController@insertNewComment');
 Route::get('/insert-new-comment', 'AppController@insertNewComment');
+
+Route::post('/approve-comment', 'AppController@approveComment')->middleware('requires-being-admin');
+Route::get('/approve-comment', 'AppController@approveComment')->middleware('requires-being-admin');
+
+Route::post('/delete-comment', 'AppController@deleteComment')->middleware('requires-being-admin');
+Route::get('/delete-comment', 'AppController@deleteComment')->middleware('requires-being-admin');
+
+
+Route::post('/get-phone', 'AppController@getPhone');
+Route::get('/get-phone', 'AppController@getPhone');
+
+Route::post('/get-address', 'AppController@getAddress');
+Route::get('/get-address', 'AppController@getAddress');
+
+Route::post('/get-email', 'AppController@getEmail');
+Route::get('/get-email', 'AppController@getEmail');
+
+
+Route::post('/msg-to-admin', 'AppController@msgToAdmin');
+Route::get('/msg-to-admin', 'AppController@msgToAdmin');
+
 
 Route::get('/test', function(){
     return u::resp(1, u::getRootDir());

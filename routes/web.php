@@ -14,6 +14,14 @@
  use App\Util as u;
  use App\Calendar;
 
+ Route::get('/', function () {
+    return redirect('public/home/');
+});
+
+Route::get('/home', function () {
+    return redirect('public/home/');
+});
+
 Route::get('/home', function () {
     return view('home', [
         'root_url'=> u::getRootUrl(),
@@ -32,13 +40,13 @@ Route::get('/admin-area', function () {
 })->middleware('only-admin');
 
 
-Route::get('/', function () {
-    $cl = new Calendar();
-    return view('home', [
-        'root_url'=> u::getRootUrl(),
-        'calendar'=> $cl,
-    ]);
-});
+// Route::get('/', function () {
+//     $cl = new Calendar();
+//     return view('home', [
+//         'root_url'=> u::getRootUrl(),
+//         'calendar'=> $cl,
+//     ]);
+// });
 
 Route::get('/sign-in', function () {
     return view('sign-in', ['root_url'=> u::getRootUrl()]);
@@ -98,6 +106,7 @@ Route::get('/test', function () {
     return view('test');
 })->middleware('only-admin');
 
+
 Route::get('/cmd', function(Request $req) {
     $inp = $req->input('inp','');
     if($inp=='') return u::resp(0,[
@@ -131,3 +140,44 @@ Route::get('/main-css', function(Request $req) {
     // return u::resp(1,$contents);
 // 2- echo it to output
 });
+
+
+Route::post('/slider-welcome', function (Request $req) {
+    return view('slider-welcome');
+});
+
+Route::post('/slider-intro', function (Request $req) {
+    return view('slider-intro');
+});
+
+Route::post('/slider-tech', function (Request $req) {
+    return view('slider-tech');
+});
+
+Route::post('/slider-web-app', function (Request $req) {
+    return view('slider-web-app');
+});
+
+Route::post('/slider-smartphone-app', function (Request $req) {
+    return view('slider-smartphone-app');
+});
+
+Route::post('/slider-desktop-app', function (Request $req) {
+    return view('slider-desktop-app');
+});
+
+
+Route::get('/top-menu', function(Request $req) {
+    $contents = File::get(storage_path('../public/js/app/plg-top-menu.js'));
+    $response = Response::make($contents);
+    $response->header('Content-Type', "text/javascript");
+    return $response;
+});
+
+Route::get('/plg-slide-master', function(Request $req) {
+        $contents = File::get(storage_path('../public/js/app/plg-slide-master.js'));
+        $response = Response::make($contents);
+        $response->header('Content-Type', "text/javascript");
+        return $response;
+});
+    

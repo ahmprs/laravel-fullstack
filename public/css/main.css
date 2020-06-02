@@ -213,6 +213,102 @@ body,
     width: 100px;
 }
 
+.check {
+    font-style: italic;
+}
+.check::before {
+    content: " ► ";
+    color: rgb(78, 124, 4);
+    font-size: 24px;
+}
+
+/* Bottom left text */
+.bottom-left {
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+}
+
+/* Top left text */
+.top-left {
+    position: absolute;
+    width: 100%;
+    top: 8px;
+    left: 16px;
+}
+
+/* Top right text */
+.top-right {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+}
+
+/* Bottom right text */
+.bottom-right {
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+}
+
+/* Centered text */
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.image-container {
+    text-align: left;
+    width: 100%;
+    position: relative;
+    color: white;
+}
+
+@keyframes anm_taxi_left {
+    from {
+        padding-left: 40%;
+        opacity: 0.1;
+        font-size: 6em;
+    }
+    to {
+        padding-left: 5px;
+    }
+}
+.anm_taxi_left {
+    animation-name: anm_taxi_left;
+    animation-duration: 0.5s;
+}
+
+@keyframes anm_taxi_left_slow {
+    from {
+        padding-left: 25%;
+        color: white;
+    }
+    to {
+        padding-left: 5px;
+        color: lime;
+    }
+}
+.anm_taxi_left_slow {
+    animation-name: anm_taxi_left;
+    animation-duration: 2s;
+}
+
+@keyframes anm_taxi_top {
+    from {
+        padding-top: 50px;
+    }
+    to {
+        padding-top: 5px;
+    }
+}
+.anm_taxi_top {
+    animation-name: anm_taxi_top;
+    animation-duration: 3s;
+}
+
 @media screen and (max-width: 600px) {
     #div_contents,
     #div_header,
@@ -231,10 +327,10 @@ body,
         font-size: 0.9em;
     }
 
-    h1,
+    /* h1,
     h2,
     h3,
     h4 {
         font-size: 1.2em !important;
-    }
+    } */
 }

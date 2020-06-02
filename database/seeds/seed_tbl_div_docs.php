@@ -19,6 +19,7 @@ class seed_tbl_div_docs extends Seeder
             'doc_gdp_publish' => '737373',
             'doc_gdp_expires' => '737383',
             'doc_show' => '1',
+            'doc_rank' => '100',
             'doc_tag' => 'HOME',
             'doc_title' => 'TITLE',
             'doc_desc' => '',

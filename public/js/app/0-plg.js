@@ -1,7 +1,10 @@
 var Plg = /** @class */ (function () {
-    function Plg(ownerId) {
+    function Plg(ownerId, csrf_token) {
+        if (csrf_token === void 0) { csrf_token = ""; }
         this.prefix = "";
         this.me = null;
+        this.csrf_token = "";
+        this.csrf_token = csrf_token;
         this.prefix = ownerId + "_";
         this.me = $("#" + ownerId);
         // Keep track of each object generated
@@ -33,6 +36,17 @@ var Plg = /** @class */ (function () {
             element.appendTo(parentElement);
         }
         return element;
+    };
+    Plg.prototype.put = function (elementTagName, parentElement) {
+        if (parentElement === void 0) { parentElement = null; }
+        var element = $(document.createElement(elementTagName));
+        if (parentElement == null) {
+            element.appendTo(this.me);
+        }
+        else {
+            element.appendTo(parentElement);
+        }
+        return this;
     };
     return Plg;
 }());

@@ -16,6 +16,8 @@ class CmpDoc extends Cmp {
     private doc_gdp_publish = null;
     private doc_gdp_expires = null;
 
+    private txt_rank = null;
+
     constructor(ownerId, docId) {
         super(ownerId);
 
@@ -34,6 +36,8 @@ class CmpDoc extends Cmp {
 
         this.doc_gdp_publish = this.dlr("doc_gdp_publish");
         this.doc_gdp_expires = this.dlr("doc_gdp_expires");
+
+        this.txt_rank = this.dlr("txt_rank");
 
         this.prepare();
 
@@ -97,6 +101,7 @@ class CmpDoc extends Cmp {
             ).attr("gdp");
 
             let doc_tag = this.cmb_section.val(); /* section */
+            let doc_rank = parseInt(this.txt_rank.val());
 
             $.post(
                 "./api/save-div-doc",
@@ -104,6 +109,7 @@ class CmpDoc extends Cmp {
                     doc_id: this.doc_id,
                     doc_content,
                     doc_show,
+                    doc_rank,
                     doc_tag,
                     doc_gdp_publish,
                     doc_gdp_expires,
